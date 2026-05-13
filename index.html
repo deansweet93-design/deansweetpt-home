@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- ── FAVICON ── -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<meta name="theme-color" content="#0a0a0a">
+
 <title>Online Personal Trainer Australia | Dean Sweet PT — $40/Week, No Lock-In</title>
 <meta name="description" content="Online personal training with Dean Sweet PT. Custom programs, real nutrition targets, and weekly accountability for people who've tried and quit before. $40/week. No lock-in. 14-day money-back guarantee.">
 <meta name="keywords" content="online personal trainer Australia, online personal training, online coaching weight loss, online fitness coach, personal trainer online, Dean Sweet PT">
@@ -471,7 +478,7 @@
   }
   .founder-inner {
     max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: 5fr 6fr; gap: 80px;
+    display: grid; grid-template-columns: 6fr 5fr; gap: 64px;
     align-items: start;
   }
   .founder-photo {
@@ -794,18 +801,54 @@
     .stat-row { grid-template-columns: repeat(2, 1fr); }
     .stat-cell:nth-child(2) { border-right: none; }
     .solution-grid { grid-template-columns: 1fr; }
-    .founder-inner { grid-template-columns: 1fr; gap: 48px; }
-    .founder-photo { aspect-ratio: 4/3; }
+    .founder-inner { grid-template-columns: 1fr; gap: 40px; }
+    .founder-photo { aspect-ratio: 4/5; max-height: none; }
     .testimonial-row { grid-template-columns: 1fr; gap: 24px; padding: 40px 28px; }
     .pricing-features { grid-template-columns: 1fr; }
     .offer-item { grid-template-columns: 70px 1fr auto; gap: 20px; padding: 28px 8px; }
-    .scene { padding: 60px 5vw; }
+    .scene { padding: 60px 5vw; min-height: auto; }
+    .scene-hero { min-height: 100vh; }
     .problem-row { grid-template-columns: 50px 1fr; padding: 28px 0; }
   }
   @media (max-width: 600px) {
+    /* Tighten scene vertical rhythm on mobile - remove dead space */
+    .scene { min-height: auto; padding: 56px 5vw; }
+    .scene-hero { min-height: 100vh; padding: 90px 5vw 48px; }
+    .scene-statement { padding: 64px 5vw; }
+    .scene-turn { padding: 72px 5vw; }
+    .scene-vsl { padding: 56px 5vw; }
+    .scene-stats { padding: 56px 5vw; }
+    .scene-problem { padding: 56px 5vw; }
+    .scene-solution { padding: 56px 5vw; }
+    .scene-offer { padding: 56px 5vw; }
+    .scene-founder { padding: 56px 5vw; }
+    .scene-testimonial { padding: 56px 5vw; }
+    .scene-pricing { padding: 56px 5vw; }
+    .scene-faq { padding: 56px 5vw; }
+    .scene-closing { padding: 80px 5vw; }
+
+    /* Photo bigger on mobile */
+    .founder-photo { aspect-ratio: 3/4; height: auto; max-height: none; width: 100%; }
+
+    /* Other mobile fixes */
     .pricing-top, .pricing-features, .pricing-cta-wrap { padding-left: 28px; padding-right: 28px; }
     .scene-num { display: none; }
     .testimonial-row { padding: 32px 24px; }
+
+    /* Compact section headers on mobile */
+    .stats-title { margin-bottom: 36px; }
+    .problem-header { margin-bottom: 36px; }
+    .solution-header { margin-bottom: 36px; }
+    .offer-header { margin-bottom: 36px; }
+    .testimonial-headline { margin-bottom: 36px; }
+    .pricing-header { margin-bottom: 36px; }
+    .faq-header { margin-bottom: 32px; }
+    .vsl-header { margin-bottom: 28px; }
+    .vsl-cta-row { margin-top: 28px; }
+    .founder-inner { gap: 24px; }
+    .founder-creds { gap: 16px; padding-top: 20px; }
+    .hero-headline { margin-bottom: 24px; }
+    .hero-sub { margin-bottom: 24px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -829,7 +872,7 @@
 
 <!-- SCENE 1: HERO -->
 <section class="scene scene-hero">
-  <span class="scene-num"><span>01</span> / 13</span>
+  <span class="scene-num"><span>01</span> / 12</span>
   <div class="hero-tag">Online Coaching · No Lock-In · 14-Day Guarantee</div>
   <h1 class="hero-headline">
     <span>You Know</span>
@@ -844,26 +887,9 @@
   </div>
 </section>
 
-<!-- SCENE 2: VSL -->
-<section class="scene scene-vsl">
-  <span class="scene-num"><span>02</span> / 13</span>
-  <div class="vsl-header">
-    <span class="vsl-eyebrow reveal">Watch this first</span>
-    <h2 class="vsl-headline reveal reveal-delay-1">Watch This.<br><em>Then Tell Me I'm Wrong.</em></h2>
-  </div>
-  <div class="vsl-frame reveal reveal-delay-2">
-    <div class="vsl-embed">
-      <iframe src="https://www.youtube.com/embed/jQIoDLSsrrY?rel=0&modestbranding=1" allowfullscreen allow="encrypted-media"></iframe>
-    </div>
-  </div>
-  <div class="vsl-cta-row reveal reveal-delay-3">
-    <a href="#pricing" class="btn-primary">See Pricing &amp; What's Included</a>
-  </div>
-</section>
-
-<!-- SCENE 3: BIG STATEMENT -->
+<!-- SCENE 2: BIG STATEMENT -->
 <section class="scene scene-statement">
-  <span class="scene-num"><span>03</span> / 13</span>
+  <span class="scene-num"><span>02</span> / 12</span>
   <p class="statement-eyebrow reveal">The truth about why nothing's worked</p>
   <h2 class="statement-text reveal reveal-delay-1">
     The problem isn't your <span class="strike">discipline.</span><br>
@@ -873,9 +899,9 @@
   <p class="statement-detail reveal reveal-delay-2">Knowing what to do and actually doing it are two completely different things. The gap between them isn't willpower. It's accountability.</p>
 </section>
 
-<!-- SCENE 4: STAT WALL -->
+<!-- SCENE 3: STAT WALL -->
 <section class="scene scene-stats">
-  <span class="scene-num"><span>04</span> / 13</span>
+  <span class="scene-num"><span>03</span> / 12</span>
   <p class="stats-eyebrow reveal">By the numbers</p>
   <h2 class="stats-title reveal reveal-delay-1">A decade of coaching.<br>Hundreds of clients. <em>One system.</em></h2>
   <div class="stat-row reveal-stagger">
@@ -898,9 +924,9 @@
   </div>
 </section>
 
-<!-- SCENE 5: PROBLEM CASCADE -->
+<!-- SCENE 4: PROBLEM CASCADE -->
 <section class="scene scene-problem">
-  <span class="scene-num"><span>05</span> / 13</span>
+  <span class="scene-num"><span>04</span> / 12</span>
   <div class="problem-header">
     <span class="problem-eyebrow reveal">If any of these are true</span>
     <h2 class="problem-headline reveal reveal-delay-1">You're not lazy.<br>You just keep <em>stopping.</em></h2>
@@ -937,9 +963,9 @@
   </div>
 </section>
 
-<!-- SCENE 6: TURN -->
+<!-- SCENE 5: TURN -->
 <section class="scene scene-turn">
-  <span class="scene-num" style="color: rgba(0,0,0,0.4);"><span style="color: var(--black);">06</span> / 13</span>
+  <span class="scene-num" style="color: rgba(0,0,0,0.4);"><span style="color: var(--black);">05</span> / 12</span>
   <p class="turn-eyebrow reveal">Here's what changes</p>
   <h2 class="turn-text reveal reveal-delay-1">
     A real plan.<br>
@@ -949,9 +975,9 @@
   <p class="turn-detail reveal reveal-delay-2">Not another app. Not another PDF. Not another influencer pretending they care. Just the system that actually works for people with real lives.</p>
 </section>
 
-<!-- SCENE 7: SOLUTION -->
+<!-- SCENE 6: SOLUTION -->
 <section class="scene scene-solution">
-  <span class="scene-num"><span>07</span> / 13</span>
+  <span class="scene-num"><span>06</span> / 12</span>
   <div class="solution-header">
     <span class="solution-eyebrow reveal">What actually makes it stick</span>
     <h2 class="solution-headline reveal reveal-delay-1">Three things.<br><em>Nothing else.</em></h2>
@@ -975,9 +1001,9 @@
   </div>
 </section>
 
-<!-- SCENE 8: WHAT YOU GET -->
+<!-- SCENE 7: WHAT YOU GET -->
 <section class="scene scene-offer" id="offer">
-  <span class="scene-num"><span>08</span> / 13</span>
+  <span class="scene-num"><span>07</span> / 12</span>
   <div class="offer-header">
     <span class="offer-eyebrow reveal">What's included</span>
     <h2 class="offer-headline reveal reveal-delay-1">Everything you need.<br><em>Nothing</em> you don't.</h2>
@@ -1018,9 +1044,9 @@
   </div>
 </section>
 
-<!-- SCENE 9: FOUNDER -->
+<!-- SCENE 8: FOUNDER -->
 <section class="scene scene-founder">
-  <span class="scene-num"><span>09</span> / 13</span>
+  <span class="scene-num"><span>08</span> / 12</span>
   <div class="founder-inner">
     <div class="founder-photo reveal">
       <img src="dean-photo-cropped.jpg" alt="Dean Sweet, personal trainer" style="width:100%;height:100%;object-fit:cover;display:block;">
@@ -1049,9 +1075,9 @@
   </div>
 </section>
 
-<!-- SCENE 10: TESTIMONIALS -->
+<!-- SCENE 9: TESTIMONIALS -->
 <section class="scene scene-testimonial">
-  <span class="scene-num"><span>10</span> / 13</span>
+  <span class="scene-num"><span>09</span> / 12</span>
   <span class="testimonial-eyebrow reveal">The receipts</span>
   <h2 class="testimonial-headline reveal reveal-delay-1">Real clients.<br><em>Real numbers.</em></h2>
   <div class="testimonial-stack reveal-stagger">
@@ -1085,9 +1111,9 @@
   </div>
 </section>
 
-<!-- SCENE 11: PRICING -->
+<!-- SCENE 10: PRICING -->
 <section class="scene scene-pricing" id="pricing">
-  <span class="scene-num"><span>11</span> / 13</span>
+  <span class="scene-num"><span>10</span> / 12</span>
   <div class="pricing-header">
     <span class="pricing-eyebrow reveal">The investment</span>
     <h2 class="pricing-headline reveal reveal-delay-1">One plan.<br><em>Everything</em> included.</h2>
@@ -1115,9 +1141,9 @@
   </div>
 </section>
 
-<!-- SCENE 12: FAQ -->
+<!-- SCENE 11: FAQ -->
 <section class="scene scene-faq">
-  <span class="scene-num"><span>12</span> / 13</span>
+  <span class="scene-num"><span>11</span> / 12</span>
   <div class="faq-header">
     <span class="faq-eyebrow reveal">Common questions</span>
     <h2 class="faq-headline reveal reveal-delay-1">Answered <em>honestly.</em></h2>
@@ -1154,9 +1180,9 @@
   </div>
 </section>
 
-<!-- SCENE 13: CLOSING -->
+<!-- SCENE 12: CLOSING -->
 <section class="scene scene-closing">
-  <span class="scene-num"><span>13</span> / 13</span>
+  <span class="scene-num"><span>12</span> / 12</span>
   <p class="closing-eyebrow reveal">Last chance to keep scrolling</p>
   <h2 class="closing-text reveal reveal-delay-1">Stop<br>starting<br><em>over.</em></h2>
   <p class="closing-detail reveal reveal-delay-2">You've already done the hard part. Wanting to change. Now give yourself a plan that actually sticks.</p>
