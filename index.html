@@ -3,1305 +3,661 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f3f2ec">
+<title>Dean Sweet PT — You Know What To Do. You're Just Not Doing It.</title>
+<meta name="description" content="Online coaching for people who know what to do but can't seem to make it stick. No lock-in, 14-day money-back guarantee.">
 
-<!-- ── FAVICON ── -->
+<!-- Open Graph (Facebook, WhatsApp, iMessage, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dean Sweet PT">
+<meta property="og:url" content="https://deansweetpt.com">
+<meta property="og:title" content="Dean Sweet PT — You know what to do. You're just not doing it.">
+<meta property="og:description" content="Online coaching for people who know what to do but can't seem to make it stick. No lock-in, 14-day money-back guarantee.">
+<meta property="og:image" content="https://deansweetpt.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dean Sweet PT — You know what to do. You're just not doing it.">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dean Sweet PT — You know what to do. You're just not doing it.">
+<meta name="twitter:description" content="Online coaching for people who know what to do but can't seem to make it stick.">
+<meta name="twitter:image" content="https://deansweetpt.com/og-image.png">
+
+<!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-<meta name="theme-color" content="#0a0a0a">
 
-<title>Online Personal Trainer Australia | Dean Sweet PT — $40/Week, No Lock-In</title>
-<meta name="description" content="Online personal training with Dean Sweet PT. Custom programs, real nutrition targets, and weekly accountability for people who've tried and quit before. $40/week. No lock-in. 14-day money-back guarantee.">
-<meta name="keywords" content="online personal trainer Australia, online personal training, online coaching weight loss, online fitness coach, personal trainer online, Dean Sweet PT">
-<link rel="canonical" href="https://www.deansweetpt.com/online-coaching">
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="Online Personal Training | Dean Sweet PT — $40/Week, No Lock-In">
-<meta property="og:description" content="Custom training plans, real nutrition targets, and weekly accountability. $40/week. No lock-in. 14-day money-back guarantee. Available Australia-wide.">
-<meta property="og:url" content="https://www.deansweetpt.com/online-coaching">
-<meta property="og:locale" content="en_AU">
-<meta property="og:site_name" content="Dean Sweet PT">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "LocalBusiness",
-      "@id": "https://www.deansweetpt.com/#business",
-      "name": "Dean Sweet PT",
-      "description": "Online personal training and in-person coaching at Anytime Fitness Ocean Grove. Custom programs, nutrition targets, and weekly accountability for adults across Australia.",
-      "url": "https://www.deansweetpt.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Ocean Grove",
-        "addressRegion": "Victoria",
-        "addressCountry": "AU"
-      },
-      "areaServed": "Australia",
-      "priceRange": "$40/week"
-    }
-  ]
-}
-</script>
-
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --black: #0a0a0a;
-    --off-white: #f2ede6;
-    --lime: #D6FF00;
-    --mid: #6b6b6b;
-    --card: #111111;
-    --border: rgba(255,255,255,0.08);
-  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #f3f2ec; }
+  ::selection { background: #0a0a0a; color: #D6FF00; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .dsb-plus { transform: rotate(45deg); }
+  @keyframes dsbMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--black);
-    color: var(--off-white);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-    line-height: 1.6;
-  }
-
-  /* ── PROGRESS BAR ── */
-  .progress-bar {
-    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
-    background: var(--lime); z-index: 200;
-    transition: width 0.1s linear;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: center;
-    padding: 18px 5vw;
-    background: rgba(10,10,10,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem; letter-spacing: 0.14em; color: var(--lime);
-  }
-
-  /* ── SCENE BASE ── */
-  .scene {
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    padding: 80px 5vw;
-    position: relative;
-    overflow: hidden;
-  }
-  .scene-num {
-    position: absolute; top: 30px; right: 5vw;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 0.85rem; letter-spacing: 0.2em;
-    color: var(--mid);
-  }
-  .scene-num span { color: var(--lime); }
-
-  /* ── SCENE 1: HERO ── */
-  .scene-hero {
-    flex-direction: column;
-    text-align: center;
-  }
-  .scene-hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 50% 30%, rgba(214,255,0,0.08), transparent 60%),
-      radial-gradient(ellipse 80% 50% at 50% 80%, rgba(214,255,0,0.04), transparent 60%);
-    pointer-events: none;
-  }
-  .hero-tag {
-    display: inline-block;
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); padding: 8px 18px;
-    border: 1px solid rgba(214,255,0,0.3);
-    margin-bottom: 36px;
-    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
-  }
-  .hero-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3.8rem, 11vw, 11rem);
-    line-height: 0.88; letter-spacing: 0;
-    margin-bottom: 36px;
-    position: relative;
-  }
-  .hero-headline span {
-    display: block;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: heroLine 1s forwards;
-  }
-  .hero-headline span:nth-child(1) { animation-delay: 0.3s; }
-  .hero-headline span:nth-child(2) { animation-delay: 0.5s; }
-  .hero-headline span:nth-child(3) { animation-delay: 0.85s; color: var(--lime); }
-  .hero-headline span:nth-child(4) {
-    animation-delay: 1.0s; color: var(--lime);
-    font-style: italic; transform: translateY(40px) skewX(-6deg);
-  }
-  .hero-sub {
-    max-width: 540px; font-size: clamp(1rem, 1.4vw, 1.15rem);
-    color: #d0c8c0; line-height: 1.7;
-    margin-bottom: 40px;
-    opacity: 0; animation: fadeUp 0.8s 1.1s forwards;
-  }
-  .hero-actions {
-    display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
-    opacity: 0; animation: fadeUp 0.8s 1.3s forwards;
-  }
-  .hero-scroll-hint {
-    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
-    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--mid); opacity: 0;
-    animation: fadeUp 1s 1.6s forwards, pulse 2s 2s infinite;
-  }
-  .hero-scroll-hint::after {
-    content: ''; display: block; width: 1px; height: 28px;
-    background: linear-gradient(to bottom, var(--lime), transparent);
-    margin: 10px auto 0;
-  }
-
-  /* ── BUTTONS ── */
-  .btn-primary {
-    background: var(--lime); color: var(--black);
-    font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em;
-    text-transform: uppercase; padding: 18px 40px;
-    text-decoration: none; display: inline-block;
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(214,255,0,0.25);
-  }
-  .btn-secondary {
-    background: transparent; color: var(--off-white);
-    font-weight: 500; font-size: 0.85rem; letter-spacing: 0.08em;
-    text-transform: uppercase; padding: 18px 28px;
-    text-decoration: none; display: inline-block;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-secondary:hover { border-color: var(--lime); color: var(--lime); }
-
-  /* ── SCENE: VSL ── */
-  .scene-vsl {
-    background: var(--black);
-    flex-direction: column;
-    padding: 120px 5vw;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .vsl-header {
-    text-align: center; max-width: 800px; margin: 0 auto 56px;
-  }
-  .vsl-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 20px; display: block;
-  }
-  .vsl-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    line-height: 0.95;
-  }
-  .vsl-headline em { font-style: normal; color: var(--lime); }
-  .vsl-frame {
-    max-width: 960px; width: 100%; margin: 0 auto;
-    position: relative;
-    border: 1px solid var(--border);
-    background: var(--card);
-    overflow: hidden;
-  }
-  .vsl-frame::before {
-    content: ''; position: absolute; top: -1px; left: -1px; right: -1px;
-    height: 3px; background: var(--lime); z-index: 2;
-  }
-  .vsl-embed {
-    position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-  }
-  .vsl-embed iframe {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
-  }
-  .vsl-cta-row {
-    text-align: center; margin-top: 48px;
-  }
-
-  /* ── SCENE 2: BIG STATEMENT ── */
-  .scene-statement {
-    background: var(--black);
-    flex-direction: column; text-align: center;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .statement-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 32px;
-  }
-  .statement-text {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 7vw, 8rem);
-    line-height: 0.95; max-width: 1100px;
-  }
-  .statement-text .highlight { color: var(--lime); position: relative; display: inline-block; }
-  .statement-text .strike { text-decoration: line-through; text-decoration-color: rgba(214,255,0,0.6); text-decoration-thickness: 4px; opacity: 0.45; }
-  .statement-detail {
-    font-size: 1rem; color: #c0b8b0;
-    max-width: 520px; margin: 40px auto 0; line-height: 1.7;
-  }
-
-  /* ── SCENE 3: STAT WALL ── */
-  .scene-stats {
-    background: var(--black);
-    flex-direction: column;
-    padding: 120px 5vw;
-  }
-  .stats-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 24px; text-align: center;
-  }
-  .stats-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    line-height: 1; text-align: center; margin-bottom: 80px;
-    max-width: 800px; margin-left: auto; margin-right: auto;
-  }
-  .stats-title em { font-style: normal; color: var(--lime); }
-  .stat-row {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 0; max-width: 1200px; width: 100%; margin: 0 auto;
-    border-top: 1px solid var(--border);
-  }
-  .stat-cell {
-    padding: 48px 24px; text-align: center;
-    border-bottom: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    transition: background 0.3s;
-  }
-  .stat-cell:last-child { border-right: none; }
-  .stat-cell:hover { background: rgba(214,255,0,0.03); }
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    color: var(--lime); line-height: 1; display: block;
-    font-variant-numeric: tabular-nums;
-  }
-  .stat-label {
-    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
-    color: #a0989090; margin-top: 12px;
-  }
-
-  /* ── SCENE 4: PROBLEM CASCADE ── */
-  .scene-problem {
-    background: var(--card);
-    padding: 120px 5vw;
-    flex-direction: column;
-    min-height: auto;
-  }
-  .problem-header {
-    text-align: center; max-width: 800px; margin: 0 auto 80px;
-  }
-  .problem-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 20px; display: block;
-  }
-  .problem-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 6vw, 6rem);
-    line-height: 0.95;
-  }
-  .problem-headline em { font-style: normal; color: var(--lime); }
-  .problem-cascade {
-    max-width: 900px; margin: 0 auto;
-    display: flex; flex-direction: column; gap: 0;
-  }
-  .problem-row {
-    display: grid; grid-template-columns: 80px 1fr;
-    gap: 0; padding: 36px 0;
-    border-bottom: 1px solid var(--border);
-    transition: padding 0.3s;
-  }
-  .problem-row:hover { padding-left: 12px; }
-  .problem-row:hover .problem-tick { color: var(--lime); }
-  .problem-tick {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem; color: var(--mid);
-    transition: color 0.3s;
-  }
-  .problem-content h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-    line-height: 1.1; letter-spacing: 0.01em;
-    margin-bottom: 10px;
-  }
-  .problem-content p {
-    font-size: 0.98rem; color: #c8c0b8; line-height: 1.65;
-  }
-
-  /* ── SCENE 5: TURN (with lime swipe) ── */
-  .scene-turn {
-    background: var(--black);
-    flex-direction: column; text-align: center;
-    padding: 140px 5vw;
-    position: relative;
-    overflow: hidden;
-  }
-  .turn-swipe {
-    position: absolute; inset: 0;
-    background: var(--lime);
-    transform: translateY(100%);
-    transition: transform 1.1s cubic-bezier(0.85, 0, 0.15, 1);
-    pointer-events: none;
-    z-index: 1;
-  }
-  .scene-turn.swiped .turn-swipe { transform: translateY(0); }
-  .turn-content {
-    position: relative; z-index: 2;
-  }
-  .turn-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 32px;
-    transition: color 0.5s 0.55s, opacity 0.5s 0.55s;
-    opacity: 1;
-  }
-  .scene-turn.swiped .turn-eyebrow {
-    color: var(--black); opacity: 0.65;
-  }
-  .turn-text {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.8rem, 8vw, 9rem);
-    line-height: 0.92; max-width: 1100px;
-    color: var(--off-white);
-    transition: color 0.5s 0.55s;
-  }
-  .scene-turn.swiped .turn-text { color: var(--black); }
-  .turn-detail {
-    font-size: 1.05rem; color: #c0b8b0;
-    max-width: 540px; margin: 40px auto 0; line-height: 1.7;
-    font-weight: 400;
-    transition: color 0.5s 0.55s;
-  }
-  .scene-turn.swiped .turn-detail { color: #1a1a1a; }
-
-  /* ── SCENE 6: SOLUTION GRID ── */
-  .scene-solution {
-    background: var(--black);
-    padding: 140px 5vw;
-    flex-direction: column;
-    min-height: auto;
-  }
-  .solution-header {
-    max-width: 800px; margin: 0 auto 80px; text-align: center;
-  }
-  .solution-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 20px; display: block;
-  }
-  .solution-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 6vw, 6rem);
-    line-height: 0.95;
-  }
-  .solution-headline em { font-style: normal; color: var(--lime); }
-  .solution-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1px; max-width: 1200px; margin: 0 auto;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .solution-card {
-    background: var(--black); padding: 48px 36px;
-    transition: background 0.3s, transform 0.3s;
-    position: relative; overflow: hidden;
-  }
-  .solution-card:hover { background: var(--card); }
-  .solution-card::after {
-    content: ''; position: absolute; top: 0; left: 0; height: 2px; width: 0;
-    background: var(--lime); transition: width 0.4s;
-  }
-  .solution-card:hover::after { width: 100%; }
-  .solution-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 0.95rem; letter-spacing: 0.18em;
-    color: var(--lime); margin-bottom: 24px; display: block;
-  }
-  .solution-card h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-    line-height: 1.05; margin-bottom: 16px;
-  }
-  .solution-card p {
-    font-size: 0.95rem; color: #c8c0b8; line-height: 1.65;
-  }
-
-  /* ── SCENE 7: WHAT YOU GET ── */
-  .scene-offer {
-    background: var(--card);
-    padding: 140px 5vw;
-    flex-direction: column;
-    min-height: auto;
-  }
-  .offer-header {
-    max-width: 800px; margin: 0 auto 80px; text-align: center;
-  }
-  .offer-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 6vw, 6rem); line-height: 0.95;
-  }
-  .offer-headline em { font-style: normal; color: var(--lime); }
-  .offer-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 20px; display: block;
-  }
-  .offer-list {
-    max-width: 880px; margin: 0 auto;
-    display: flex; flex-direction: column; gap: 0;
-  }
-  .offer-item {
-    display: grid; grid-template-columns: 100px 1fr auto;
-    gap: 32px; padding: 36px 16px;
-    border-bottom: 1px solid var(--border);
+  /* ---- Mobile sticky CTA ---- */
+  .dsb-sticky-cta {
+    display: none;
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    z-index: 50;
     align-items: center;
-    transition: padding 0.3s;
-  }
-  .offer-item:first-child { border-top: 1px solid var(--border); }
-  .offer-item:hover { padding-left: 28px; }
-  .offer-tag {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 0.85rem; letter-spacing: 0.16em;
-    color: var(--lime);
-  }
-  .offer-text h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.5rem, 2.2vw, 2rem);
-    margin-bottom: 6px; line-height: 1.1;
-  }
-  .offer-text p { font-size: 0.95rem; color: #c8c0b8; line-height: 1.6; }
-  .offer-check {
-    width: 36px; height: 36px;
-    border: 1px solid var(--lime);
-    color: var(--lime); font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.9rem;
-  }
-
-  /* ── SCENE 8: FOUNDER STORY ── */
-  .scene-founder {
-    background: var(--black);
-    padding: 140px 5vw;
-    flex-direction: column;
-    min-height: auto;
-  }
-  .founder-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: 6fr 5fr; gap: 64px;
-    align-items: start;
-  }
-  .founder-photo {
-    aspect-ratio: 3/4;
-    background: #1a1a1a;
-    border: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--mid); letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.78rem;
-  }
-  .founder-photo::after {
-    content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
-    background: var(--lime);
-  }
-  .founder-text { padding-top: 8px; }
-  .founder-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 16px; display: block;
-  }
-  .founder-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 4.5vw, 4.5rem);
-    line-height: 0.95; margin-bottom: 32px;
-  }
-  .founder-headline em { font-style: normal; color: var(--lime); }
-  .founder-points { list-style: none; margin-bottom: 36px; }
-  .founder-points li {
-    padding: 14px 0;
-    font-size: 0.98rem; color: #d0c8c0; line-height: 1.7;
-    border-bottom: 1px solid var(--border);
-    display: grid; grid-template-columns: 24px 1fr; gap: 12px;
-    align-items: start;
-  }
-  .founder-points li::before {
-    content: '—'; color: var(--lime); font-weight: 700; padding-top: 1px;
-  }
-  .founder-creds {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 24px; padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-  .founder-cred span {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.5rem; color: var(--lime); line-height: 1; display: block;
-  }
-  .founder-cred p {
-    font-size: 0.72rem; color: #c0b8b0; letter-spacing: 0.12em;
-    text-transform: uppercase; margin-top: 6px;
-  }
-
-  /* ── SCENE 9: TESTIMONIAL FOCUS ── */
-  .scene-testimonial {
-    background: var(--card);
-    padding: 140px 5vw;
-    flex-direction: column;
-    min-height: auto;
-  }
-  .testimonial-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 20px; display: block; text-align: center;
-  }
-  .testimonial-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 6vw, 6rem);
-    line-height: 0.95; text-align: center; margin-bottom: 80px;
-  }
-  .testimonial-headline em { font-style: normal; color: var(--lime); }
-  .testimonial-stack {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; flex-direction: column; gap: 1px;
-    background: var(--border);
-  }
-  .testimonial-row {
-    background: var(--black);
-    padding: 56px 48px;
-    display: grid; grid-template-columns: 200px 1fr;
-    gap: 56px; align-items: center;
-    transition: background 0.3s;
-  }
-  .testimonial-row:hover { background: #0d0d0d; }
-  .testimonial-result {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    color: var(--lime); line-height: 0.95;
-  }
-  .testimonial-result span {
-    display: block; font-size: 0.7rem; letter-spacing: 0.16em;
-    color: #c0b8b0; margin-top: 8px;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .testimonial-quote {
-    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-    color: var(--off-white); line-height: 1.65;
-    font-style: italic; margin-bottom: 16px;
-  }
-  .testimonial-name {
-    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--lime); font-weight: 700;
-  }
-
-  /* ── SCENE 10: PRICING ── */
-  .scene-pricing {
-    background: var(--black);
-    padding: 140px 5vw;
-    flex-direction: column;
-    min-height: auto;
-  }
-  .pricing-header {
-    text-align: center; max-width: 800px; margin: 0 auto 80px;
-  }
-  .pricing-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 20px; display: block;
-  }
-  .pricing-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 6vw, 6rem); line-height: 0.95;
-  }
-  .pricing-headline em { font-style: normal; color: var(--lime); }
-  .pricing-card {
-    max-width: 720px; margin: 0 auto;
-    border: 1px solid rgba(214,255,0,0.3);
-    background: var(--card);
-    position: relative;
-    overflow: hidden;
-  }
-  .pricing-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-    background: var(--lime);
-  }
-  .pricing-top {
-    padding: 56px 48px 32px;
-    border-bottom: 1px solid var(--border);
-    text-align: center;
-  }
-  .price-large {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(6rem, 12vw, 11rem);
-    line-height: 0.9; color: var(--lime);
-  }
-  .price-period {
-    font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: #c0b8b0; margin-top: 8px;
-  }
-  .pricing-vs {
-    margin-top: 28px;
-    font-size: 0.92rem; color: #c8c0b8; line-height: 1.65;
-    max-width: 480px; margin-left: auto; margin-right: auto;
-  }
-  .pricing-vs strong { color: var(--off-white); font-weight: 500; }
-  .pricing-features {
-    padding: 40px 48px;
-    list-style: none;
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
-  .pricing-features li {
-    display: grid; grid-template-columns: 18px 1fr; gap: 10px;
-    align-items: start;
-    font-size: 0.92rem; color: #d0c8c0; line-height: 1.5;
-  }
-  .pricing-features li::before {
-    content: '✓'; color: var(--lime); font-weight: 700;
-  }
-  .pricing-cta-wrap {
-    padding: 0 48px 56px; text-align: center;
-  }
-  .pricing-cta-wrap .btn-primary {
-    width: 100%; padding: 22px;
-    font-size: 0.95rem;
-  }
-  .pricing-meta {
-    margin-top: 16px;
-    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--mid);
-  }
-
-  /* ── SCENE 11: FAQ ── */
-  .scene-faq {
-    background: var(--card);
-    padding: 140px 5vw;
-    flex-direction: column;
-    min-height: auto;
-  }
-  .faq-header {
-    max-width: 720px; margin: 0 auto 60px; text-align: center;
-  }
-  .faq-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 20px; display: block;
-  }
-  .faq-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 6vw, 6rem); line-height: 0.95;
-  }
-  .faq-headline em { font-style: normal; color: var(--lime); }
-  .faq-list { max-width: 800px; margin: 0 auto; }
-  .faq-item { border-bottom: 1px solid var(--border); }
-  .faq-q {
-    width: 100%; background: none; border: none; color: var(--off-white);
-    font-family: 'DM Sans', sans-serif; font-weight: 500;
-    font-size: clamp(1rem, 1.3vw, 1.1rem);
-    text-align: left; padding: 28px 0;
-    display: flex; justify-content: space-between; align-items: center;
-    cursor: pointer; gap: 16px;
-    transition: color 0.2s;
-  }
-  .faq-q:hover { color: var(--lime); }
-  .faq-icon {
-    width: 28px; height: 28px; flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.95rem;
-    transition: border-color 0.25s, transform 0.35s, background 0.2s;
-  }
-  .faq-item.open .faq-icon {
-    border-color: var(--lime); background: rgba(214,255,0,0.1);
-    transform: rotate(45deg);
-  }
-  .faq-a {
-    font-size: 0.95rem; color: #c8c0b8; line-height: 1.7;
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.4s ease;
-    padding-bottom: 0;
-  }
-  .faq-item.open .faq-a { max-height: 320px; padding-bottom: 28px; }
-
-  /* ── SCENE 12: CLOSING ── */
-  .scene-closing {
-    background: var(--black);
-    flex-direction: column; text-align: center;
-    padding: 160px 5vw;
-    position: relative;
-    overflow: hidden;
-  }
-  .scene-closing::before {
-    content: '';
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(214,255,0,0.12), transparent 70%);
-    pointer-events: none;
-  }
-  .closing-eyebrow {
-    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 32px;
-  }
-  .closing-text {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4rem, 11vw, 12rem);
-    line-height: 0.88; max-width: 1100px;
-    margin-bottom: 48px;
-  }
-  .closing-text em { font-style: normal; color: var(--lime); }
-  .closing-detail {
-    font-size: 1rem; color: #c8c0b8;
-    max-width: 480px; margin: 0 auto 40px; line-height: 1.7;
-  }
-  .closing-meta {
-    margin-top: 24px;
-    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--mid);
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--black);
-    border-top: 1px solid var(--border);
-    padding: 40px 5vw;
-    text-align: center;
-  }
-  .footer-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem; letter-spacing: 0.14em; color: var(--lime);
-    margin-bottom: 14px;
-  }
-  footer p { font-size: 0.78rem; color: #c0b8b0; line-height: 1.7; margin-bottom: 8px; }
-  footer .small { font-size: 0.7rem; color: var(--mid); margin-top: 8px; }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes heroLine {
-    to { opacity: 1; transform: translateY(0) skewX(0); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  @keyframes statementFlash {
-    0% { opacity: 0; transform: scale(0.95); }
-    100% { opacity: 1; transform: scale(1); }
-  }
-
-  .reveal {
-    opacity: 0; transform: translateY(40px);
-    transition: opacity 0.9s cubic-bezier(0.2,0.8,0.2,1), transform 0.9s cubic-bezier(0.2,0.8,0.2,1);
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.15s; }
-  .reveal-delay-2 { transition-delay: 0.3s; }
-  .reveal-delay-3 { transition-delay: 0.45s; }
-  .reveal-delay-4 { transition-delay: 0.6s; }
-
-  .reveal-stagger > * {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal-stagger.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.05s; }
-  .reveal-stagger.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
-  .reveal-stagger.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
-  .reveal-stagger.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.35s; }
-  .reveal-stagger.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
-  .reveal-stagger.visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.55s; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    .stat-row { grid-template-columns: repeat(2, 1fr); }
-    .stat-cell:nth-child(2) { border-right: none; }
-    .solution-grid { grid-template-columns: 1fr; }
-    .founder-inner { grid-template-columns: 1fr; gap: 40px; }
-    .founder-photo { aspect-ratio: 4/5; max-height: none; }
-    .testimonial-row { grid-template-columns: 1fr; gap: 24px; padding: 40px 28px; }
-    .pricing-features { grid-template-columns: 1fr; }
-    .offer-item { grid-template-columns: 70px 1fr auto; gap: 20px; padding: 28px 8px; }
-    .scene { padding: 60px 5vw; min-height: auto; }
-    .scene-hero { min-height: 100vh; }
-    .problem-row { grid-template-columns: 50px 1fr; padding: 28px 0; }
-  }
-  @media (max-width: 600px) {
-    /* Tighten scene vertical rhythm on mobile - remove dead space */
-    .scene { min-height: auto; padding: 56px 5vw; }
-    .scene-hero { min-height: 100vh; padding: 90px 5vw 48px; }
-    .scene-statement { padding: 64px 5vw; }
-    .scene-turn { padding: 72px 5vw; }
-    .scene-vsl { padding: 56px 5vw; }
-    .scene-stats { padding: 56px 5vw; }
-    .scene-problem { padding: 56px 5vw; }
-    .scene-solution { padding: 56px 5vw; }
-    .scene-offer { padding: 56px 5vw; }
-    .scene-founder { padding: 56px 5vw; }
-    .scene-testimonial { padding: 56px 5vw; }
-    .scene-pricing { padding: 56px 5vw; }
-    .scene-faq { padding: 56px 5vw; }
-    .scene-closing { padding: 80px 5vw; }
-
-    /* Photo bigger on mobile */
-    .founder-photo { aspect-ratio: 3/4; height: auto; max-height: none; width: 100%; }
-
-    /* Other mobile fixes */
-    .pricing-top, .pricing-features, .pricing-cta-wrap { padding-left: 28px; padding-right: 28px; }
-    .scene-num { display: none; }
-    .testimonial-row { padding: 32px 24px; }
-
-    /* Compact section headers on mobile */
-    .stats-title { margin-bottom: 36px; }
-    .problem-header { margin-bottom: 36px; }
-    .solution-header { margin-bottom: 36px; }
-    .offer-header { margin-bottom: 36px; }
-    .testimonial-headline { margin-bottom: 36px; }
-    .pricing-header { margin-bottom: 36px; }
-    .faq-header { margin-bottom: 32px; }
-    .vsl-header { margin-bottom: 28px; }
-    .vsl-cta-row { margin-top: 28px; }
-    .founder-inner { gap: 24px; }
-    .founder-creds { gap: 16px; padding-top: 20px; }
-    .hero-headline { margin-bottom: 24px; }
-    .hero-sub { margin-bottom: 24px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px 14px 22px;
+    background: #D6FF00;
+    color: #0a0a0a;
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.16), 0 2px 6px rgba(0,0,0,0.08);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    will-change: opacity, transform;
+  }
+  .dsb-sticky-cta.dsb-hidden { opacity: 0; pointer-events: none; transform: translateY(20px); }
+  .dsb-sticky-label { letter-spacing: -0.005em; }
+  .dsb-sticky-price {
+    background: #0a0a0a;
+    color: #D6FF00;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  @media (max-width: 620px) {
+    .dsb-sticky-cta {
+      display: flex;
+      animation: dsbStickyIn 0.5s cubic-bezier(0.2,0.7,0.2,1) 1.2s both;
     }
+  }
+  @keyframes dsbStickyIn {
+    from { transform: translateY(110%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ---- Tablet & smaller (≤880px) ---- */
+  @media (max-width: 880px) {
+    [data-screen-label="Direction B"] [style*="grid-template-columns:repeat(3,1fr)"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns: repeat(3, 1fr)"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns:1.1fr 0.9fr"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns: 1.1fr 0.9fr"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns:0.4fr"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns: 0.4fr"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns:1fr 1fr"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns: 1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+    [data-screen-label="Direction B"] [style*="top:100px"],
+    [data-screen-label="Direction B"] [style*="top: 100px"] { position: static !important; }
+  }
+
+  /* ---- Mobile landscape & phone (≤620px) ---- */
+  @media (max-width: 620px) {
+    /* Collapse remaining multi-col grids */
+    [data-screen-label="Direction B"] [style*="grid-template-columns:repeat(2,1fr)"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns: repeat(2, 1fr)"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns:80px 1fr 1.3fr"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns: 80px 1fr 1.3fr"] {
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+    }
+    /* Stats: 4 cols → 2 cols, smaller gap */
+    [data-screen-label="Direction B"] [style*="grid-template-columns:repeat(4,1fr)"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns: repeat(4, 1fr)"] {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 28px 20px !important;
+    }
+    /* Tighten horizontal padding on all section wrappers */
+    [data-screen-label="Direction B"] [style*="max-width:1280px"],
+    [data-screen-label="Direction B"] [style*="max-width: 1280px"],
+    [data-screen-label="Direction B"] [style*="max-width:1100px"],
+    [data-screen-label="Direction B"] [style*="max-width: 1100px"],
+    [data-screen-label="Direction B"] [style*="max-width:920px"],
+    [data-screen-label="Direction B"] [style*="max-width: 920px"] {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+    /* Hide nav text links — keep just logo + CTA */
+    [data-screen-label="Direction B"] [data-navlink] { display: none !important; }
+    /* Compress nav button copy */
+    [data-screen-label="Direction B"] a[href="#pricing"][style*="font-size:13px"] {
+      font-size: 12px !important;
+      padding: 10px 14px !important;
+    }
+    /* Reduce vertical section padding on phones */
+    [data-screen-label="Direction B"] [style*="padding:120px 40px"],
+    [data-screen-label="Direction B"] [style*="padding: 120px 40px"],
+    [data-screen-label="Direction B"] [style*="padding:100px 40px"],
+    [data-screen-label="Direction B"] [style*="padding: 100px 40px"],
+    [data-screen-label="Direction B"] [style*="padding:90px 40px"],
+    [data-screen-label="Direction B"] [style*="padding: 90px 40px"],
+    [data-screen-label="Direction B"] [style*="padding:70px 40px"],
+    [data-screen-label="Direction B"] [style*="padding: 70px 40px"] {
+      padding-top: 56px !important;
+      padding-bottom: 56px !important;
+    }
+    /* Pain points: stack number above content, tighten spacing */
+    [data-screen-label="Direction B"] [style*="grid-template-columns:80px 1fr 1.3fr"] > div:first-child,
+    [data-screen-label="Direction B"] [style*="grid-template-columns: 80px 1fr 1.3fr"] > div:first-child {
+      font-size: 16px !important;
+      opacity: 0.5;
+    }
+    /* About: photo first (stack order) — handled by 1-col, but ensure spacing */
+    [data-screen-label="Direction B"] [style*="grid-template-columns:1.1fr 0.9fr"],
+    [data-screen-label="Direction B"] [style*="grid-template-columns: 1.1fr 0.9fr"] { gap: 32px !important; }
+
+    /* Pricing left column: center everything on mobile, stack price vertically */
+    #pricing > div[style*="grid-template-columns"] > div[data-reveal]:first-of-type {
+      align-items: center !important;
+      text-align: center !important;
+    }
+    #pricing > div[style*="grid-template-columns"] > div[data-reveal]:first-of-type > div[style*="align-items:baseline"] {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 6px !important;
+      margin-bottom: 28px !important;
+    }
+    #pricing > div[style*="grid-template-columns"] > div[data-reveal]:first-of-type > div[style*="align-items:baseline"] > span:last-child {
+      text-align: center !important;
+    }
+    #pricing > div[style*="grid-template-columns"] > div[data-reveal]:first-of-type > p {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  }
+
+  /* ---- Small phone (≤480px) ---- */
+  @media (max-width: 480px) {
+    /* Stats stay 2-col but with tighter type */
+    [data-screen-label="Direction B"] [data-count] { font-size: 40px !important; }
+    /* Hero CTAs: full-width stack */
+    [data-screen-label="Direction B"] [style*="flex-wrap:wrap"][style*="justify-content:center"] > a,
+    [data-screen-label="Direction B"] [style*="flex-wrap: wrap"][style*="justify-content: center"] > a {
+      width: 100%;
+      justify-content: center;
+    }
+    /* All section wrappers: even tighter padding */
+    [data-screen-label="Direction B"] [style*="max-width:1280px"],
+    [data-screen-label="Direction B"] [style*="max-width: 1280px"] {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    /* Cap the hero — clamp gets too big on some phones */
+    [data-screen-label="Direction B"] h1[style*="font-size:clamp(40px,7.6vw,108px)"],
+    [data-screen-label="Direction B"] h1[style*="font-size: clamp(40px, 7.6vw, 108px)"] {
+      font-size: 38px !important;
+      line-height: 1 !important;
+    }
+    /* Cap the "Stop starting over" closing headline */
+    [data-screen-label="Direction B"] h2[style*="font-size:clamp(52px,11vw,150px)"],
+    [data-screen-label="Direction B"] h2[style*="font-size: clamp(52px, 11vw, 150px)"] {
+      font-size: 48px !important;
+      line-height: 0.95 !important;
+    }
+    /* Pricing $40 numeral — bigger, makes a moment */
+    [data-screen-label="Direction B"] [style*="font-size:clamp(64px,10vw,120px)"],
+    [data-screen-label="Direction B"] [style*="font-size: clamp(64px, 10vw, 120px)"] {
+      font-size: 96px !important;
+    }
+    /* Hero subhead a touch smaller */
+    [data-screen-label="Direction B"] section[style*="text-align:center"] p[style*="font-size:19px"] {
+      font-size: 17px !important;
+    }
+    /* Tighten nav vertical padding */
+    [data-screen-label="Direction B"] [style*="padding:18px 40px"] {
+      padding: 12px 16px !important;
+    }
+    /* Cards a touch tighter inside */
+    [data-screen-label="Direction B"] [style*="padding:32px"][style*="border-radius:16px"] {
+      padding: 24px !important;
+    }
+    /* Three pillars dark cards tighten */
+    [data-screen-label="Direction B"] [style*="padding:40px 32px"] {
+      padding: 28px 24px !important;
+    }
+    /* How It Works steps: number sits inline but smaller, tighter column */
+    .dsb-step { grid-template-columns: 60px 1fr !important; }
   }
 </style>
 </head>
 <body>
 
-<!-- PROGRESS BAR -->
-<div class="progress-bar" id="progressBar"></div>
+<div data-screen-label="Direction B" style="background:#f3f2ec; color:#0a0a0a; font-family:'Space Grotesk',sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden;">
 
-<!-- NAV -->
-<nav role="navigation" aria-label="Main navigation">
-  <div class="nav-logo">DEAN SWEET PT</div>
-</nav>
-
-<!-- SCENE 1: HERO -->
-<section class="scene scene-hero">
-  <span class="scene-num"><span>01</span> / 12</span>
-  <div class="hero-tag">Online Coaching · No Lock-In · 14-Day Guarantee</div>
-  <h1 class="hero-headline">
-    <span>You Know</span>
-    <span>What To Do.</span>
-    <span>You're Just</span>
-    <span>Not Doing It.</span>
-  </h1>
-  <p class="hero-sub">For people who know what to do but can't seem to make it stick. A clear plan, real numbers, and someone making sure you actually follow through.</p>
-  <div class="hero-actions">
-    <a href="#pricing" class="btn-primary" aria-label="See pricing">See Pricing</a>
-    <a href="#offer" class="btn-secondary">What's Included</a>
-  </div>
-</section>
-
-<!-- SCENE 2: BIG STATEMENT -->
-<section class="scene scene-statement">
-  <span class="scene-num"><span>02</span> / 12</span>
-  <p class="statement-eyebrow reveal">The truth about why nothing's worked</p>
-  <h2 class="statement-text reveal reveal-delay-1">
-    The problem isn't your <span class="strike">discipline.</span><br>
-    It's that you've been<br>
-    <span class="highlight">doing it alone.</span>
-  </h2>
-  <p class="statement-detail reveal reveal-delay-2">Knowing what to do and actually doing it are two completely different things. The gap between them isn't willpower. It's accountability.</p>
-</section>
-
-<!-- SCENE 3: STAT WALL -->
-<section class="scene scene-stats">
-  <span class="scene-num"><span>03</span> / 12</span>
-  <p class="stats-eyebrow reveal">By the numbers</p>
-  <h2 class="stats-title reveal reveal-delay-1">A decade of coaching.<br>Hundreds of clients. <em>One system.</em></h2>
-  <div class="stat-row reveal-stagger">
-    <div class="stat-cell" data-target="10" data-suffix="+">
-      <span class="stat-num">0+</span>
-      <p class="stat-label">Years On The Floor</p>
-    </div>
-    <div class="stat-cell" data-target="100" data-suffix="s">
-      <span class="stat-num">0s</span>
-      <p class="stat-label">Clients Coached</p>
-    </div>
-    <div class="stat-cell" data-target="6" data-suffix="kg">
-      <span class="stat-num">0kg</span>
-      <p class="stat-label">Avg In 8 Weeks</p>
-    </div>
-    <div class="stat-cell" data-target="14" data-suffix="">
-      <span class="stat-num">0</span>
-      <p class="stat-label">Day Guarantee</p>
-    </div>
-  </div>
-</section>
-
-<!-- SCENE 4: PROBLEM CASCADE -->
-<section class="scene scene-problem">
-  <span class="scene-num"><span>04</span> / 12</span>
-  <div class="problem-header">
-    <span class="problem-eyebrow reveal">If any of these are true</span>
-    <h2 class="problem-headline reveal reveal-delay-1">You're not lazy.<br>You just keep <em>stopping.</em></h2>
-  </div>
-  <div class="problem-cascade">
-    <div class="problem-row reveal">
-      <div class="problem-tick">01</div>
-      <div class="problem-content">
-        <h3>You start strong, then life gets in the way</h3>
-        <p>Two weeks of momentum, then something happens, then it's three months later and you're back to square one wondering what the point was.</p>
-      </div>
-    </div>
-    <div class="problem-row reveal reveal-delay-1">
-      <div class="problem-tick">02</div>
-      <div class="problem-content">
-        <h3>You've tried every app, PDF, and program</h3>
-        <p>None of it was actually built for your schedule, your body, or your life. It was built for someone else and you were trying to make it fit.</p>
-      </div>
-    </div>
-    <div class="problem-row reveal reveal-delay-2">
-      <div class="problem-tick">03</div>
-      <div class="problem-content">
-        <h3>You know the basics. Eat less, move more.</h3>
-        <p>You're not missing information. You've watched the videos. Read the articles. Knowing the basics and doing them consistently are completely different things.</p>
-      </div>
-    </div>
-    <div class="problem-row reveal reveal-delay-3">
-      <div class="problem-tick">04</div>
-      <div class="problem-content">
-        <h3>Nobody's keeping you accountable</h3>
-        <p>So when motivation drops — and it always does — there's nothing pulling you back in. No one notices. No one cares. Until you do.</p>
+  <!-- NAV -->
+  <div style="position:sticky; top:0; z-index:50; background:rgba(243,242,236,0.85); backdrop-filter:blur(14px); border-bottom:1px solid rgba(10,10,10,0.1);">
+    <div style="max-width:1280px; margin:0 auto; padding:18px 40px; display:flex; align-items:center; justify-content:space-between;">
+      <div style="font-family:'Archivo Black',sans-serif; font-weight:400; letter-spacing:-0.01em; font-size:18px;">Dean Sweet PT</div>
+      <div style="display:flex; align-items:center; gap:32px;">
+        <a href="#offer" data-navlink="" style="color:rgba(10,10,10,0.6); text-decoration:none; font-size:13px; letter-spacing:0.02em; font-weight:500;">What's Included</a>
+        <a href="#proof" data-navlink="" style="color:rgba(10,10,10,0.6); text-decoration:none; font-size:13px; letter-spacing:0.02em; font-weight:500;">Results</a>
+        <a href="#pricing" style="display:inline-flex; align-items:center; gap:8px; background:#0a0a0a; color:#fff; text-decoration:none; font-weight:700; font-size:13px; padding:11px 20px; border-radius:8px;" style-hover="background:#1f1f1f;">Start — $40/wk</a>
       </div>
     </div>
   </div>
-</section>
 
-<!-- SCENE 5: TURN -->
-<section class="scene scene-turn" id="turnScene">
-  <div class="turn-swipe"></div>
-  <div class="turn-content">
-    <span class="scene-num"><span>05</span> / 12</span>
-    <p class="turn-eyebrow reveal">Here's what changes</p>
-    <h2 class="turn-text reveal reveal-delay-1">
-      A real plan.<br>
-      Real numbers.<br>
-      A real coach.
-    </h2>
-    <p class="turn-detail reveal reveal-delay-2">Not another app. Not another PDF. Not another influencer pretending they care. Just the system that actually works for people with real lives.</p>
-  </div>
-</section>
+  <!-- HERO -->
+  <section style="max-width:1280px; margin:0 auto; padding:clamp(56px,9vw,100px) clamp(20px,5vw,40px) clamp(48px,7vw,70px); text-align:center;">
+    <h1 data-reveal="" style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(40px,7.6vw,108px); line-height:0.96; letter-spacing:-0.03em; margin:0 auto; max-width:1000px; text-wrap:balance;">
+      You know what to do. You're just <span style="background:#D6FF00; padding:0 0.12em; box-decoration-break:clone; -webkit-box-decoration-break:clone;">not doing it.</span>
+    </h1>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:32px; margin-top:40px;">
+      <p data-reveal="" style="max-width:560px; font-size:19px; line-height:1.55; color:rgba(10,10,10,0.68); margin:0;">
+        For people who know what to do but can't seem to make it stick. A clear plan, real numbers, and someone making sure you actually follow through.
+      </p>
+      <div data-reveal="" style="display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
+        <a href="#pricing" style="display:inline-flex; align-items:center; gap:10px; background:#0a0a0a; color:#fff; text-decoration:none; font-weight:700; font-size:16px; padding:17px 28px; border-radius:10px;" style-hover="background:#1f1f1f;">See Pricing →</a>
+        <a href="#offer" style="display:inline-flex; align-items:center; gap:10px; background:transparent; color:#0a0a0a; text-decoration:none; font-weight:600; font-size:16px; padding:17px 28px; border-radius:10px; border:1px solid rgba(10,10,10,0.25);" style-hover="border-color:#0a0a0a;">What's Included</a>
+      </div>
+    </div>
+  </section>
 
-<!-- SCENE 6: SOLUTION -->
-<section class="scene scene-solution">
-  <span class="scene-num"><span>06</span> / 12</span>
-  <div class="solution-header">
-    <span class="solution-eyebrow reveal">What actually makes it stick</span>
-    <h2 class="solution-headline reveal reveal-delay-1">Three things.<br><em>Nothing else.</em></h2>
-  </div>
-  <div class="solution-grid reveal-stagger">
-    <div class="solution-card">
-      <span class="solution-num">01 / Plan</span>
-      <h3>Built around your actual life</h3>
-      <p>Not a generic template. A training program and calorie targets dialled in for your body, your schedule, and what you can actually sustain. Updated as you progress.</p>
-    </div>
-    <div class="solution-card">
-      <span class="solution-num">02 / Numbers</span>
-      <h3>Real targets — not guesswork</h3>
-      <p>Most people fail because they're working with the wrong numbers. You get calories and macros calculated for your body — so the results are predictable, not random.</p>
-    </div>
-    <div class="solution-card">
-      <span class="solution-num">03 / Accountability</span>
-      <h3>Closes the gap between knowing and doing</h3>
-      <p>The difference between knowing what to do and actually doing it is someone checking in. Every week. That's why this works when everything else hasn't.</p>
-    </div>
-  </div>
-</section>
-
-<!-- SCENE 7: WHAT YOU GET -->
-<section class="scene scene-offer" id="offer">
-  <span class="scene-num"><span>07</span> / 12</span>
-  <div class="offer-header">
-    <span class="offer-eyebrow reveal">What's included</span>
-    <h2 class="offer-headline reveal reveal-delay-1">Everything you need.<br><em>Nothing</em> you don't.</h2>
-  </div>
-  <div class="offer-list">
-    <div class="offer-item reveal">
-      <span class="offer-tag">Item / 01</span>
-      <div class="offer-text">
-        <h3>Custom Training Program</h3>
-        <p>Built for your gym access, schedule, and current level. Not a template — updated as you get stronger.</p>
-      </div>
-      <div class="offer-check">✓</div>
-    </div>
-    <div class="offer-item reveal reveal-delay-1">
-      <span class="offer-tag">Item / 02</span>
-      <div class="offer-text">
-        <h3>Personalised Nutrition Targets</h3>
-        <p>Calories and macros for your body and goals — not a random deficit that leaves you miserable by Friday.</p>
-      </div>
-      <div class="offer-check">✓</div>
-    </div>
-    <div class="offer-item reveal reveal-delay-2">
-      <span class="offer-tag">Item / 03</span>
-      <div class="offer-text">
-        <h3>Weekly Check-Ins + Plan Adjustments</h3>
-        <p>Every week you report back. I review, adjust, and keep you moving forward. No drifting. No guessing.</p>
-      </div>
-      <div class="offer-check">✓</div>
-    </div>
-    <div class="offer-item reveal reveal-delay-3">
-      <span class="offer-tag">Item / 04</span>
-      <div class="offer-text">
-        <h3>Direct Coach Access + Community</h3>
-        <p>Message me directly when you need to. Plus access to a community of people who actually take this seriously.</p>
-      </div>
-      <div class="offer-check">✓</div>
-    </div>
-  </div>
-</section>
-
-<!-- SCENE 8: FOUNDER -->
-<section class="scene scene-founder">
-  <span class="scene-num"><span>08</span> / 12</span>
-  <div class="founder-inner">
-    <div class="founder-photo reveal">
-      <img src="dean-photo-cropped.jpg" alt="Dean Sweet, personal trainer" style="width:100%;height:100%;object-fit:cover;display:block;">
-    </div>
-    <div class="founder-text">
-      <span class="founder-eyebrow reveal">Why me</span>
-      <h2 class="founder-headline reveal reveal-delay-1">I'm not going to<br>promise <em>everything.</em></h2>
-      <ul class="founder-points reveal reveal-delay-2">
-        <li>I used to flip between programs constantly — never consistent, never progressing. Sound familiar?</li>
-        <li>When I finally followed a properly structured plan, the difference wasn't dramatic. I just stopped wasting time and started moving forward.</li>
-        <li>Now I have kids. Training time is tighter than ever. I follow my own program, I'm in and out. One less thing to think about.</li>
-        <li>I've been on gym floors for 10+ years. I know what works for real people with real lives — not influencer timelines.</li>
-        <li>I'll be straight with you. If I don't know something, I'll find out. No bullshit, no magic — just a clear plan and someone making sure you stick to it.</li>
-      </ul>
-      <div class="founder-creds reveal reveal-delay-3">
-        <div class="founder-cred">
-          <span>10+</span>
-          <p>Years Coaching</p>
+  <!-- STATS BAND (dark) -->
+  <section style="background:#0a0a0a; color:#fff;">
+    <div style="max-width:1280px; margin:0 auto; padding:70px 40px;">
+      <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#D6FF00; font-weight:700; margin-bottom:44px;">A decade of coaching · Hundreds of clients · One system</div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:32px;">
+        <div data-reveal="">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(44px,5.6vw,80px); line-height:1; letter-spacing:-0.03em;"><span data-count="10" data-suffix="+">0+</span></div>
+          <div style="margin-top:12px; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55); font-weight:600;">Years On The Floor</div>
         </div>
-        <div class="founder-cred">
-          <span>100s</span>
-          <p>Of Clients</p>
+        <div data-reveal="">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(44px,5.6vw,80px); line-height:1; letter-spacing:-0.03em; color:#D6FF00;"><span data-count="100" data-suffix="s">0s</span></div>
+          <div style="margin-top:12px; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55); font-weight:600;">Clients Coached</div>
+        </div>
+        <div data-reveal="">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(44px,5.6vw,80px); line-height:1; letter-spacing:-0.03em;"><span data-count="6" data-suffix="kg">0kg</span></div>
+          <div style="margin-top:12px; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55); font-weight:600;">Avg In 8 Weeks</div>
+        </div>
+        <div data-reveal="">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(44px,5.6vw,80px); line-height:1; letter-spacing:-0.03em;"><span data-count="14" data-suffix="">0</span></div>
+          <div style="margin-top:12px; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.55); font-weight:600;">Day Guarantee</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- SCENE 9: TESTIMONIALS -->
-<section class="scene scene-testimonial">
-  <span class="scene-num"><span>09</span> / 12</span>
-  <span class="testimonial-eyebrow reveal">The receipts</span>
-  <h2 class="testimonial-headline reveal reveal-delay-1">Real clients.<br><em>Real numbers.</em></h2>
-  <div class="testimonial-stack reveal-stagger">
-    <div class="testimonial-row">
-      <div class="testimonial-result">
-        6kg<span>Lost in 8 weeks</span>
+  <!-- PROBLEM -->
+  <section style="max-width:1280px; margin:0 auto; padding:100px 40px;">
+    <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(10,10,10,0.5); font-weight:600; margin-bottom:24px;">The truth about why nothing's worked</div>
+    <div data-reveal="">
+        <h2 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(30px,4.4vw,58px); line-height:1.05; letter-spacing:-0.025em; margin:0; max-width:1040px;">
+          The problem isn't your discipline. It's that you've been <span style="background:#D6FF00; padding:0 0.1em; box-decoration-break:clone; -webkit-box-decoration-break:clone;">doing it alone.</span>
+        </h2>
+        <p style="margin:32px 0 0; font-size:19px; line-height:1.6; color:rgba(10,10,10,0.6); max-width:560px;">Knowing what to do and actually doing it are two completely different things. The gap between them isn't willpower. It's accountability.</p>
       </div>
-      <div>
-        <p class="testimonial-quote">"Thanks to Dean's plan, I've lost 6kg and feel stronger and healthier than ever before. His guidance truly made all the difference."</p>
-        <p class="testimonial-name">— Sarah, Australia</p>
-      </div>
-    </div>
-    <div class="testimonial-row">
-      <div class="testimonial-result">
-        +<span>Confidence &amp; Clarity</span>
-      </div>
-      <div>
-        <p class="testimonial-quote">"I have never felt so confident in my body and so clear in my mind. All positive from me — thanks for being a great source of encouragement."</p>
-        <p class="testimonial-name">— Emily, Australia</p>
-      </div>
-    </div>
-    <div class="testimonial-row">
-      <div class="testimonial-result">
-        ↗<span>Consistent progress</span>
-      </div>
-      <div>
-        <p class="testimonial-quote">"Dean's tailored approach has helped me stay motivated and see significant progress. The program strikes the perfect balance between pushing hard and keeping form sharp."</p>
-        <p class="testimonial-name">— Jane, Australia</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- SCENE 10: PRICING -->
-<section class="scene scene-pricing" id="pricing">
-  <span class="scene-num"><span>10</span> / 12</span>
-  <div class="pricing-header">
-    <span class="pricing-eyebrow reveal">The investment</span>
-    <h2 class="pricing-headline reveal reveal-delay-1">One plan.<br><em>Everything</em> included.</h2>
-  </div>
-  <div class="pricing-card reveal reveal-delay-2">
-    <div class="pricing-top">
-      <div class="price-large">$40</div>
-      <p class="price-period">Per Week · No Lock-In</p>
-      <p class="pricing-vs">A single in-person PT session costs $80–$120. For $40 a week you get a full custom program, personalised nutrition, weekly check-ins, and <strong>direct access every single day.</strong></p>
+  <!-- PAIN POINTS -->
+  <section style="border-top:1px solid rgba(10,10,10,0.12);">
+    <div style="max-width:1280px; margin:0 auto; padding:90px 40px;">
+      <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(10,10,10,0.5); font-weight:600; margin-bottom:24px;">If any of these are true</div>
+      <h2 data-reveal="" style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(30px,4.4vw,58px); line-height:1.04; letter-spacing:-0.025em; margin:0 0 56px;">You're not lazy. You just keep stopping.</h2>
+      <div style="display:flex; flex-direction:column;">
+        <div data-reveal="" style="display:grid; grid-template-columns:80px 1fr 1.3fr; gap:24px; padding:32px 0; border-top:1px solid rgba(10,10,10,0.14); align-items:start;">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:22px; color:#0a0a0a;">01</div>
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:22px; line-height:1.2; letter-spacing:-0.01em; margin:0;">You start strong, then life gets in the way</h3>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.6);">Two weeks of momentum, then something happens, then it's three months later and you're back to square one wondering what the point was.</p>
+        </div>
+        <div data-reveal="" style="display:grid; grid-template-columns:80px 1fr 1.3fr; gap:24px; padding:32px 0; border-top:1px solid rgba(10,10,10,0.14); align-items:start;">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:22px; color:#0a0a0a;">02</div>
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:22px; line-height:1.2; letter-spacing:-0.01em; margin:0;">You've tried every app, PDF, and program</h3>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.6);">None of it was actually built for your schedule, your body, or your life. It was built for someone else and you were trying to make it fit.</p>
+        </div>
+        <div data-reveal="" style="display:grid; grid-template-columns:80px 1fr 1.3fr; gap:24px; padding:32px 0; border-top:1px solid rgba(10,10,10,0.14); align-items:start;">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:22px; color:#0a0a0a;">03</div>
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:22px; line-height:1.2; letter-spacing:-0.01em; margin:0;">You know the basics. Eat less, move more.</h3>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.6);">You're not missing information. You've watched the videos. Read the articles. Knowing the basics and doing them consistently are completely different things.</p>
+        </div>
+        <div data-reveal="" style="display:grid; grid-template-columns:80px 1fr 1.3fr; gap:24px; padding:32px 0; border-top:1px solid rgba(10,10,10,0.14); border-bottom:1px solid rgba(10,10,10,0.14); align-items:start;">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:22px; color:#0a0a0a;">04</div>
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:22px; line-height:1.2; letter-spacing:-0.01em; margin:0;">Nobody's keeping you accountable</h3>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.6);">So when motivation drops — and it always does — there's nothing pulling you back in. No one notices. No one cares. Until you do.</p>
+        </div>
+      </div>
     </div>
-    <ul class="pricing-features">
-      <li>Custom training program</li>
-      <li>Personalised nutrition targets</li>
-      <li>Weekly check-ins + adjustments</li>
-      <li>Direct coach access</li>
-      <li>Community membership</li>
-      <li>App access (iOS + Android)</li>
-      <li>14-day money-back guarantee</li>
-      <li>Cancel anytime</li>
-    </ul>
-    <div class="pricing-cta-wrap">
-      <a href="https://share.newie.app/offerings/5ACDBA75-5FFB-488C-A311-833F7ECCEF91" class="btn-primary">Start Now — No Risk</a>
-      <p class="pricing-meta">14-day money-back guarantee · Cancel anytime</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- SCENE 11: FAQ -->
-<section class="scene scene-faq">
-  <span class="scene-num"><span>11</span> / 12</span>
-  <div class="faq-header">
-    <span class="faq-eyebrow reveal">Common questions</span>
-    <h2 class="faq-headline reveal reveal-delay-1">Answered <em>honestly.</em></h2>
-  </div>
-  <div class="faq-list">
-    <div class="faq-item">
-      <button class="faq-q">I've tried everything. Why is this going to be different? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Because the issue was never the program — it was the lack of accountability. You had the information. You didn't have someone keeping you honest. That's what changes here.</div>
+  <!-- THREE PILLARS (dark) -->
+  <section style="background:#0a0a0a; color:#fff;">
+    <div style="max-width:1280px; margin:0 auto; padding:100px 40px;">
+      <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#D6FF00; font-weight:700; margin-bottom:24px;">What actually makes it stick</div>
+      <h2 data-reveal="" style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(30px,4.4vw,58px); line-height:1.04; letter-spacing:-0.025em; margin:0 0 56px;">Three things. Nothing else.</h2>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.14); border-radius:16px; overflow:hidden;">
+        <div data-reveal="" style="background:#0a0a0a; padding:40px 32px;">
+          <div style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:#D6FF00; font-weight:700; margin-bottom:48px;">01 / Plan</div>
+          <h3 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:25px; line-height:1.12; letter-spacing:-0.015em; margin:0 0 14px;">Built around your actual life</h3>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(255,255,255,0.62);">Not a generic template. A training program and calorie targets dialled in for your body, your schedule, and what you can actually sustain. Updated as you progress.</p>
+        </div>
+        <div data-reveal="" style="background:#0a0a0a; padding:40px 32px;">
+          <div style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:#D6FF00; font-weight:700; margin-bottom:48px;">02 / Numbers</div>
+          <h3 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:25px; line-height:1.12; letter-spacing:-0.015em; margin:0 0 14px;">Real targets — not guesswork</h3>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(255,255,255,0.62);">Most people fail because they're working with the wrong numbers. You get calories and macros calculated for your body — so the results are predictable, not random.</p>
+        </div>
+        <div data-reveal="" style="background:#D6FF00; color:#0a0a0a; padding:40px 32px;">
+          <div style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(10,10,10,0.6); font-weight:700; margin-bottom:48px;">03 / Accountability</div>
+          <h3 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:25px; line-height:1.12; letter-spacing:-0.015em; margin:0 0 14px;">Closes the gap between knowing and doing</h3>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.72);">The difference between knowing what to do and actually doing it is someone checking in. Every week. That's why this works when everything else hasn't.</p>
+        </div>
+      </div>
     </div>
-    <div class="faq-item">
-      <button class="faq-q">How much time does this take each week? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Your program will be built around the time you actually have. Three days, four days, 45 minutes per session — whatever's realistic. The check-in takes about five minutes.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q">Do I need a gym? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Ideally yes — programs work best with gym access. If you train at home, reach out before joining and we'll figure out if it's a good fit.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q">How long until I see results? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Most people notice real changes within 90 days when they stick to the plan. Some see movement sooner. It depends on consistency — which is exactly what the accountability is there for.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q">What's the difference between this and buying a program online? <span class="faq-icon">+</span></button>
-      <div class="faq-a">A program gives you a PDF and wishes you luck. With this, your plan is built for you specifically, adjusted weekly based on your progress, and there's a real person checking in every single week.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q">What if I need to cancel? <span class="faq-icon">+</span></button>
-      <div class="faq-a">Cancel any time. No lock-in, no notice period required. It's weekly billing — if you cancel, it stops. Simple.</div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q">Is this better than in-person PT? <span class="faq-icon">+</span></button>
-      <div class="faq-a">For most people, yes. In-person PT gives you one hour a week of someone watching you train. Online coaching gives you a plan for every session, daily access, and weekly check-ins — for less than half the price.</div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- SCENE 12: CLOSING -->
-<section class="scene scene-closing">
-  <span class="scene-num"><span>12</span> / 12</span>
-  <p class="closing-eyebrow reveal">Last chance to keep scrolling</p>
-  <h2 class="closing-text reveal reveal-delay-1">Stop<br>starting<br><em>over.</em></h2>
-  <p class="closing-detail reveal reveal-delay-2">You've already done the hard part. Wanting to change. Now give yourself a plan that actually sticks.</p>
-  <a href="https://share.newie.app/offerings/5ACDBA75-5FFB-488C-A311-833F7ECCEF91" class="btn-primary reveal reveal-delay-3">Get Started — $40/wk</a>
-  <p class="closing-meta reveal reveal-delay-4">No lock-in · Cancel anytime · 14-day guarantee</p>
-</section>
+  <!-- INCLUDED -->
+  <section id="offer" style="max-width:1280px; margin:0 auto; padding:100px 40px; scroll-margin-top:80px;">
+    <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(10,10,10,0.5); font-weight:600; margin-bottom:24px;">What's included</div>
+    <h2 data-reveal="" style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(30px,4.4vw,58px); line-height:1.04; letter-spacing:-0.025em; margin:0 0 48px;">Everything you need. Nothing you don't.</h2>
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:20px;">
+      <div data-reveal="" style="background:#fff; border:1px solid rgba(10,10,10,0.1); border-radius:16px; padding:32px; display:flex; gap:20px; align-items:flex-start;">
+        <div style="width:34px; height:34px; border-radius:8px; background:#D6FF00; display:flex; align-items:center; justify-content:center; font-weight:900; flex:none;">✓</div>
+        <div><div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(10,10,10,0.4); font-weight:700; margin-bottom:8px;">Item / 01</div><h3 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:22px; letter-spacing:-0.01em; margin:0 0 8px;">Custom Training Program</h3><p style="margin:0; font-size:15px; line-height:1.55; color:rgba(10,10,10,0.6);">Built for your gym access, schedule, and current level. Not a template — updated as you get stronger.</p></div>
+      </div>
+      <div data-reveal="" style="background:#fff; border:1px solid rgba(10,10,10,0.1); border-radius:16px; padding:32px; display:flex; gap:20px; align-items:flex-start;">
+        <div style="width:34px; height:34px; border-radius:8px; background:#D6FF00; display:flex; align-items:center; justify-content:center; font-weight:900; flex:none;">✓</div>
+        <div><div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(10,10,10,0.4); font-weight:700; margin-bottom:8px;">Item / 02</div><h3 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:22px; letter-spacing:-0.01em; margin:0 0 8px;">Personalised Nutrition Targets</h3><p style="margin:0; font-size:15px; line-height:1.55; color:rgba(10,10,10,0.6);">Calories and macros for your body and goals — not a random deficit that leaves you miserable by Friday.</p></div>
+      </div>
+      <div data-reveal="" style="background:#fff; border:1px solid rgba(10,10,10,0.1); border-radius:16px; padding:32px; display:flex; gap:20px; align-items:flex-start;">
+        <div style="width:34px; height:34px; border-radius:8px; background:#D6FF00; display:flex; align-items:center; justify-content:center; font-weight:900; flex:none;">✓</div>
+        <div><div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(10,10,10,0.4); font-weight:700; margin-bottom:8px;">Item / 03</div><h3 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:22px; letter-spacing:-0.01em; margin:0 0 8px;">Weekly Check-Ins + Plan Adjustments</h3><p style="margin:0; font-size:15px; line-height:1.55; color:rgba(10,10,10,0.6);">Every week you report back. I review, adjust, and keep you moving forward. No drifting. No guessing.</p></div>
+      </div>
+      <div data-reveal="" style="background:#fff; border:1px solid rgba(10,10,10,0.1); border-radius:16px; padding:32px; display:flex; gap:20px; align-items:flex-start;">
+        <div style="width:34px; height:34px; border-radius:8px; background:#D6FF00; display:flex; align-items:center; justify-content:center; font-weight:900; flex:none;">✓</div>
+        <div><div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(10,10,10,0.4); font-weight:700; margin-bottom:8px;">Item / 04</div><h3 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:22px; letter-spacing:-0.01em; margin:0 0 8px;">Direct Coach Access + Community</h3><p style="margin:0; font-size:15px; line-height:1.55; color:rgba(10,10,10,0.6);">Message me directly when you need to. Plus access to a community of people who actually take this seriously.</p></div>
+      </div>
+    </div>
+  </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">DEAN SWEET PT</div>
-  <p>Online coaching Australia-wide · In-person at Anytime Fitness Ocean Grove</p>
-  <p class="small">© 2026 Dean Sweet Personal Training</p>
-</footer>
+  <!-- ABOUT -->
+  <section style="border-top:1px solid rgba(10,10,10,0.12);">
+    <div style="max-width:1280px; margin:0 auto; padding:100px 40px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:start;">
+      <div data-reveal="">
+        <div style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(10,10,10,0.5); font-weight:600; margin-bottom:24px;">Why me</div>
+        <h2 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(30px,4.2vw,56px); line-height:1.03; letter-spacing:-0.025em; margin:0 0 36px;">I'm not going to promise everything.</h2>
+        <div style="display:flex; flex-direction:column; gap:20px;">
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.7);">I used to flip between programs constantly — never consistent, never progressing. Sound familiar?</p>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.7);">When I finally followed a properly structured plan, the difference wasn't dramatic. I just stopped wasting time and started moving forward.</p>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.7);">Now I have kids. Training time is tighter than ever. I follow my own program, I'm in and out. One less thing to think about.</p>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.7);">I've been on gym floors for 10+ years. I know what works for real people with real lives — not influencer timelines.</p>
+          <p style="margin:0; font-size:16px; line-height:1.6; color:#0a0a0a; font-weight:600; background:#D6FF00; padding:18px 20px; border-radius:12px;">I'll be straight with you. If I don't know something, I'll find out. No bullshit, no magic — just a clear plan and someone making sure you stick to it.</p>
+        </div>
+      </div>
+      <div data-reveal="" style="position:sticky; top:100px;">
+        <div style="border-radius:18px; overflow:hidden; border:1px solid rgba(10,10,10,0.12);">
+          <img src="2e5eff95-02e5-401a-a5e2-d8aedbf6bd82" alt="Dean Sweet, personal trainer" style="width:100%; display:block; aspect-ratio:4/5; object-fit:cover;">
+        </div>
+        <div style="display:flex; gap:14px; margin-top:16px;">
+          <div style="flex:1; background:#0a0a0a; color:#fff; border-radius:12px; padding:18px;">
+            <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:30px; line-height:1; color:#D6FF00;">10+</div>
+            <div style="margin-top:6px; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.6); font-weight:600;">Years Coaching</div>
+          </div>
+          <div style="flex:1; background:#0a0a0a; color:#fff; border-radius:12px; padding:18px;">
+            <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:30px; line-height:1; color:#D6FF00;">100s</div>
+            <div style="margin-top:6px; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.6); font-weight:600;">Of Clients</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS (dark) -->
+  <section id="proof" style="background:#0a0a0a; color:#fff; scroll-margin-top:80px;">
+    <div style="max-width:1280px; margin:0 auto; padding:100px 40px;">
+      <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#D6FF00; font-weight:700; margin-bottom:24px;">The receipts</div>
+      <h2 data-reveal="" style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(30px,4.4vw,58px); line-height:1.04; letter-spacing:-0.025em; margin:0 0 52px;">Real clients. Real numbers.</h2>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+        <div data-reveal="" style="border:1px solid rgba(255,255,255,0.14); border-radius:16px; padding:32px; display:flex; flex-direction:column;">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:40px; line-height:1; color:#D6FF00; letter-spacing:-0.02em;">6kg</div>
+          <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); font-weight:600; margin:8px 0 24px;">Lost in 8 weeks</div>
+          <p style="margin:0 0 22px; font-size:16px; line-height:1.6; color:rgba(255,255,255,0.84); flex:1;">"Thanks to Dean's plan, I've lost 6kg and feel stronger and healthier than ever before. His guidance truly made all the difference."</p>
+          <div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.6);">— Sarah, Australia</div>
+        </div>
+        <div data-reveal="" style="border:1px solid rgba(255,255,255,0.14); border-radius:16px; padding:32px; display:flex; flex-direction:column;">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:40px; line-height:1; color:#D6FF00; letter-spacing:-0.02em;">+</div>
+          <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); font-weight:600; margin:8px 0 24px;">Confidence &amp; Clarity</div>
+          <p style="margin:0 0 22px; font-size:16px; line-height:1.6; color:rgba(255,255,255,0.84); flex:1;">"I have never felt so confident in my body and so clear in my mind. All positive from me — thanks for being a great source of encouragement."</p>
+          <div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.6);">— Emily, Australia</div>
+        </div>
+        <div data-reveal="" style="border:1px solid rgba(255,255,255,0.14); border-radius:16px; padding:32px; display:flex; flex-direction:column;">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:40px; line-height:1; color:#D6FF00; letter-spacing:-0.02em;">↗</div>
+          <div style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); font-weight:600; margin:8px 0 24px;">Consistent progress</div>
+          <p style="margin:0 0 22px; font-size:16px; line-height:1.6; color:rgba(255,255,255,0.84); flex:1;">"Dean's tailored approach has helped me stay motivated and see significant progress. The program strikes the perfect balance between pushing hard and keeping form sharp."</p>
+          <div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.6);">— Jane, Australia</div>
+        </div>
+      </div>
+      <div data-reveal="" style="margin-top:48px; display:flex; justify-content:center;">
+        <a href="https://share.google/PjiQ98aDOzK8rxmyp" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:14px; padding:18px 28px; background:transparent; border:1px solid rgba(255,255,255,0.2); border-radius:12px; color:#fff; text-decoration:none; font-size:15px; font-weight:500;">
+          <span style="color:#D6FF00; letter-spacing:3px; font-size:18px;">★★★★★</span>
+          <span>Read all reviews on Google</span>
+          <span style="opacity:0.5;">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" style="max-width:1280px; margin:0 auto; padding:100px 40px; scroll-margin-top:80px;">
+    <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(10,10,10,0.5); font-weight:600; margin-bottom:24px;">The investment</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:stretch;">
+      <div data-reveal="" style="display:flex; flex-direction:column; justify-content:center;">
+        <h2 style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(30px,4.4vw,58px); line-height:1; letter-spacing:-0.025em; margin:0 0 24px;">One plan. Everything included.</h2>
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:22px;">
+          <span style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(64px,10vw,120px); line-height:0.9; letter-spacing:-0.03em;">$40</span>
+          <span style="font-size:14px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(10,10,10,0.55); font-weight:600;">Per Week<br>No Lock-In</span>
+        </div>
+        <p style="margin:0; font-size:18px; line-height:1.6; color:rgba(10,10,10,0.66); max-width:460px;">A single in-person PT session costs $80–$120. For $40 a week you get a full custom program, personalised nutrition, weekly check-ins, and <span style="color:#0a0a0a; font-weight:700;">direct access every single day.</span></p>
+      </div>
+      <div data-reveal="" style="background:#0a0a0a; color:#fff; border-radius:20px; padding:40px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:13px 24px; margin-bottom:30px;">
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:15px; color:rgba(255,255,255,0.84);"><span style="color:#D6FF00; font-weight:900;">✓</span> Custom training program</div>
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:15px; color:rgba(255,255,255,0.84);"><span style="color:#D6FF00; font-weight:900;">✓</span> Personalised nutrition</div>
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:15px; color:rgba(255,255,255,0.84);"><span style="color:#D6FF00; font-weight:900;">✓</span> Weekly check-ins</div>
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:15px; color:rgba(255,255,255,0.84);"><span style="color:#D6FF00; font-weight:900;">✓</span> Direct coach access</div>
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:15px; color:rgba(255,255,255,0.84);"><span style="color:#D6FF00; font-weight:900;">✓</span> Community membership</div>
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:15px; color:rgba(255,255,255,0.84);"><span style="color:#D6FF00; font-weight:900;">✓</span> App (iOS + Android)</div>
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:15px; color:rgba(255,255,255,0.84);"><span style="color:#D6FF00; font-weight:900;">✓</span> 14-day money-back</div>
+          <div style="display:flex; gap:10px; align-items:flex-start; font-size:15px; color:rgba(255,255,255,0.84);"><span style="color:#D6FF00; font-weight:900;">✓</span> Cancel anytime</div>
+        </div>
+        <a href="https://share.newie.app/offerings/5ACDBA75-5FFB-488C-A311-833F7ECCEF91" style="display:flex; align-items:center; justify-content:center; gap:10px; background:#D6FF00; color:#0a0a0a; text-decoration:none; font-weight:800; font-size:18px; padding:19px; border-radius:12px;" style-hover="background:#d6ff3a;">Start Now — No Risk →</a>
+        <div style="text-align:center; margin-top:14px; font-size:13px; color:rgba(255,255,255,0.5);">14-day money-back guarantee · Cancel anytime</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="border-top:1px solid rgba(10,10,10,0.12);">
+    <div style="max-width:920px; margin:0 auto; padding:90px 40px;">
+      <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(10,10,10,0.5); font-weight:600; margin-bottom:24px;">Common questions</div>
+      <h2 data-reveal="" style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(30px,4.4vw,58px); line-height:1.04; letter-spacing:-0.025em; margin:0 0 40px;">Answered honestly.</h2>
+      <div data-reveal="" style="display:flex; flex-direction:column;">
+        <details style="border-top:1px solid rgba(10,10,10,0.16);">
+          <summary style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 0; font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(17px,2vw,22px); letter-spacing:-0.01em;">I've tried everything. Why is this going to be different?<span class="dsb-plus" style="font-size:26px; font-weight:400; transition:transform 0.25s; flex:none; color:rgba(10,10,10,0.5);">+</span></summary>
+          <p style="margin:0; padding:0 0 26px; font-size:16px; line-height:1.65; color:rgba(10,10,10,0.62); max-width:720px;">Because the issue was never the program — it was the lack of accountability. You had the information. You didn't have someone keeping you honest. That's what changes here.</p>
+        </details>
+        <details style="border-top:1px solid rgba(10,10,10,0.16);">
+          <summary style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 0; font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(17px,2vw,22px); letter-spacing:-0.01em;">How much time does this take each week?<span class="dsb-plus" style="font-size:26px; font-weight:400; transition:transform 0.25s; flex:none; color:rgba(10,10,10,0.5);">+</span></summary>
+          <p style="margin:0; padding:0 0 26px; font-size:16px; line-height:1.65; color:rgba(10,10,10,0.62); max-width:720px;">Your program will be built around the time you actually have. Three days, four days, 45 minutes per session — whatever's realistic. The check-in takes about five minutes.</p>
+        </details>
+        <details style="border-top:1px solid rgba(10,10,10,0.16);">
+          <summary style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 0; font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(17px,2vw,22px); letter-spacing:-0.01em;">Do I need a gym?<span class="dsb-plus" style="font-size:26px; font-weight:400; transition:transform 0.25s; flex:none; color:rgba(10,10,10,0.5);">+</span></summary>
+          <p style="margin:0; padding:0 0 26px; font-size:16px; line-height:1.65; color:rgba(10,10,10,0.62); max-width:720px;">Ideally yes — programs work best with gym access. If you train at home, reach out before joining and we'll figure out if it's a good fit.</p>
+        </details>
+        <details style="border-top:1px solid rgba(10,10,10,0.16);">
+          <summary style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 0; font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(17px,2vw,22px); letter-spacing:-0.01em;">How long until I see results?<span class="dsb-plus" style="font-size:26px; font-weight:400; transition:transform 0.25s; flex:none; color:rgba(10,10,10,0.5);">+</span></summary>
+          <p style="margin:0; padding:0 0 26px; font-size:16px; line-height:1.65; color:rgba(10,10,10,0.62); max-width:720px;">Most people notice real changes within 90 days when they stick to the plan. Some see movement sooner. It depends on consistency — which is exactly what the accountability is there for.</p>
+        </details>
+        <details style="border-top:1px solid rgba(10,10,10,0.16);">
+          <summary style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 0; font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(17px,2vw,22px); letter-spacing:-0.01em;">What's the difference between this and buying a program online?<span class="dsb-plus" style="font-size:26px; font-weight:400; transition:transform 0.25s; flex:none; color:rgba(10,10,10,0.5);">+</span></summary>
+          <p style="margin:0; padding:0 0 26px; font-size:16px; line-height:1.65; color:rgba(10,10,10,0.62); max-width:720px;">A program gives you a PDF and wishes you luck. With this, your plan is built for you specifically, adjusted weekly based on your progress, and there's a real person checking in every single week.</p>
+        </details>
+        <details style="border-top:1px solid rgba(10,10,10,0.16);">
+          <summary style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 0; font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(17px,2vw,22px); letter-spacing:-0.01em;">What if I need to cancel?<span class="dsb-plus" style="font-size:26px; font-weight:400; transition:transform 0.25s; flex:none; color:rgba(10,10,10,0.5);">+</span></summary>
+          <p style="margin:0; padding:0 0 26px; font-size:16px; line-height:1.65; color:rgba(10,10,10,0.62); max-width:720px;">Cancel any time. No lock-in, no notice period required. It's weekly billing — if you cancel, it stops. Simple.</p>
+        </details>
+        <details style="border-top:1px solid rgba(10,10,10,0.16); border-bottom:1px solid rgba(10,10,10,0.16);">
+          <summary style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 0; font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(17px,2vw,22px); letter-spacing:-0.01em;">Is this better than in-person PT?<span class="dsb-plus" style="font-size:26px; font-weight:400; transition:transform 0.25s; flex:none; color:rgba(10,10,10,0.5);">+</span></summary>
+          <p style="margin:0; padding:0 0 26px; font-size:16px; line-height:1.65; color:rgba(10,10,10,0.62); max-width:720px;">For most people, yes. In-person PT gives you one hour a week of someone watching you train. Online coaching gives you a plan for every session, daily access, and weekly check-ins — for less than half the price.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section style="border-top:1px solid rgba(10,10,10,0.12); background:#ECEAE1;">
+    <div style="max-width:920px; margin:0 auto; padding:90px 40px;">
+      <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(10,10,10,0.5); font-weight:600; margin-bottom:24px;">How it works</div>
+      <h2 data-reveal="" style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(30px,4.4vw,58px); line-height:1.04; letter-spacing:-0.025em; margin:0 0 16px;">From sign-up to first session.</h2>
+      <p data-reveal="" style="font-size:17px; line-height:1.6; color:rgba(10,10,10,0.6); max-width:600px; margin:0 0 56px;">No mystery, no awkward sales call. Here's exactly what happens after you join.</p>
+
+      <div style="display:flex; flex-direction:column;">
+
+        <div data-reveal="" class="dsb-step" style="display:grid; grid-template-columns:88px 1fr; gap:8px; padding:28px 0; border-top:1px solid rgba(10,10,10,0.16);">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:40px; line-height:0.9; color:#0a0a0a;">01</div>
+          <div>
+            <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(19px,2.2vw,24px); letter-spacing:-0.015em; margin:0 0 8px;">Pay your first week</h3>
+            <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.62); max-width:560px;">$40 through Newie. No phone call, no contract, no awkward consultation. You're in.</p>
+          </div>
+        </div>
+
+        <div data-reveal="" class="dsb-step" style="display:grid; grid-template-columns:88px 1fr; gap:8px; padding:28px 0; border-top:1px solid rgba(10,10,10,0.16);">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:40px; line-height:0.9; color:#0a0a0a;">02</div>
+          <div>
+            <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(19px,2.2vw,24px); letter-spacing:-0.015em; margin:0 0 8px;">Tell me about you</h3>
+            <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.62); max-width:560px;">A quick onboarding form — your goals, your schedule, your training history, and what's stopped you sticking to it before.</p>
+          </div>
+        </div>
+
+        <div data-reveal="" class="dsb-step" style="display:grid; grid-template-columns:88px 1fr; gap:8px; padding:28px 0; border-top:1px solid rgba(10,10,10,0.16);">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:40px; line-height:0.9; color:#0a0a0a;">03</div>
+          <div>
+            <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(19px,2.2vw,24px); letter-spacing:-0.015em; margin:0 0 8px;">Get your plan</h3>
+            <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.62); max-width:560px;">Within 24 hours: a custom training program in Everfit, a nutrition framework matched to your goal, and your first week mapped out session by session.</p>
+          </div>
+        </div>
+
+        <div data-reveal="" class="dsb-step" style="display:grid; grid-template-columns:88px 1fr; gap:8px; padding:28px 0; border-top:1px solid rgba(10,10,10,0.16);">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:40px; line-height:0.9; color:#0a0a0a;">04</div>
+          <div>
+            <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(19px,2.2vw,24px); letter-spacing:-0.015em; margin:0 0 8px;">Start training</h3>
+            <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.62); max-width:560px;">Your day-by-day plan lives on your phone. Form questions, swaps, bad days — message me whenever, I'm in your corner all week.</p>
+          </div>
+        </div>
+
+        <div data-reveal="" class="dsb-step" style="display:grid; grid-template-columns:88px 1fr; gap:8px; padding:28px 0; border-top:1px solid rgba(10,10,10,0.16); border-bottom:1px solid rgba(10,10,10,0.16);">
+          <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:40px; line-height:0.9; color:#0a0a0a;">05</div>
+          <div>
+            <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(19px,2.2vw,24px); letter-spacing:-0.015em; margin:0 0 8px;">Weekly check-in</h3>
+            <p style="margin:0; font-size:16px; line-height:1.6; color:rgba(10,10,10,0.62); max-width:560px;">End of week one we review what worked, what didn't, and what changes for week two. Then we keep adjusting — that's the part that actually makes it stick.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA (lime) -->
+  <section id="final-cta" style="background:#D6FF00; color:#0a0a0a;">
+    <div style="max-width:1100px; margin:0 auto; padding:120px 40px; text-align:center;">
+      <div data-reveal="" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:rgba(10,10,10,0.6); font-weight:700; margin-bottom:32px;">Last chance to keep scrolling</div>
+      <h2 data-reveal="" style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:clamp(52px,11vw,150px); line-height:0.9; letter-spacing:-0.035em; margin:0;">Stop starting over.</h2>
+      <p data-reveal="" style="max-width:540px; margin:36px auto 40px; font-size:19px; line-height:1.6; color:rgba(10,10,10,0.72);">You've already done the hard part. Wanting to change. Now give yourself a plan that actually sticks.</p>
+      <a data-reveal="" href="https://share.newie.app/offerings/5ACDBA75-5FFB-488C-A311-833F7ECCEF91" style="display:inline-flex; align-items:center; gap:12px; background:#0a0a0a; color:#fff; text-decoration:none; font-weight:700; font-size:19px; padding:22px 44px; border-radius:12px;" style-hover="background:#1f1f1f;">Get Started — $40/wk →</a>
+      <div data-reveal="" style="margin-top:20px; font-size:14px; color:rgba(10,10,10,0.6);">No lock-in · Cancel anytime · 14-day guarantee</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background:#0a0a0a; color:#fff; padding:54px 0;">
+    <div style="max-width:1280px; margin:0 auto; padding:0 40px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between;">
+      <div style="font-family:'Archivo Black',sans-serif; font-weight:400; font-size:18px;">Dean Sweet PT</div>
+      <div style="font-size:14px; color:rgba(255,255,255,0.5); text-align:center;">Online coaching Australia-wide · In-person at Anytime Fitness Ocean Grove</div>
+      <div style="font-size:13px; color:rgba(255,255,255,0.35);">© 2026 Dean Sweet Personal Training</div>
+    </div>
+  </footer>
+
+  <!-- MOBILE STICKY CTA (only visible ≤620px) -->
+  <a href="#pricing" class="dsb-sticky-cta" aria-label="See pricing — $40 per week">
+    <span class="dsb-sticky-label">Start coaching</span>
+    <span class="dsb-sticky-price">$40/wk →</span>
+  </a>
+
+</div>
 
 <script>
-  // Progress bar
-  const progressBar = document.getElementById('progressBar');
-  function updateProgress() {
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const progress = (scrollTop / scrollHeight) * 100;
-    progressBar.style.width = progress + '%';
-  }
-  window.addEventListener('scroll', updateProgress, { passive: true });
-  updateProgress();
-
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => observer.observe(el));
-
-  // FAQ accordion
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.querySelector('.faq-q').addEventListener('click', () => {
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
+(function() {
+  const items = Array.from(document.querySelectorAll('[data-reveal]'));
+  items.forEach((el) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.7s cubic-bezier(0.2,0.7,0.2,1), transform 0.7s cubic-bezier(0.2,0.7,0.2,1)';
+    el.style.willChange = 'opacity, transform';
   });
 
-  // ── Animated stat counters
-  function animateCount(cell, target, suffix, duration = 1500) {
-    const numEl = cell.querySelector('.stat-num');
+  const counters = Array.from(document.querySelectorAll('[data-count]'));
+  const counted = new Set();
+  const animate = (el) => {
+    const target = parseInt(el.getAttribute('data-count'), 10);
+    const suffix = el.getAttribute('data-suffix') || '';
+    const dur = 1400;
     const start = performance.now();
-    function step(now) {
-      const elapsed = now - start;
-      const progress = Math.min(1, elapsed / duration);
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.floor(target * eased);
-      numEl.textContent = current + suffix;
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        numEl.textContent = target + suffix;
+    const tick = (now) => {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const reveal = () => {
+    const vh = window.innerHeight;
+    items.forEach((el) => {
+      if (el.dataset.revealed) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < vh * 0.92) {
+        el.dataset.revealed = '1';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        setTimeout(() => { el.style.transition = ''; el.style.willChange = ''; el.style.transform = ''; }, 800);
       }
-    }
-    requestAnimationFrame(step);
+    });
+    counters.forEach((el) => {
+      if (counted.has(el)) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < vh * 0.9 && r.bottom > 0) { counted.add(el); animate(el); }
+    });
+  };
+
+  reveal();
+  requestAnimationFrame(reveal);
+  window.addEventListener('scroll', reveal, { passive: true });
+  window.addEventListener('resize', reveal);
+
+  // ---- Mobile sticky CTA: hide when final lime CTA is in view ----
+  const sticky = document.querySelector('.dsb-sticky-cta');
+  const finalCta = document.getElementById('final-cta');
+  if (sticky && finalCta && 'IntersectionObserver' in window) {
+    const stickyObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        sticky.classList.toggle('dsb-hidden', entry.isIntersecting);
+      });
+    }, { threshold: 0.1 });
+    stickyObserver.observe(finalCta);
   }
-
-  const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const cells = e.target.querySelectorAll('.stat-cell');
-        cells.forEach((cell, i) => {
-          const target = parseInt(cell.dataset.target);
-          const suffix = cell.dataset.suffix || '';
-          setTimeout(() => animateCount(cell, target, suffix), i * 180);
-        });
-        statsObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.4 });
-  const statRow = document.querySelector('.stat-row');
-  if (statRow) statsObserver.observe(statRow);
-
-  // ── Lime swipe on TURN scene
-  const turnObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('swiped');
-        turnObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.4 });
-  const turnScene = document.getElementById('turnScene');
-  if (turnScene) turnObserver.observe(turnScene);
+})();
 </script>
 </body>
 </html>
