@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<title>Find Your Next Step | Dean Sweet Personal Training</title>
+<meta name="description" content="Stuck on a pull-up, squat or press? Find the exact step you should be training right now, and what you need to hit before you move up.">
+<link rel="canonical" href="https://deansweetpt.com/ladder/">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Find Your Next Step">
+<meta property="og:description" content="Find the exact step you should be training right now, and what you need to hit before you move up.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://deansweetpt.com/ladder/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f3f2ec;
+  --band:#ECEAE1;
+  --ink:#0a0a0a;
+  --lime:#D6FF00;
+  --muted:#6f6e66;
+  --line:#d9d7cc;
+  --cleared:#a8a69b;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;background:var(--cream);color-scheme:light only}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  font-size:17px;
+  line-height:1.5;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.wrap{max-width:560px;margin:0 auto;padding:28px 20px 64px}
+
+/* ---------- type ---------- */
+.display{font-family:'Archivo Black',system-ui,sans-serif;font-weight:400;letter-spacing:-.02em;line-height:1.02;text-transform:uppercase}
+h1.display{font-size:clamp(34px,9.5vw,46px)}
+h2.display{font-size:clamp(24px,6.5vw,30px)}
+.eyebrow{
+  font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:12px;
+}
+.lede{color:var(--muted);margin-top:14px;font-size:16.5px}
+
+/* ---------- header ---------- */
+.brand{
+  display:flex;align-items:center;gap:9px;margin-bottom:34px;
+  font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+}
+.brand .dot{width:9px;height:9px;background:var(--lime);border-radius:50%;flex:none}
+
+/* ---------- views ---------- */
+.view{display:none}
+.view.on{display:block}
+
+/* ---------- option buttons ---------- */
+.stack{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+.opt{
+  display:flex;align-items:center;gap:14px;width:100%;
+  background:var(--band);border:1.5px solid transparent;border-radius:var(--radius);
+  padding:17px 18px;text-align:left;cursor:pointer;
+  font-family:inherit;font-size:16.5px;color:var(--ink);
+  transition:border-color .14s ease,transform .14s ease;
+}
+.opt:hover{border-color:var(--ink)}
+.opt:active{transform:scale(.988)}
+.opt:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.opt .name{font-weight:700}
+.opt .sub{display:block;font-weight:400;color:var(--muted);font-size:14.5px;margin-top:3px}
+.opt .arrow{margin-left:auto;flex:none;color:var(--muted);font-size:19px;line-height:1}
+
+/* ---------- ladder ---------- */
+.ladder{margin-top:30px;position:relative;padding-left:34px}
+.ladder::before{
+  content:"";position:absolute;left:11px;top:10px;bottom:10px;
+  width:2px;background:var(--line);
+}
+.rung{position:relative;margin-bottom:12px}
+.rung::before{
+  content:"";position:absolute;left:-29px;top:20px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--cream);border:2px solid var(--line);
+}
+.rung.done::before{background:var(--cleared);border-color:var(--cleared)}
+.rung.here::before{
+  background:var(--lime);border-color:var(--ink);
+  width:20px;height:20px;left:-31px;top:18px;
+}
+.rung .card{
+  background:var(--band);border-radius:var(--radius);padding:15px 17px;
+  border:1.5px solid transparent;
+}
+.rung.here .card{border-color:var(--ink);background:var(--cream)}
+.rung.done .card{background:transparent;padding:10px 0}
+.rung .step{
+  font-size:11.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:5px;
+}
+.rung.here .step{color:var(--ink)}
+.rung .title{font-family:'Archivo Black',sans-serif;font-size:18px;letter-spacing:-.01em;line-height:1.15}
+.rung.done .title{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:15.5px;color:var(--cleared)}
+.rung .body{font-size:15.5px;color:var(--muted);margin-top:8px}
+.rung .exit{
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--line);
+  font-size:15px;
+}
+.rung .exit b{display:block;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;font-weight:700}
+.rung .tank{
+  margin-top:10px;padding:10px 12px;background:var(--band);border-radius:10px;
+  font-size:13.5px;color:var(--muted);line-height:1.45;
+}
+
+.tag{
+  display:inline-block;background:var(--lime);color:var(--ink);
+  font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 10px;border-radius:100px;margin-bottom:12px;
+}
+
+/* ---------- next steps (3 tiers) ---------- */
+.next{margin-top:34px;display:flex;flex-direction:column;gap:12px}
+.tier{border-radius:18px;padding:22px 20px}
+.tier-label{
+  font-size:11.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  margin-bottom:8px;display:block;
+}
+
+/* tier 1 — come find me */
+.floor{background:var(--lime);color:var(--ink)}
+.floor .tier-label{color:#5c6b00}
+.floor h2{font-family:'Archivo Black',sans-serif;font-size:25px;line-height:1.08;text-transform:uppercase;letter-spacing:-.015em}
+.floor p:last-child{margin-top:10px;font-size:15.5px;color:#2c3300}
+
+/* tier 2 — book */
+.book{
+  background:var(--ink);color:var(--cream);text-decoration:none;
+  display:flex;align-items:center;gap:14px;
+}
+.book .tier-label{color:#8d8b82}
+.book-title{font-family:'Archivo Black',sans-serif;font-size:21px;text-transform:uppercase;letter-spacing:-.01em;display:block}
+.book-sub{display:block;color:#b5b3a9;font-size:15px;margin-top:5px}
+.book .arrow{margin-left:auto;flex:none;font-size:22px;color:var(--lime)}
+.book:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
+/* tier 3 — email */
+.mail{background:var(--band)}
+.mail .tier-label{color:var(--muted)}
+.mail input{
+  width:100%;padding:15px;border-radius:12px;border:1.5px solid var(--line);
+  font-family:inherit;font-size:16px;background:var(--cream);color:var(--ink);
+}
+.mail input:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.mail button{
+  width:100%;margin-top:9px;padding:15px;border:1.5px solid var(--ink);border-radius:12px;
+  background:transparent;color:var(--ink);cursor:pointer;
+  font-family:inherit;font-weight:700;font-size:15.5px;
+}
+.mail button:active{transform:scale(.99)}
+.mail button:disabled{opacity:.5;cursor:default}
+.mail button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+.msg{margin-top:11px;font-size:15px;display:none}
+.msg.on{display:block}
+.msg.err{color:#a33b28}
+.msg.ok{color:#3d6b1f}
+
+/* ---------- footer nav ---------- */
+.again{
+  margin-top:26px;display:flex;gap:10px;flex-wrap:wrap;
+}
+.again button{
+  background:none;border:1.5px solid var(--line);border-radius:100px;
+  padding:11px 17px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;
+}
+.again button:hover{border-color:var(--ink)}
+.again button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+.foot{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.foot a{color:var(--ink)}
+
+/* ---------- motion ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.anim{animation:rise .34s ease both}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand"><span class="dot"></span> Dean Sweet Personal Training</div>
+
+  <!-- ============ VIEW 1: pick movement ============ -->
+  <section class="view on" id="v-move">
+    <p class="eyebrow">Progression finder</p>
+    <h1 class="display">What are you stuck on?</h1>
+    <p class="lede">Pick the movement you want. You'll get the exact step to train right now, and what you need to hit before you move up.</p>
+    <div class="stack" id="moveList"></div>
+  </section>
+
+  <!-- ============ VIEW 2: placement ============ -->
+  <section class="view" id="v-place">
+    <p class="eyebrow" id="placeEyebrow">Pull-up</p>
+    <h2 class="display" id="placeQ">Which one sounds like you today?</h2>
+    <p class="lede">Answer honestly. Starting too high is the most common reason people stall.</p>
+    <div class="stack" id="placeList"></div>
+    <div class="again"><button type="button" id="backToMove">← Pick a different movement</button></div>
+  </section>
+
+  <!-- ============ VIEW 3: result ============ -->
+  <section class="view" id="v-result">
+    <span class="tag" id="resTag">Your step</span>
+    <h2 class="display" id="resTitle"></h2>
+    <p class="lede" id="resIntro"></p>
+
+    <div class="ladder" id="ladder"></div>
+
+    <div class="next">
+
+      <div class="tier floor">
+        <p class="tier-label">Easiest next step</p>
+        <h2>Come find me on the floor</h2>
+        <p>I'm at Anytime Fitness Ocean Grove Monday to Saturday. Show me this screen and I'll watch you do it and tell you if you're ready to move up. Costs nothing.</p>
+      </div>
+
+      <a class="tier book" href="https://deansweetpt.setmore.com?utm_source=ladder&amp;utm_medium=gym-poster&amp;utm_campaign=progression-tool" target="_blank" rel="noopener">
+        <span>
+          <span class="tier-label">Want a proper plan</span>
+          <span class="book-title">Book a session</span>
+          <span class="book-sub">We'll build the rest of your training around this</span>
+        </span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+
+      <div class="tier mail">
+        <p class="tier-label">Or just take it with you</p>
+        <input type="email" id="email" inputmode="email" autocomplete="email" placeholder="your@email.com" aria-label="Email address">
+        <button type="button" id="send">Email me my step</button>
+        <p class="msg" id="msg" role="status" aria-live="polite"></p>
+        <p class="note">One email now, one in 3 weeks to remind you to retest.</p>
+      </div>
+
+    </div>
+
+    <div class="again">
+      <button type="button" id="redo">Change my answer</button>
+      <button type="button" id="another">Try another movement</button>
+    </div>
+
+    <p class="foot">Dean Sweet Personal Training — Ocean Grove<br><a href="/">deansweetpt.com</a></p>
+  </section>
+
+</div>
+
+<script>
+/* =========================================================
+   LADDER DATA
+   Each movement has rungs ordered easiest -> hardest.
+   "how" = what to actually do. "exit" = what they must hit
+   before moving to the next rung.
+   Edit freely — nothing else needs to change.
+   ========================================================= */
+const MOVEMENTS = [
+  {
+    id:"pullup",
+    name:"Pull-up",
+    sub:"Chin over the bar, no assistance",
+    rungs:[
+      {
+        title:"Dead hang",
+        how:"Hang from the bar, arms straight, shoulders relaxed. Build total time across sets.",
+        exit:"One unbroken 30 second hang that you could have held another 5–10 seconds."
+      },
+      {
+        title:"Scapular pull",
+        how:"From a dead hang, pull your shoulder blades down and back without bending your elbows. Small range, big carryover.",
+        exit:"3 sets of 8, no elbow bend, with 2 clean reps still in the tank on your last set."
+      },
+      {
+        title:"Inverted row",
+        how:"Bar in the rack around hip height, body straight, pull your chest to the bar. Lower the bar to make it harder.",
+        exit:"3 sets of 10 with your body roughly parallel, 2 reps left in the tank on your last set."
+      },
+      {
+        title:"Band-assisted pull-up",
+        how:"Loop a band under your knee or foot. Use the lightest band that lets you finish the set.",
+        exit:"3 sets of 6 on a light band, chin clearly over the bar, 2 reps left in the tank on your last set."
+      },
+      {
+        title:"Eccentric pull-up",
+        how:"Jump or step to the top position, then lower yourself as slowly as you can. Aim for 4–5 seconds down.",
+        exit:"3 sets of 4 where your last rep lowers as slowly as your first. If rep 4 drops, you're not ready."
+      },
+      {
+        title:"Full pull-up",
+        how:"Dead hang start, chin over the bar, controlled down. No kipping.",
+        exit:"You're here. Build to 3 sets of 5 with 2 in the tank, then start adding load."
+      }
+    ]
+  },
+  {
+    id:"pushup",
+    name:"Push-up",
+    sub:"Chest to the floor, body in one line",
+    rungs:[
+      {
+        title:"Wall push-up",
+        how:"Hands on the wall, step your feet back, keep your ribs down and squeeze your glutes.",
+        exit:"3 sets of 15 in a straight line with 3 or more reps left in the tank on your last set."
+      },
+      {
+        title:"Incline push-up",
+        how:"Hands on a bench or the Smith bar. The lower the surface, the harder it gets.",
+        exit:"3 sets of 12 at roughly knee height, 2 reps left in the tank on your last set."
+      },
+      {
+        title:"Eccentric floor push-up",
+        how:"Start at the top on your toes, lower for 4 seconds, drop to your knees to reset and come back up.",
+        exit:"3 sets of 5 where your last rep lowers as slowly as your first."
+      },
+      {
+        title:"Full push-up",
+        how:"Chest to the floor, elbows around 45 degrees from your body, hips moving with your shoulders.",
+        exit:"You're here. Build to 3 sets of 12 with 2 in the tank, then elevate your feet or add load."
+      }
+    ]
+  },
+  {
+    id:"squat",
+    name:"Barbell squat",
+    sub:"Bar on your back, at least parallel",
+    rungs:[
+      {
+        title:"Box sit-to-stand",
+        how:"Sit to a box and stand back up without using your hands. Lower the box as you improve.",
+        exit:"3 sets of 10 to a box at roughly knee height, no hands, 3 reps left in the tank."
+      },
+      {
+        title:"Goblet squat to box",
+        how:"Hold a dumbbell or kettlebell at your chest, sit back to the box, stand. The weight acts as a counterbalance.",
+        exit:"3 sets of 8 with a 12–16kg bell tapping the box under control, 2 reps left in the tank."
+      },
+      {
+        title:"Full-depth goblet squat",
+        how:"Same setup, no box. Sit between your hips until your thighs pass parallel.",
+        exit:"3 sets of 8 below parallel with a 20kg+ bell, heels down, 2 reps left in the tank."
+      },
+      {
+        title:"Front-loaded barbell squat",
+        how:"Landmine squat or front squat. The front load keeps you upright and teaches the pattern under a bar.",
+        exit:"3 sets of 6 with 2 reps left in the tank and no forward collapse on any of them."
+      },
+      {
+        title:"Barbell back squat",
+        how:"Bar on your traps or rear delts, brace, sit down and back to at least parallel.",
+        exit:"You're here. Keep working sets at 2–3 reps in the tank and let depth decide the load."
+      }
+    ]
+  },
+  {
+    id:"deadlift",
+    name:"Deadlift",
+    sub:"Bar from the floor, hinging from the hips",
+    rungs:[
+      {
+        title:"Dowel hip hinge",
+        how:"Broomstick along your spine touching head, mid-back and tailbone. Push your hips back, keep all three points in contact.",
+        exit:"3 sets of 10 without losing contact at any point. No load here — this one's about position, not effort."
+      },
+      {
+        title:"Dumbbell Romanian deadlift",
+        how:"Soft knees, push the hips back, lower the weights down your thighs until you feel your hamstrings load.",
+        exit:"3 sets of 10 with a flat back and a clear hamstring stretch, 2 reps left in the tank."
+      },
+      {
+        title:"Elevated kettlebell deadlift",
+        how:"Kettlebell on a plate or box to reduce the range. Hinge down, grip, stand up tall.",
+        exit:"3 sets of 8 from a low box, neutral spine, 2 reps left in the tank on your last set."
+      },
+      {
+        title:"Trap bar deadlift",
+        how:"Handles at your sides, easier on the lower back, easier to keep position. A genuinely good long-term lift, not just a stepping stone.",
+        exit:"3 sets of 5 with 2 reps left in the tank and no hitching on any rep."
+      },
+      {
+        title:"Conventional barbell deadlift",
+        how:"Bar over mid-foot, shins to the bar, brace, push the floor away.",
+        exit:"You're here. Keep working sets at 2–3 in the tank — grinding a deadlift is where backs round."
+      }
+    ]
+  },
+  {
+    id:"lunge",
+    name:"Lunge / single leg",
+    goal:"Bulgarian split squat",
+    sub:"Balanced and strong on one leg",
+    rungs:[
+      {
+        title:"Supported split squat",
+        how:"Staggered stance, one hand on the rack. Drop straight down, back knee toward the floor.",
+        exit:"3 sets of 10 each side on fingertip support only, 3 reps left in the tank."
+      },
+      {
+        title:"Bodyweight split squat",
+        how:"Same position, no hands. Keep your torso tall and your weight through your front heel.",
+        exit:"3 sets of 10 each side, no support, no wobble, 2 reps left in the tank."
+      },
+      {
+        title:"Reverse lunge",
+        how:"Step back, drop, drive through the front leg to return. Easier on the knees than a forward lunge.",
+        exit:"3 sets of 8 each side under control, 2 reps left in the tank on your last set."
+      },
+      {
+        title:"Walking lunge",
+        how:"Continuous steps, controlled knee contact, torso upright.",
+        exit:"3 sets of 10 steps each leg, balanced throughout, 2 reps left in the tank."
+      },
+      {
+        title:"Bulgarian split squat",
+        how:"Rear foot elevated on a bench. Brutal, and the best single-leg strength builder you've got.",
+        exit:"You're here. Add dumbbells and keep your sets at 2 reps in the tank."
+      }
+    ]
+  },
+  {
+    id:"press",
+    name:"Overhead press",
+    sub:"Weight locked out over your head",
+    rungs:[
+      {
+        title:"Wall slide",
+        how:"Back to the wall, forearms on the wall, slide up without your ribs flaring. This is a mobility gate, not a strength one.",
+        exit:"3 sets of 10 with ribs down and wrists staying in contact. Mobility gate — effort isn't the point here."
+      },
+      {
+        title:"Half-kneeling landmine press",
+        how:"Barbell in the landmine, press up and forward. The angle lets you load without full overhead range.",
+        exit:"3 sets of 8 each side with a stable torso, 2 reps left in the tank."
+      },
+      {
+        title:"Seated dumbbell press",
+        how:"Back supported, press to lockout. The bench removes the balance demand so you can load the press itself.",
+        exit:"3 sets of 8 to full lockout, no back arch, 2 reps left in the tank."
+      },
+      {
+        title:"Standing dumbbell press",
+        how:"Stand tall, glutes and abs braced, press without leaning back.",
+        exit:"3 sets of 8 with a vertical torso, 2 reps left in the tank on your last set."
+      },
+      {
+        title:"Standing barbell press",
+        how:"Bar at your collarbone, brace, press, move your head through at lockout.",
+        exit:"You're here. Keep sets at 2–3 reps in the tank and your ribs stacked."
+      }
+    ]
+  }
+];
+
+/* ================= state ================= */
+let current = null;   // movement object
+let atIndex = 0;      // rung index they're placed on
+let isMastered = false;
+
+const $ = id => document.getElementById(id);
+
+/* ---- URL state: ?m=pullup&s=4  (s is 1-indexed, &done=1 = already got it) ---- */
+function resultUrl(){
+  if(!current) return location.pathname;
+  return location.pathname+'?m='+current.id+'&s='+(atIndex+1)+(isMastered?'&done=1':'');
+}
+
+/* pushState throws in sandboxed frames (null origin) and some in-app browsers.
+   The tool must keep working there, so every history call is best-effort. */
+function safeHistory(push, state, url){
+  try{
+    if(push) history.pushState(state, '', url);
+    else history.replaceState(state, '', url);
+  }catch(e){ /* deep links unavailable here — tool still works */ }
+}
+
+function writeUrl(push){
+  safeHistory(push, {m:current.id, s:atIndex+1, done:isMastered}, resultUrl());
+}
+
+function readUrl(){
+  let p;
+  try{ p = new URLSearchParams(location.search); }catch(e){ return false; }
+  const m = MOVEMENTS.find(x => x.id === p.get('m'));
+  if(!m) return false;
+  const raw = parseInt(p.get('s'), 10);
+  if(!raw || isNaN(raw)){ current = m; pickMovement(m, true); return true; }
+  const idx = Math.max(0, Math.min(raw - 1, m.rungs.length - 1));
+  current = m;
+  place(idx, p.get('done') === '1', true);
+  return true;
+}
+
+window.addEventListener('popstate', () => {
+  if(!readUrl()){ current = null; show('v-move'); }
+});
+
+function show(viewId){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+  $(viewId).classList.add('on');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+/* ================= view 1 ================= */
+function buildMoveList(){
+  const list = $('moveList');
+  list.innerHTML = '';
+  MOVEMENTS.forEach(m => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt';
+    b.innerHTML = '<span><span class="name">'+m.name+'</span><span class="sub">'+m.sub+'</span></span><span class="arrow" aria-hidden="true">→</span>';
+    b.addEventListener('click', () => pickMovement(m));
+    list.appendChild(b);
+  });
+}
+
+/* ================= view 2 ================= */
+function pickMovement(m, fromUrl){
+  current = m;
+  $('placeEyebrow').textContent = m.name;
+  const list = $('placeList');
+  list.innerHTML = '';
+
+  // Options run hardest -> easiest so the honest answer is the first "no".
+  const top = m.rungs.length - 1;
+  const goal = m.goal || m.name.toLowerCase();
+  const opts = [];
+  m.rungs.forEach((r,i) => {
+    opts.push({
+      i:i,
+      mastered: i === top,
+      label: i === top ? 'I can already do a full '+goal.toLowerCase() : 'I can do: '+r.title.toLowerCase(),
+      sub: i === top ? 'Show me the whole ladder' : r.exit
+    });
+  });
+  opts.reverse();
+
+  opts.forEach(o => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt';
+    b.innerHTML = '<span><span class="name">'+o.label+'</span><span class="sub">'+o.sub+'</span></span>';
+    b.addEventListener('click', () => place(o.mastered ? top : o.i + 1, o.mastered));
+    list.appendChild(b);
+  });
+
+  // "none of these" -> bottom rung
+  const none = document.createElement('button');
+  none.type = 'button';
+  none.className = 'opt';
+  none.innerHTML = '<span><span class="name">None of these yet</span><span class="sub">Start me at the beginning</span></span>';
+  none.addEventListener('click', () => place(0));
+  list.appendChild(none);
+
+  if(!fromUrl) safeHistory(true, {m:m.id}, location.pathname+'?m='+m.id);
+  show('v-place');
+}
+
+/* ================= view 3 ================= */
+function place(index, mastered, fromUrl){
+  atIndex = Math.min(index, current.rungs.length - 1);
+  isMastered = !!mastered;
+  const r = current.rungs[atIndex];
+
+  $('resTag').textContent = mastered ? 'You\u2019ve got it' : 'Train this now';
+  $('resTitle').textContent = r.title;
+  $('resIntro').textContent = mastered
+    ? 'You\u2019re at the top of this ladder. Here\u2019s the whole thing, so you can see what holds it up — most people who stall have a weak rung further down.'
+    : 'This is the step that will actually move you forward. Everything below it you\u2019ve already cleared.';
+
+  const lad = $('ladder');
+  lad.innerHTML = '';
+
+  // show everything cleared, the current rung, and the next two
+  const last = Math.min(current.rungs.length - 1, atIndex + 1);
+  for(let i = 0; i <= last; i++){
+    const rung = current.rungs[i];
+    const div = document.createElement('div');
+    div.className = 'rung ' + (i < atIndex ? 'done' : i === atIndex ? 'here' : '');
+    if(i < atIndex){
+      div.innerHTML = '<div class="card"><div class="title">'+rung.title+'</div></div>';
+    } else {
+      div.innerHTML =
+        '<div class="card">'+
+          '<div class="step">Step '+(i+1)+' of '+current.rungs.length+(i===atIndex?' — you are here':'')+'</div>'+
+          '<div class="title">'+rung.title+'</div>'+
+          '<div class="body">'+rung.how+'</div>'+
+          '<div class="exit"><b>'+(i===atIndex?'Move up when you can':'Then you\u2019ll need')+'</b>'+rung.exit+
+          (i===atIndex&&/in the tank/.test(rung.exit)?'<div class="tank">\u201cIn the tank\u201d means reps you could still do with good form. If your last rep is a grind, you\u2019re at zero.</div>':'')+
+          '</div>'+
+        '</div>';
+    }
+    div.classList.add('anim');
+    div.style.animationDelay = (i * 0.05) + 's';
+    lad.appendChild(div);
+  }
+
+  writeUrl(!fromUrl);
+  show('v-result');
+}
+
+/* ================= email ================= */
+$('send').addEventListener('click', async () => {
+  const input = $('email');
+  const msg = $('msg');
+  const btn = $('send');
+  const value = input.value.trim();
+
+  msg.className = 'msg';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)){
+    msg.textContent = 'That email doesn\u2019t look right — check it and try again.';
+    msg.className = 'msg on err';
+    input.focus();
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try{
+    const res = await fetch('/api/subscribe', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        email: value,
+        source: 'ladder',
+        movement: current.name,
+        step: current.rungs[atIndex].title,
+        stepNumber: atIndex + 1,
+        url: location.origin + resultUrl()
+      })
+    });
+    if(!res.ok) throw new Error('bad status');
+    msg.textContent = 'Sent. Check your inbox — and your spam folder if it\u2019s not there in a minute.';
+    msg.className = 'msg on ok';
+    btn.textContent = 'Sent ✓';
+  } catch(e){
+    msg.textContent = 'That didn\u2019t send. Try again in a moment, or grab me on the gym floor.';
+    msg.className = 'msg on err';
+    btn.disabled = false;
+    btn.textContent = 'Email me my step';
+  }
+});
+
+/* ================= nav ================= */
+$('backToMove').addEventListener('click', () => { safeHistory(true, {}, location.pathname); show('v-move'); });
+$('redo').addEventListener('click', () => pickMovement(current));
+$('another').addEventListener('click', () => { safeHistory(true, {}, location.pathname); show('v-move'); });
+
+buildMoveList();
+if(!readUrl()) show('v-move');
+</script>
+</body>
+</html>
