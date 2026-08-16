@@ -1,13 +1,24 @@
 // /api/subscribe.js  — Vercel serverless function (CommonJS, no build step needed)
 //
-// Receives { email, name } from the protein calculator and adds the person to
-// MailerLite as an ACTIVE subscriber in the Protein Calc group — no double opt-in.
+// Receives { email, name } from the protein calculator, or
+// { email, source, movement, url } from the exercise ladder, and adds the
+// person to MailerLite as an ACTIVE subscriber — no double opt-in.
 //
 // SECURITY: the API key is read from process.env.MAILERLITE_API_KEY, which you
 // set in Vercel (Project -> Settings -> Environment Variables). It must NEVER be
 // written into this file or committed to GitHub.
 
-const GROUP_ID = "189117175765665178"; // Protein Calc group
+// Which MailerLite group each tool feeds into.
+// Add a line here when you build the next tool; nothing else needs to change.
+const GROUPS = {
+  proteincalc: "189117175765665178", // Protein Calc
+  ladder:      "195991971750217505"  // Ladder
+};
+
+// The protein calc posts { email, name } with no source, so anything that
+// arrives without one keeps going where it always went.
+const DEFAULT_SOURCE = "proteincalc";
+
 const ML_ENDPOINT = "https://connect.mailerlite.com/api/subscribers";
 
 function isEmail(s) {
@@ -41,7 +52,28 @@ module.exports = async (req, res) => {
     return;
   }
 
+  const source = (body.source || DEFAULT_SOURCE).trim();
+  const groupId = GROUPS[source];
+  if (!groupId) {
+    res.status(400).json({ ok: false, error: "Unknown source" });
+    return;
+  }
+
+  // Only send fields that actually have a value, so a repeat subscriber
+  // never gets existing data blanked out.
+  const fields = {};
+  if (name) fields.name = name;
+  if (body.movement) fields.movement = String(body.movement).slice(0, 200);
+  if (body.url) fields.ladder_url = String(body.url).slice(0, 500);
+
   try {
+    const payload = {
+      email: email,
+      groups: [groupId],
+      status: "active"        // <- the bit that skips double opt-in
+    };
+    if (Object.keys(fields).length) payload.fields = fields;
+
     const mlRes = await fetch(ML_ENDPOINT, {
       method: "POST",
       headers: {
@@ -49,12 +81,7 @@ module.exports = async (req, res) => {
         "Accept": "application/json",
         "Authorization": "Bearer " + key
       },
-      body: JSON.stringify({
-        email: email,
-        fields: { name: name },
-        groups: [GROUP_ID],
-        status: "active"        // <- the bit that skips double opt-in
-      })
+      body: JSON.stringify(payload)
     });
 
     if (mlRes.ok) {
