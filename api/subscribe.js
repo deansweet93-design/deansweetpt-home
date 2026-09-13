@@ -1,8 +1,9 @@
 // /api/subscribe.js  — Vercel serverless function (CommonJS, no build step needed)
 //
-// Receives { email, name } from the protein calculator, or
-// { email, source, movement, url } from the exercise ladder, and adds the
-// person to MailerLite as an ACTIVE subscriber — no double opt-in.
+// Receives { email, name } from the protein calculator,
+// { email, source, movement, url } from the exercise ladder, or
+// { email, name, source, tier, shirt_size } from the Summer Series waitlist,
+// and adds the person to MailerLite as an ACTIVE subscriber — no double opt-in.
 //
 // SECURITY: the API key is read from process.env.MAILERLITE_API_KEY, which you
 // set in Vercel (Project -> Settings -> Environment Variables). It must NEVER be
@@ -11,8 +12,9 @@
 // Which MailerLite group each tool feeds into.
 // Add a line here when you build the next tool; nothing else needs to change.
 const GROUPS = {
-  proteincalc: "189117175765665178", // Protein Calc
-  ladder:      "195991971750217505"  // Ladder
+  proteincalc:  "189117175765665178", // Protein Calc
+  ladder:       "195991971750217505", // Ladder
+  summerseries: "198180674172093718"  // Summer Series 001
 };
 
 // The protein calc posts { email, name } with no source, so anything that
@@ -20,6 +22,11 @@ const GROUPS = {
 const DEFAULT_SOURCE = "proteincalc";
 
 const ML_ENDPOINT = "https://connect.mailerlite.com/api/subscribers";
+
+// Only these values are accepted for the Summer Series fields, so a junk or
+// tampered post can't write rubbish into the list you order shirts from.
+const TIERS = ["in-person", "online", "undecided"];
+const SIZES = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
 function isEmail(s) {
   return typeof s === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
@@ -65,6 +72,13 @@ module.exports = async (req, res) => {
   if (name) fields.name = name;
   if (body.movement) fields.movement = String(body.movement).slice(0, 200);
   if (body.url) fields.ladder_url = String(body.url).slice(0, 500);
+
+  if (source === "summerseries") {
+    const tier = String(body.tier || "").trim();
+    const size = String(body.shirt_size || "").trim().toUpperCase();
+    if (TIERS.indexOf(tier) !== -1) fields.tier = tier;
+    if (SIZES.indexOf(size) !== -1) fields.shirt_size = size;
+  }
 
   try {
     const payload = {
