@@ -209,7 +209,19 @@
   .dp-wtop{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
   .dp-wslot .slot-lbl{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--soft); font-weight:600; }
   .dp-wslot ul{ list-style:none; margin:6px 0 0; padding:0; }
-  .dp-wslot li{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:6px 0; }
+  .dp-wslot li{ padding:6px 0; }
+  .dp-wslot .wline{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+  .dp-wslot .wrec{ display:flex; gap:14px; flex-wrap:wrap; }
+  .dp-wslot .wrec .dp-mini{ padding:6px 0; min-height:32px; text-decoration:underline; text-decoration-color:var(--lime); text-decoration-thickness:2px; text-underline-offset:3px; color:var(--ink); }
+  .dp-recipe{ background:#fbfaf6; border:1px solid var(--border); border-radius:14px; padding:14px 14px 6px; margin:6px 0 10px; }
+  .dp-recipe .rtitle{ font-family:'Archivo Black',sans-serif; font-weight:400; font-size:18px; letter-spacing:-0.01em; line-height:1.15; }
+  .dp-recipe .rmeta{ color:var(--muted); font-size:13px; margin-top:4px; }
+  .dp-recipe .rbody{ display:grid; grid-template-columns:1fr; gap:4px 18px; margin-top:10px; }
+  @media (min-width:560px){ .dp-recipe .rbody{ grid-template-columns:0.9fr 1.1fr; } }
+  .dp-recipe .rh{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--soft); font-weight:600; margin:4px 0 6px; }
+  .dp-recipe ul,.dp-recipe ol{ margin:0 0 10px; padding-left:18px; font-size:14px; line-height:1.5; }
+  .dp-recipe li{ padding:2px 0; }
+  .dp-recipe ul li strong{ font-weight:700; }
   .dp-wslot .wf{ font-weight:700; font-size:15px; line-height:1.3; }
   .dp-wslot .wf em{ display:block; font-style:normal; font-weight:400; font-size:13px; color:var(--muted); margin-top:1px; }
   .dp-wslot .wd{ font-size:13px; color:var(--ink); text-align:right; flex-shrink:0; max-width:48%; }
@@ -311,7 +323,8 @@ var S = {
   meals:3, snacks:1, mealLabels:["breakfast","lunch","dinner"],
   avoid:[], swaps:{}, amounts:{},
   shopDays:7, rankMode:null, rankAll:false,
-  variety:"some", rotSwaps:{}
+  variety:"some", rotSwaps:{},
+  openRec:{}, recipeShift:{}, withRecipes:true
 };
 
 function round5(n){ return Math.round(n/5)*5; }
@@ -360,6 +373,319 @@ function syncMealLabels(){
   var arr=[], i;
   for(i=0;i<S.meals;i++) arr.push(S.mealLabels[i] || defaultLabel(i,S.meals));
   S.mealLabels = arr;
+}
+
+/* =========================================================
+   RECIPES: one serve each. The main protein comes from the
+   person's plan (their portion); everything else is listed here.
+   ing: [amount, unit, ingredient, protein in grams]
+   Units: "" = count, g, ml, slices, cup, tbsp, tsp. Leave amount
+   blank ("") for to-taste items; tsp/tbsp items go under
+   "Check the cupboard" on the shopping list.
+   tags: anything someone might avoid (dairy, egg, meat, red, seafood)
+   slots: only for foods that appear in more than one meal type
+   ========================================================= */
+var RECIPES = {
+  "Protein shake": [
+    {t:"Banana protein smoothie", min:5, slots:["breakfast","snack"], tags:["dairy"],
+     ing:[[250,"ml","milk",8.5],[1,"","banana",1],[30,"g","rolled oats",4],[1,"tbsp","peanut butter",3.5]],
+     steps:["Put everything in a blender with the protein powder and a few ice cubes.","Blend for about 30 seconds and drink it straight away."]},
+    {t:"Protein oats", min:5, slots:["breakfast"],
+     ing:[[50,"g","rolled oats",6.5],[100,"g","frozen berries",1],[1,"tsp","cinnamon",0]],
+     steps:["Microwave the oats with 250ml water for about 2 minutes, stirring halfway.","Let it sit for a minute, then stir the protein powder through. Adding it while it's boiling makes it go lumpy.","Top with the berries and cinnamon."]},
+    {t:"Shake and go", min:1, slots:["snack"],
+     ing:[],
+     steps:["Shake the protein powder with 300ml cold water. Use milk instead if you want it creamier, which adds about 9g protein."]}
+  ],
+  "Big Greek yoghurt": [
+    {t:"Yoghurt, berries and granola", min:5,
+     ing:[[100,"g","frozen berries",1],[30,"g","granola",3],[1,"tsp","honey",0]],
+     steps:["Spoon the yoghurt into a bowl.","Top with the berries straight from frozen. They soften in a few minutes.","Add the granola and a drizzle of honey."]},
+    {t:"Overnight oats", min:5,
+     ing:[[40,"g","rolled oats",5],[100,"ml","milk",3.5],[1,"","banana",1],[1,"tsp","cinnamon",0]],
+     tags:["dairy"],
+     steps:["Stir the oats, milk and cinnamon through the yoghurt in a jar or container.","Put it in the fridge overnight.","Slice the banana over the top in the morning."]},
+    {t:"Smoothie bowl", min:5,
+     ing:[[1,"","banana",1],[100,"g","frozen berries",1],[1,"tbsp","peanut butter",3.5]],
+     steps:["Use a banana you froze the night before, or add a handful of ice. Blend it with the berries with half the yoghurt until thick. Add a splash of water if it won't move.","Pour into a bowl and spoon the rest of the yoghurt on top.","Finish with the peanut butter."]}
+  ],
+  "Greek yoghurt": [
+    {t:"Yoghurt and berries", min:2,
+     ing:[[80,"g","frozen berries",0.5]],
+     steps:["Top the yoghurt with the berries. Frozen is fine, they thaw in a few minutes."]},
+    {t:"Honey and almond yoghurt", min:2,
+     ing:[[15,"g","almonds",3],[1,"tsp","honey",0]],
+     steps:["Roughly chop the almonds.","Scatter over the yoghurt and drizzle with honey."]}
+  ],
+  "Smoked salmon + egg": [
+    {t:"Smoked salmon and egg on toast", min:10,
+     ing:[[2,"slices","wholegrain bread",8],[0.25,"","avocado",0.5],[1,"tsp","lemon juice",0]],
+     steps:["Poach or fry the egg however you like it.","Toast the bread and spread the avocado on it.","Top with the smoked salmon and the egg, then lemon juice and black pepper."]},
+    {t:"Smoked salmon bagel", min:10, tags:["dairy"],
+     ing:[[1,"","bagel",9],[20,"g","light cream cheese",1.5],[20,"g","rocket",0.5]],
+     steps:["Fry or scramble the egg.","Toast the bagel and spread with cream cheese.","Fill with rocket, smoked salmon and the egg."]}
+  ],
+  "Eggs": [
+    {t:"Scrambled eggs on toast", min:10,
+     ing:[[2,"slices","wholegrain bread",8],["","","chives or spring onion",0]],
+     steps:["Whisk the eggs with a pinch of salt.","Cook in a non-stick pan on low heat, stirring slowly. Take them off while they still look slightly wet, they keep cooking.","Serve on toast with chopped chives."]},
+    {t:"Veggie and cheese omelette", min:10, tags:["dairy"],
+     ing:[[30,"g","baby spinach",1],[3,"","mushrooms",1],[20,"g","grated cheese",5]],
+     steps:["Slice the mushrooms and fry them for 3 minutes, then add the spinach until it wilts.","Pour in the whisked eggs and let them set on medium heat.","Sprinkle with cheese, fold in half and slide onto a plate."]},
+    {t:"Breakfast burrito", min:10,
+     ing:[[1,"","large wrap",5],[100,"g","baked beans",5],[2,"tbsp","salsa",0]],
+     steps:["Scramble the eggs.","Warm the beans in the microwave for a minute.","Fill the wrap with eggs, beans and salsa, then roll it up."]}
+  ],
+  "Cottage cheese": [
+    {t:"Cottage cheese and tomato toast", min:5, slots:["breakfast"],
+     ing:[[2,"slices","wholegrain bread",8],[1,"","tomato",1]],
+     steps:["Toast the bread.","Spread thickly with cottage cheese and top with sliced tomato.","Finish with salt and plenty of black pepper."]},
+    {t:"Cottage cheese fruit bowl", min:5, slots:["breakfast","snack"],
+     ing:[[100,"g","frozen berries",1],[20,"g","granola",2],[1,"tsp","honey",0]],
+     steps:["Spoon the cottage cheese into a bowl.","Top with berries, granola and a little honey."]},
+    {t:"Cottage cheese on crackers", min:3, slots:["snack"],
+     ing:[[6,"","wholegrain crackers",3]],
+     steps:["Spread the cottage cheese on the crackers and crack plenty of pepper over the top."]}
+  ],
+  "Tofu": [
+    {t:"Tofu scramble on toast", min:10, slots:["breakfast"],
+     ing:[[30,"g","baby spinach",1],[2,"slices","wholegrain bread",8],[0.5,"tsp","ground turmeric",0],[1,"tsp","soy sauce",0]],
+     steps:["Crumble the tofu into a hot oiled pan with the turmeric.","Fry for 5 minutes, then stir through the spinach and soy sauce.","Serve on toast."]},
+    {t:"Crispy tofu stir-fry", min:20, slots:["main"],
+     ing:[[200,"g","frozen stir-fry vegetables",4],[1,"","microwave rice cup (125g)",3],[1,"tbsp","cornflour",0],[1,"tbsp","soy sauce",0],[1,"cloves","garlic",0]],
+     steps:["Pat the tofu dry, cube it and toss in the cornflour.","Fry in a little oil for 6 to 8 minutes until golden, then set aside.","Stir-fry the vegetables and garlic for 4 minutes, add the tofu and soy sauce, and serve with the rice."]},
+    {t:"Tofu red curry", min:25, slots:["main"],
+     ing:[[100,"ml","light coconut milk",1],[150,"g","frozen mixed vegetables",3],[1,"","microwave rice cup (125g)",3],[1,"tbsp","red curry paste",0]],
+     steps:["Fry the curry paste in a little oil for a minute.","Add the coconut milk, vegetables and cubed tofu, and simmer for 10 minutes.","Serve over the rice."]}
+  ],
+  "Chicken breast": [
+    {t:"Chicken burrito bowl", min:20,
+     ing:[[1,"","microwave rice cup (125g)",3],[0.5,"","tin black beans (400g)",8],[80,"g","corn kernels",2],[3,"tbsp","salsa",0],[1,"tbsp","taco seasoning",0]],
+     steps:["Rub the chicken with taco seasoning and pan-fry for 5 to 6 minutes each side until cooked through. Rest, then slice.","Heat the rice and drained beans in the microwave.","Build the bowl: rice, beans, corn, chicken, salsa on top."]},
+    {t:"Chicken, rice and veg", min:25,
+     ing:[[1,"","microwave rice cup (125g)",3],[150,"g","broccoli",4],[1,"tbsp","sweet chilli or soy sauce",0]],
+     steps:["Air-fry the chicken at 200°C for 15 to 18 minutes, or pan-fry for 5 to 6 minutes each side.","Steam or microwave the broccoli for 3 minutes.","Slice the chicken and serve with the rice, broccoli and sauce."]},
+    {t:"Big chicken salad", min:15, tags:["dairy"],
+     ing:[[60,"g","salad leaves",1],[100,"g","cherry tomatoes",1],[0.5,"","cucumber",0.5],[30,"g","feta",5],[1,"tbsp","balsamic dressing",0]],
+     steps:["Cook the chicken as you like it, rest for 5 minutes and slice.","Toss the leaves, halved tomatoes and sliced cucumber.","Top with chicken and crumbled feta, then the dressing."]}
+  ],
+  "Pork loin": [
+    {t:"Pork, spuds and greens", min:30,
+     ing:[[250,"g","potatoes",5],[150,"g","green beans",3],[1,"tsp","wholegrain mustard",0]],
+     steps:["Cut the potatoes into chunks and air-fry at 200°C for 20 to 25 minutes.","Sear the pork in a hot pan for 3 to 4 minutes each side, then rest it for 5 minutes.","Steam the beans and serve with mustard on the side."]},
+    {t:"Pork and noodle stir-fry", min:20,
+     ing:[[200,"g","frozen stir-fry vegetables",4],[150,"g","hokkien noodles",9],[1,"tbsp","hoisin sauce",0]],
+     steps:["Slice the pork into thin strips and stir-fry in a hot pan for 3 minutes.","Add the vegetables and noodles and toss for another 4 minutes.","Stir through the hoisin and serve."]}
+  ],
+  "Tinned tuna": [
+    {t:"Tuna pasta bake", min:30, tags:["dairy"],
+     ing:[[75,"g","dry pasta",9],[0.5,"","tin diced tomatoes (400g)",2],[70,"g","frozen peas",3],[30,"g","grated cheese",7.5]],
+     steps:["Cook the pasta for 2 minutes less than the packet says and drain.","Mix with the tomatoes, peas and drained tuna in a small baking dish.","Top with cheese and bake at 200°C for 15 minutes."]},
+    {t:"Tuna rice bowl", min:10,
+     ing:[[1,"","microwave rice cup (125g)",3],[0.5,"","cucumber",0.5],[0.25,"","avocado",0.5],[1,"tbsp","soy sauce",0],[1,"tsp","sesame seeds",0]],
+     steps:["Heat the rice.","Top with the drained tuna, sliced cucumber and avocado.","Finish with soy sauce and sesame seeds."]}
+  ],
+  "Tin of tuna": [
+    {t:"Tuna and crackers", min:3,
+     ing:[[6,"","wholegrain crackers",3],[50,"g","cherry tomatoes",0.5]],
+     steps:["Drain the tuna, season with pepper and pile it onto the crackers with halved cherry tomatoes."]},
+    {t:"Tuna cucumber boats", min:5,
+     ing:[[1,"","cucumber",1],[1,"tsp","lemon juice",0]],
+     steps:["Halve the cucumber lengthways and scoop out the seeds with a teaspoon.","Fill with the drained tuna mixed with lemon juice and pepper."]}
+  ],
+  "Turkey mince": [
+    {t:"Turkey bolognese", min:25,
+     ing:[[75,"g","dry pasta",9],[200,"g","passata",3],[0.5,"","onion",0.5],[1,"cloves","garlic",0],[1,"tsp","dried Italian herbs",0]],
+     steps:["Fry the diced onion and garlic for 3 minutes, then add the mince and break it up as it browns.","Add the passata and herbs and simmer for 10 minutes.","Cook the pasta while the sauce simmers, then serve together."]},
+    {t:"Turkey san choy bau", min:15,
+     ing:[[0.25,"","iceberg lettuce",1],[0.5,"","tin water chestnuts (225g)",0.5],[2,"","spring onions",0],[1,"tbsp","hoisin sauce",0],[1,"tbsp","soy sauce",0]],
+     steps:["Brown the mince in a hot pan for 5 minutes.","Add the chopped water chestnuts, hoisin and soy, and cook for 2 minutes more.","Separate 4 lettuce leaves into cups, spoon the mince in and top with sliced spring onion."]}
+  ],
+  "White fish": [
+    {t:"Air fryer fish and chips", min:25,
+     ing:[[250,"g","potatoes",5],[20,"g","panko breadcrumbs",2],[60,"g","salad leaves",1],[1,"","lemon",0]],
+     steps:["Cut the potatoes into chips and air-fry at 200°C for 20 minutes, shaking halfway.","Spray the fish with a little oil, press into the panko and air-fry for the last 8 to 10 minutes.","Serve with salad and lemon wedges."]},
+    {t:"Fish tacos", min:15, tags:["dairy"],
+     ing:[[3,"","small tortillas",6],[100,"g","coleslaw mix",1],[40,"g","Greek yoghurt",2],[1,"","lime",0]],
+     steps:["Season the fish and pan-fry for 3 to 4 minutes each side, then flake it.","Mix the yoghurt with lime juice and a pinch of salt.","Warm the tortillas and fill with slaw, fish and the yoghurt sauce."]}
+  ],
+  "Lean beef mince": [
+    {t:"Spaghetti bolognese", min:30,
+     ing:[[75,"g","dry pasta",9],[200,"g","passata",3],[0.5,"","onion",0.5],[1,"","carrot",0.5],[1,"cloves","garlic",0]],
+     steps:["Fry the diced onion, grated carrot and garlic for 4 minutes.","Add the mince and brown it, then add the passata and simmer for 15 minutes.","Serve over the pasta."]},
+    {t:"Beef burrito bowl", min:20,
+     ing:[[1,"","microwave rice cup (125g)",3],[0.5,"","tin kidney beans (400g)",8],[80,"g","corn kernels",2],[3,"tbsp","salsa",0],[1,"tbsp","taco seasoning",0]],
+     steps:["Brown the mince with the taco seasoning and a splash of water.","Heat the rice and drained beans.","Build the bowl and top with salsa."]},
+    {t:"Cottage pie", min:45,
+     ing:[[300,"g","potatoes",6],[150,"g","frozen peas and carrots",4],[150,"ml","beef stock",1],[1,"tbsp","tomato paste",0]],
+     steps:["Boil the potatoes for 15 minutes and mash them.","Brown the mince, add the vegetables, stock and tomato paste, and simmer for 10 minutes.","Put it in an ovenproof dish, top with mash and bake at 200°C for 15 minutes."]}
+  ],
+  "Steak": [
+    {t:"Steak, spuds and greens", min:25,
+     ing:[[250,"g","baby potatoes",5],[100,"g","broccolini",3],[1,"cloves","garlic",0]],
+     steps:["Halve the potatoes and air-fry at 200°C for 20 minutes.","Cook the steak in a very hot pan for 3 to 4 minutes each side for medium. Rest it for 5 minutes.","Pan-fry the broccolini with the garlic for 3 minutes and serve."]},
+    {t:"Steak salad", min:15, tags:["dairy"],
+     ing:[[60,"g","salad leaves",1],[100,"g","cherry tomatoes",1],[0.25,"","red onion",0],[30,"g","feta",5],[1,"tbsp","balsamic dressing",0]],
+     steps:["Cook the steak how you like it and rest for 5 minutes.","Toss the leaves, halved tomatoes and thinly sliced onion.","Slice the steak over the salad, crumble the feta on top and dress."]}
+  ],
+  "Salmon fillet": [
+    {t:"Salmon, potatoes and greens", min:25,
+     ing:[[250,"g","baby potatoes",5],[150,"g","green beans",3],[1,"","lemon",0]],
+     steps:["Air-fry the halved potatoes at 200°C for 15 minutes.","Add the salmon, skin side down, for the last 8 to 10 minutes.","Steam the beans and serve with lemon."]},
+    {t:"Salmon poke bowl", min:15,
+     ing:[[1,"","microwave rice cup (125g)",3],[75,"g","frozen shelled edamame",8],[0.5,"","cucumber",0.5],[1,"tbsp","soy sauce",0],[1,"tsp","sesame seeds",0]],
+     steps:["Pan-fry or air-fry the salmon for 8 to 10 minutes, then flake it.","Microwave the edamame for 2 minutes and heat the rice.","Build the bowl and finish with soy sauce and sesame seeds."]}
+  ],
+  "Prawns": [
+    {t:"Garlic prawn pasta", min:20,
+     ing:[[75,"g","dry pasta",9],[150,"g","cherry tomatoes",1.5],[2,"cloves","garlic",0],[1,"tbsp","olive oil",0],[0.5,"tsp","chilli flakes",0]],
+     steps:["Cook the pasta.","Fry the garlic and chilli in the oil for a minute, add the halved tomatoes and cook until they soften.","Toss in the prawns for 2 minutes to warm through, then add the drained pasta."]},
+    {t:"Prawn stir-fry", min:15,
+     ing:[[200,"g","frozen stir-fry vegetables",4],[1,"","microwave rice cup (125g)",3],[1,"tbsp","soy sauce",0],[1,"cloves","garlic",0]],
+     steps:["Stir-fry the vegetables and garlic for 4 minutes.","Add the prawns and soy sauce and toss for 2 minutes.","Serve over the rice."]},
+    {t:"Prawn tacos", min:10, tags:["dairy"],
+     ing:[[3,"","small tortillas",6],[100,"g","coleslaw mix",1],[40,"g","Greek yoghurt",2],[1,"","lime",0]],
+     steps:["Toss the prawns in a hot pan with a pinch of chilli for 2 minutes.","Mix the yoghurt with lime juice.","Fill the warmed tortillas with slaw, prawns and the sauce."]}
+  ],
+  "Omelette + cheese": [
+    {t:"Loaded omelette with salad", min:15,
+     ing:[[3,"","mushrooms",1],[30,"g","baby spinach",1],[60,"g","salad leaves",1],[1,"slices","wholegrain bread",4]],
+     steps:["Fry the sliced mushrooms for 3 minutes, then the spinach until it wilts.","Pour in the whisked eggs, let them set, scatter the cheese over and fold.","Serve with salad and a slice of toast."]},
+    {t:"Veggie frittata", min:30,
+     ing:[[150,"g","potatoes",3],[100,"g","frozen mixed vegetables",2],[0.25,"","red onion",0]],
+     steps:["Slice the potato thinly and microwave for 4 minutes to soften.","Whisk the eggs, stir in the potato, vegetables, onion and half the cheese, and pour into a small ovenproof pan.","Top with the rest of the cheese and bake at 180°C for 15 to 20 minutes."]}
+  ],
+  "Lentils + chickpeas": [
+    {t:"Lentil and chickpea curry", min:25,
+     ing:[[0.5,"","tin diced tomatoes (400g)",2],[100,"ml","light coconut milk",1],[30,"g","baby spinach",1],[1,"","microwave rice cup (125g)",3],[1,"tbsp","curry paste",0]],
+     steps:["Fry the curry paste for a minute.","Add the drained lentils and chickpeas, the tomatoes and coconut milk, and simmer for 10 minutes.","Stir through the spinach and serve with the rice."]},
+    {t:"Chickpea and lentil bowl", min:15,
+     ing:[[1,"","microwave rice cup (125g)",3],[0.5,"","cucumber",0.5],[100,"g","cherry tomatoes",1],[40,"g","hummus",3],[1,"","lemon",0]],
+     steps:["Warm the drained lentils and chickpeas with a pinch of cumin and salt.","Heat the rice.","Pile everything into a bowl with chopped cucumber and tomato, hummus and a squeeze of lemon."]}
+  ],
+  "Ham + cheese": [
+    {t:"Ham and cheese roll-ups", min:2,
+     ing:[],
+     steps:["Lay a slice of cheese on each slice of ham and roll them up. Add a pickle or two if you like."]},
+    {t:"Ham and cheese crackers", min:3,
+     ing:[[6,"","wholegrain crackers",3]],
+     steps:["Top the crackers with ham and cheese."]}
+  ],
+  "Edamame": [
+    {t:"Salt and chilli edamame", min:4,
+     ing:[[0.5,"tsp","chilli flakes",0]],
+     steps:["Microwave the frozen edamame with a splash of water for 3 minutes.","Drain and toss with salt and chilli flakes."]}
+  ],
+  "Roasted chickpeas": [
+    {t:"Crunchy roasted chickpeas", min:20,
+     ing:[[1,"tsp","olive oil",0],[1,"tsp","smoked paprika",0]],
+     steps:["Drain the chickpeas and pat them very dry with paper towel.","Toss with the oil, paprika and salt.","Air-fry at 200°C for 12 to 15 minutes, shaking halfway, until crunchy. They keep in a jar for a few days."]}
+  ],
+  "Boiled eggs": [
+    {t:"Jammy boiled eggs", min:10,
+     ing:[],
+     steps:["Lower the eggs into boiling water and cook for 6 and a half minutes for jammy yolks, or 9 minutes for hard.","Move them into cold water for 2 minutes, then peel and salt."]}
+  ]
+};
+
+// How the protein in the plan shows up in a recipe's ingredient list.
+var RNAME = {
+  chicken:["chicken breast (raw)"], pork:["pork loin steaks (raw)"], turkey:["turkey mince (raw)"],
+  beef:["lean beef mince (raw)"], steak:["steak (raw)"], salmon:["salmon fillet (raw)"],
+  fish:["white fish fillets (raw)"], prawns:["cooked peeled prawns"], smoked:["smoked salmon"],
+  ham:["lean ham"], eggs:["egg","eggs"], yog:["Greek yoghurt"], cottage:["cottage cheese"],
+  cheese:["grated cheese"], tofu:["firm tofu"], edamame:["frozen shelled edamame"],
+  tuna:["tin of tuna (95g), drained","tins of tuna (95g), drained"],
+  lentils:["tin lentils (400g), drained","tins lentils (400g), drained"],
+  chickpeas:["tin chickpeas (400g), drained","tins chickpeas (400g), drained"],
+  whey:["scoop protein powder","scoops protein powder"], bars:["protein bar","protein bars"], jerky:["beef jerky"]
+};
+
+/* ---------- recipe helpers ---------- */
+function fracStr(q){
+  var w = Math.floor(q + 1e-9), r = q - w, f = "";
+  if(Math.abs(r-0.25) < 0.01) f = "¼";
+  else if(Math.abs(r-0.5) < 0.01) f = "½";
+  else if(Math.abs(r-0.75) < 0.01) f = "¾";
+  else if(r > 0.01) return String(Math.round(q*10)/10);
+  return (w ? String(w) : "") + f || "0";
+}
+function capFirst(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+function ingStr(x){
+  var q = x[0], u = x[1], n = x[2];
+  if(q === "" || q === null) return capFirst(n);
+  if(u === "g" || u === "ml") return q + u + " " + n;
+  if(u === "slices") return q + (q === 1 ? " slice " : " slices ") + n;
+  if(u === "cloves") return q + (q === 1 ? " clove " : " cloves ") + n;
+  if(u === "tbsp" || u === "tsp" || u === "cup") return fracStr(q) + " " + u + " " + n;
+  return fracStr(q) + " " + n;
+}
+// The protein from the plan, as it appears in the recipe.
+function mainIngs(food, amt){
+  return (SHOP[food.name] || []).map(function(p){
+    var it = ITEMS[p.k], q = amt * p.x, nm = RNAME[p.k] || [it.n.toLowerCase()];
+    if(it.u === "g") return Math.max(10, Math.round(q/10)*10) + "g " + nm[0];
+    if(it.u === "egg"){ var e = Math.max(1, Math.round(q)); return e + " " + (e === 1 ? nm[0] : (nm[1] || nm[0])); }
+    var h = Math.max(0.5, Math.round(q*2)/2);
+    return fracStr(h) + " " + (h > 1 ? (nm[1] || nm[0]) : nm[0]);
+  });
+}
+function recipeOK(r){
+  return !(r.tags || []).some(function(tg){
+    return S.avoid.indexOf(tg) > -1 || (tg === "red" && S.avoid.indexOf("meat") > -1);
+  });
+}
+function recipesFor(food){
+  return (RECIPES[food.name] || []).filter(function(r){
+    return (!r.slots || r.slots.indexOf(food.slot) > -1) && recipeOK(r);
+  });
+}
+function recipeProtein(r, food, amt){
+  return proteinFor(food, amt) + Math.round(r.ing.reduce(function(s, x){ return s + (x[3] || 0); }, 0));
+}
+function recipeCardHTML(r, food, amt, days){
+  var h = '<div class="dp-recipe"><div class="rtitle">'+r.t+'</div>'
+        + '<div class="rmeta">'+days.join(", ")+'. '+r.min+' min, about '+recipeProtein(r, food, amt)+'g protein</div>'
+        + '<div class="rbody"><div><div class="rh">You need</div><ul>';
+  mainIngs(food, amt).forEach(function(s){ h += '<li><strong>'+s+'</strong></li>'; });
+  r.ing.forEach(function(x){ h += '<li>'+ingStr(x)+'</li>'; });
+  h += '</ul></div><div><div class="rh">Method</div><ol>';
+  r.steps.forEach(function(s){ h += '<li>'+s+'</li>'; });
+  return h + '</ol></div></div></div>';
+}
+function onRecipes(rk){ S.openRec[rk] = !S.openRec[rk]; var w = document.getElementById("weekBox"); if(w) w.innerHTML = weekHTML(); }
+function onRecipeShuffle(rk){ S.recipeShift[rk] = (S.recipeShift[rk] || 0) + 1; S.openRec[rk] = true; refreshShop(); }
+
+// Extra recipe ingredients for the shopping list.
+function fmtExtra(u, q){
+  if(u === "g" || u === "ml"){
+    var v = q >= 100 ? Math.ceil(q/50)*50 : Math.ceil(q/10)*10;
+    if(v >= 1000) return (Math.round(v/100)/10) + (u === "g" ? "kg" : "L");
+    return v + u;
+  }
+  if(u === "slices"){ var sl = Math.ceil(q - 1e-9); return sl + (sl === 1 ? " slice" : " slices"); }
+  if(u === "cup") return fracStr(Math.ceil(q*2)/2) + " cup" + (q > 1 ? "s" : "");
+  if(u === "cloves"){ var cl = Math.ceil(q - 1e-9); return cl + (cl === 1 ? " clove" : " cloves"); }
+  return String(Math.max(1, Math.ceil(q - 1e-9)));
+}
+function recipeExtras(plan){
+  var tot = {}, cupboard = {};
+  plan.forEach(function(day){
+    day.meals.forEach(function(m){
+      if(!m.recipe) return;
+      m.recipe.ing.forEach(function(x){
+        var q = x[0], u = x[1], n = x[2];
+        if(q === "" || u === "tsp" || u === "tbsp"){ cupboard[n] = 1; return; }
+        var key = n + "|" + u;
+        if(!tot[key]) tot[key] = {n:n, u:u, q:0};
+        tot[key].q += q;
+      });
+    });
+  });
+  var items = Object.keys(tot).map(function(k){ var t = tot[k]; return {n:capFirst(t.n), q:fmtExtra(t.u, t.q)}; })
+                .sort(function(a, b){ return a.n < b.n ? -1 : 1; });
+  var cup = Object.keys(cupboard).sort().map(function(n){ return {n:capFirst(n), q:""}; });
+  return {items:items, cupboard:cup};
 }
 
 /* =========================================================
@@ -569,7 +895,7 @@ function rotations(){
 
 // Day by day: each meal cycles through its rotation; lunch and dinner avoid doubling up.
 function weekPlan(){
-  var rots = rotations(), plan = [], d;
+  var rots = rotations(), plan = [], d, occ = {};
   for(d = 0; d < S.shopDays; d++){
     var day = {name:DAY_NAMES[d], meals:[]}, mainsToday = {};
     rots.forEach(function(r){
@@ -577,7 +903,10 @@ function weekPlan(){
       var len = r.items.length, k = d % len, it = r.items[k], tries = 0;
       while(it.food.slot==="main" && mainsToday[it.food.name] && tries < len){ k = (k+1) % len; it = r.items[k]; tries++; }
       if(it.food.slot==="main") mainsToday[it.food.name] = 1;
-      day.meals.push({key:r.slot.key, label:r.slot.label, food:it.food, amt:it.amt});
+      var rk = r.slot.key + "|" + it.food.name, list = recipesFor(it.food), n = occ[rk] || 0;
+      occ[rk] = n + 1;
+      var recipe = list.length ? list[(n + (S.recipeShift[rk] || 0)) % list.length] : null;
+      day.meals.push({key:r.slot.key, label:r.slot.label, food:it.food, amt:it.amt, recipe:recipe});
     });
     plan.push(day);
   }
@@ -592,7 +921,16 @@ function weekSummary(){
       var days = plan.filter(function(day){
         return day.meals.some(function(m){ return m.key===r.slot.key && m.food.name===it.food.name; });
       }).map(function(day){ return day.name; });
-      return {food:it.food, amt:it.amt, days:days};
+      var recs = [], byTitle = {};
+      plan.forEach(function(day){
+        day.meals.forEach(function(m){
+          if(m.key===r.slot.key && m.food.name===it.food.name && m.recipe){
+            if(!byTitle[m.recipe.t]){ byTitle[m.recipe.t] = {r:m.recipe, days:[]}; recs.push(byTitle[m.recipe.t]); }
+            byTitle[m.recipe.t].days.push(day.name);
+          }
+        });
+      });
+      return {food:it.food, amt:it.amt, days:days, recipes:recs, total:recipesFor(it.food).length};
     }).filter(function(row){ return row.days.length; });
     return {key:r.slot.key, label:r.slot.label, rows:rows, more:r.more};
   });
@@ -608,8 +946,17 @@ function weekHTML(){
           ? '<button class="dp-mini" onclick="onRotSwap(\''+g.key+'\')">&#8635; Other options</button>' : '')
        + '</div><ul>';
     g.rows.forEach(function(row){
-      h += '<li><span class="wf">'+row.food.name+'<em>'+fmtAmt(row.amt,row.food.amtUnit)+', '+proteinFor(row.food,row.amt)+'g protein</em></span>'
-         + '<span class="wd">'+daysText(row.days)+'</span></li>';
+      var rk = g.key + "|" + row.food.name, open = !!S.openRec[rk];
+      h += '<li><div class="wline"><span class="wf">'+row.food.name+'<em>'+fmtAmt(row.amt,row.food.amtUnit)+', '+proteinFor(row.food,row.amt)+'g protein</em></span>'
+         + '<span class="wd">'+daysText(row.days)+'</span></div>';
+      if(row.recipes.length){
+        h += '<div class="wrec"><button class="dp-mini dp-noprint" aria-expanded="'+open+'" onclick="onRecipes(\''+rk.replace(/'/g,"\\'")+'\')">'
+           + (open ? 'Hide recipes' : (row.recipes.length > 1 ? 'Show '+row.recipes.length+' recipes' : 'Show recipe')) + '</button>'
+           + (open && row.total > 1 ? '<button class="dp-mini dp-noprint" onclick="onRecipeShuffle(\''+rk.replace(/'/g,"\\'")+'\')">&#8635; Different recipes</button>' : '')
+           + '</div>';
+        if(open) row.recipes.forEach(function(x){ h += recipeCardHTML(x.r, row.food, row.amt, x.days); });
+      }
+      h += '</li>';
     });
     h += '</ul></div>';
   });
@@ -638,9 +985,16 @@ function shoppingList(){
     var it = ITEMS[k];
     (groups[it.a] = groups[it.a] || []).push({n:it.n, q:fmtQty(it, tot[k])});
   });
-  return AISLES.filter(function(a){ return groups[a]; })
-               .map(function(a){ return {aisle:a, items:groups[a]}; });
+  var out = AISLES.filter(function(a){ return groups[a]; })
+                  .map(function(a){ return {aisle:a, items:groups[a]}; });
+  if(S.withRecipes){
+    var ex = recipeExtras(weekPlan());
+    if(ex.items.length) out.push({aisle:"For the recipes", items:ex.items});
+    if(ex.cupboard.length) out.push({aisle:"Check the cupboard", items:ex.cupboard});
+  }
+  return out;
 }
+function onWithRecipes(){ S.withRecipes = !S.withRecipes; refreshShop(); var b=document.getElementById("withRecBtn"); if(b){ b.setAttribute("aria-pressed", S.withRecipes); b.classList.toggle("on", S.withRecipes); } }
 function shopHTML(){
   var groups = shoppingList(), h = "";
   if(!groups.length) return '<p class="dp-hint" style="margin:10px 0">Nothing to buy yet.</p>';
@@ -655,12 +1009,15 @@ function shoppingText(){
   var t = "My protein week ("+S.shopDays+" day"+(S.shopDays===1?"":"s")+")\n";
   weekSummary().forEach(function(g){
     t += "\n"+g.label+"\n";
-    g.rows.forEach(function(r){ t += "- "+r.food.name+", "+fmtAmt(r.amt,r.food.amtUnit)+": "+daysText(r.days)+"\n"; });
+    g.rows.forEach(function(r){
+      t += "- "+r.food.name+", "+fmtAmt(r.amt,r.food.amtUnit)+": "+daysText(r.days)+"\n";
+      r.recipes.forEach(function(x){ t += "    "+x.r.t+" ("+x.days.join(", ")+")\n"; });
+    });
   });
   t += "\nShopping list\n";
   shoppingList().forEach(function(g){
     t += "\n"+g.aisle+"\n";
-    g.items.forEach(function(i){ t += "- "+i.n+": "+i.q+"\n"; });
+    g.items.forEach(function(i){ t += "- "+i.n+(i.q ? ": "+i.q : "")+"\n"; });
   });
   return t + "\nMade with deansweetpt.com/proteincalc";
 }
@@ -841,17 +1198,8 @@ function render(){
       h+='<button class="dp-swap-wide" onclick="onSwap(\''+s.key+'\')">&#8635; Swap protein</button></div>';
     });
     h+='<div class="dp-sec"></div>'
-     +'<p class="dp-label" style="margin-bottom:10px">What you could make with this</p>'
-     +'<div class="dp-ideas">';
-    slots.forEach(function(s){
-      if(!s.food) return;
-      h+='<div class="dp-idea"><span class="islot">'+s.label+'</span>'
-       +'<div class="itext"><span class="iname">'+s.food.name+'</span> &rarr; '+s.food.meals.join(" &middot; ")+'</div></div>';
-    });
-    h+='</div>'
-     +'<div class="dp-sec"></div>'
      +'<p class="dp-label" style="margin-bottom:4px">Your week, mixed up</p>'
-     +'<p class="dp-hint">Nobody eats the same thing every day. Pick how much variety you want and your proteins get rotated across the week, each sized to give about the same protein. Your shopping list below matches it.</p>'
+     +'<p class="dp-hint">Nobody eats the same thing every day. Pick how much variety you want and your proteins get rotated across the week, each sized to give about the same protein. Tap a recipe link to see how to cook it. Your shopping list below matches the week.</p>'
      +'<div class="dp-tabs dp-noprint" id="varTabs">'+varietyTabsHTML()+'</div>'
      +'<div class="dp-days dp-noprint"><p class="dp-label" style="margin:0;font-size:17px">Days to plan</p>'
      +'<div class="dp-stepper">'
@@ -862,6 +1210,7 @@ function render(){
      +'<div id="weekBox">'+weekHTML()+'</div>'
      +'<p class="dp-label" style="margin-bottom:4px">Your shopping list</p>'
      +'<p class="dp-hint">Everything for the week above. Meat is raw weight, because it shrinks by about a quarter when you cook it.</p>'
+     +'<div class="dp-tabs dp-noprint"><button class="dp-tab'+(S.withRecipes?' on':'')+'" id="withRecBtn" aria-pressed="'+S.withRecipes+'" onclick="onWithRecipes()">Include recipe ingredients</button></div>'
      +'<div class="dp-shop" id="shopList">'+shopHTML()+'</div>'
      +'<div class="dp-actions">'
      +'<button class="dp-btn" id="copyBtn" onclick="copyShop()">Copy my week and shopping list</button>'
