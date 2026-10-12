@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Free Protein Calculator | Dean Sweet PT</title>
-<meta name="description" content="Work out how much protein you actually need, split across your real day, with foods you'll actually eat. Free, 60 seconds, no app.">
+<meta name="description" content="Work out how much protein you need, split across your day, with a shopping list and the best protein sources ranked. Free, takes a minute, no app.">
 <meta name="theme-color" content="#f3f2ec">
 <link rel="canonical" href="https://www.deansweetpt.com/proteincalc">
 <!-- Open Graph: replace og:image with a branded 1200x630 when ready -->
@@ -13,7 +13,7 @@
 <meta property="og:locale" content="en_AU">
 <meta property="og:url" content="https://www.deansweetpt.com/proteincalc">
 <meta property="og:title" content="How much protein do you actually need?">
-<meta property="og:description" content="Your number, your real day, foods you'll actually eat. Free protein calculator — 60 seconds, no app.">
+<meta property="og:description" content="Your number, split across your day, plus a shopping list and the best protein sources ranked. Free, no app.">
 <meta property="og:image" content="https://www.deansweetpt.com/dean-photo-cropped.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -169,6 +169,49 @@
   .dp-fine{ color:var(--soft); font-size:11px; line-height:1.55; margin-top:22px; text-align:center; }
   .dp-sec{ border-top:1px solid var(--divider); margin:26px 0 18px; }
   .dp-hint{ color:var(--muted); font-size:13px; margin:0 0 14px; line-height:1.55; }
+
+  /* ranked list */
+  .dp-tabs{ display:flex; gap:6px; flex-wrap:wrap; margin:2px 0 12px; }
+  .dp-tab{ border:1px solid var(--border); background:#fbfaf6; color:var(--muted); border-radius:10px;
+    padding:10px 13px; font-size:13px; cursor:pointer; font-family:'Space Grotesk',sans-serif;
+    font-weight:500; min-height:42px; transition:all .12s ease; }
+  .dp-tab:hover{ border-color:rgba(10,10,10,0.3); }
+  .dp-tab.on{ border-color:var(--ink); background:var(--lime); color:var(--ink); font-weight:700; }
+  .dp-rank{ list-style:none; margin:0 0 8px; padding:0; background:var(--band); border:1px solid var(--border);
+    border-radius:16px; overflow:hidden; }
+  .dp-rank li{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-top:1px solid var(--divider); }
+  .dp-rank li:first-child{ border-top:none; }
+  .dp-rank .rk{ font-family:'Archivo Black',sans-serif; font-size:15px; color:var(--soft); min-width:22px; }
+  .dp-rank .rn{ flex:1; min-width:0; }
+  .dp-rank .rname{ font-weight:700; font-size:15px; line-height:1.3; }
+  .dp-rank .rserve{ color:var(--muted); font-size:13px; margin-top:2px; }
+  .dp-rank .rp{ text-align:right; flex-shrink:0; }
+  .dp-rank .rp b{ display:block; font-family:'Archivo Black',sans-serif; font-weight:400; font-size:22px; line-height:1; }
+  .dp-rank .rp small{ display:block; font-size:11px; color:var(--soft); margin-top:4px; white-space:nowrap; }
+  .dp-rtag{ display:inline-block; font-size:11px; font-weight:700; background:var(--lime); border-radius:6px;
+    padding:1px 6px; margin-left:6px; vertical-align:1px; }
+
+  /* shopping list */
+  .dp-shop{ background:var(--band); border:1px solid var(--border); border-radius:16px; padding:4px 16px 8px; margin-bottom:12px; }
+  .dp-aisle{ padding:12px 0; border-top:1px solid var(--divider); }
+  .dp-aisle:first-child{ border-top:none; }
+  .dp-aisle .slot-lbl{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--soft); font-weight:600; }
+  .dp-aisle ul{ list-style:none; margin:6px 0 0; padding:0; }
+  .dp-aisle li{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:5px 0; font-size:15px; }
+  .dp-aisle li strong{ text-align:right; font-weight:700; }
+  .dp-actions{ display:grid; gap:8px; margin-bottom:6px; }
+  .dp-actions .dp-swap-wide{ margin-top:0; }
+  .dp-days{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+  .dp-days .dp-stepnum{ font-size:26px; }
+
+  @media print{
+    @page{ margin:14mm; }
+    html,body{ background:#fff; }
+    .dp-root{ padding:0; }
+    .dp-btn,.dp-ghost,.dp-swap-wide,.dp-slider,.dp-tabs,.dp-cta,.dp-stepbtn,.dp-actions,.dp-noprint{ display:none !important; }
+    .dp-pcard,.dp-card,.dp-aisle,.dp-rank li{ break-inside:avoid; }
+    .dp-wrap{ max-width:none; }
+  }
 </style>
 <!-- Vercel Web Analytics -->
 <script>
@@ -188,7 +231,7 @@
 //    key lives in Vercel env vars, never here. See /api/subscribe.js.
 var SUBSCRIBE_ENDPOINT = "/api/subscribe";
 // 2) Where the final CTA sends people:
-var COACHING_URL = "https://www.deansweetpt.com";
+var COACHING_URL = "https://www.deansweetpt.com/#offer";
 
 /* ========================================================= */
 var LIME = "#D6FF00";
@@ -253,7 +296,8 @@ var MEAL_LABELS = ["breakfast","lunch","dinner"];
 var S = {
   step:0, fname:"", email:"", weight:80, goal:"fatloss",
   meals:3, snacks:1, mealLabels:["breakfast","lunch","dinner"],
-  avoid:[], swaps:{}, amounts:{}
+  avoid:[], swaps:{}, amounts:{},
+  shopDays:7, rankMode:null, rankAll:false
 };
 
 function round5(n){ return Math.round(n/5)*5; }
@@ -304,6 +348,230 @@ function syncMealLabels(){
   S.mealLabels = arr;
 }
 
+/* =========================================================
+   EXTRA FREE VALUE: ranked protein sources + shopping list
+   Figures are approximate, for typical Australian products.
+   ========================================================= */
+
+// n = name, s = serve, p = protein (g), k = calories, t = tags (match the
+// avoid filters), b = budget pick, nc = no cooking needed
+var RANKED = [
+  {n:"Prawns, cooked",                  s:"150g",          p:36, k:150, t:["seafood"],     b:0, nc:1},
+  {n:"Egg whites (carton)",             s:"200ml",         p:22, k:100, t:["egg"],         b:0, nc:0},
+  {n:"Tinned tuna in springwater",      s:"1 tin (95g)",   p:20, k:95,  t:["seafood"],     b:1, nc:1},
+  {n:"White fish, cooked",              s:"150g",          p:33, k:160, t:["seafood"],     b:0, nc:0},
+  {n:"Kangaroo fillet, cooked",         s:"150g",          p:45, k:220, t:["meat","red"],  b:0, nc:0},
+  {n:"Protein powder (whey)",           s:"1 scoop (30g)", p:24, k:115, t:["dairy"],       b:1, nc:1},
+  {n:"Chicken breast, cooked",          s:"150g",          p:46, k:245, t:["meat"],        b:0, nc:0},
+  {n:"Pork loin, lean, cooked",         s:"150g",          p:45, k:255, t:["meat"],        b:0, nc:0},
+  {n:"Rump steak, lean, cooked",        s:"150g",          p:45, k:265, t:["meat","red"],  b:0, nc:0},
+  {n:"Turkey mince, cooked",            s:"150g",          p:42, k:245, t:["meat"],        b:0, nc:0},
+  {n:"Lean ham",                        s:"100g",          p:18, k:110, t:["meat"],        b:0, nc:1},
+  {n:"High-protein yoghurt pot",        s:"1 pot (160g)",  p:15, k:95,  t:["dairy"],       b:0, nc:1},
+  {n:"Greek yoghurt, low fat",          s:"200g",          p:20, k:130, t:["dairy"],       b:1, nc:1},
+  {n:"Lean beef mince, cooked",         s:"150g",          p:40, k:270, t:["meat","red"],  b:0, nc:0},
+  {n:"Supermarket BBQ chicken, no skin",s:"150g",          p:40, k:270, t:["meat"],        b:1, nc:1},
+  {n:"Cottage cheese, low fat",         s:"150g",          p:17, k:125, t:["dairy"],       b:1, nc:1},
+  {n:"Smoked salmon",                   s:"100g",          p:20, k:150, t:["seafood"],     b:0, nc:1},
+  {n:"Chicken thigh, skinless, cooked", s:"150g",          p:38, k:300, t:["meat"],        b:1, nc:0},
+  {n:"Salmon fillet, cooked",           s:"150g",          p:37, k:310, t:["seafood"],     b:0, nc:0},
+  {n:"Beef jerky",                      s:"40g",           p:14, k:120, t:["meat","red"],  b:0, nc:1},
+  {n:"Sardines, tinned",                s:"1 tin (110g)",  p:22, k:190, t:["seafood"],     b:1, nc:1},
+  {n:"Firm tofu",                       s:"150g",          p:20, k:180, t:["plant"],       b:1, nc:0},
+  {n:"Skim milk",                       s:"250ml",         p:9,  k:90,  t:["dairy"],       b:1, nc:1},
+  {n:"Tempeh",                          s:"100g",          p:19, k:195, t:["plant"],       b:0, nc:0},
+  {n:"Edamame, shelled",                s:"1 cup (150g)",  p:17, k:180, t:["plant"],       b:0, nc:0},
+  {n:"Protein bar",                     s:"1 bar (60g)",   p:20, k:220, t:["dairy"],       b:0, nc:1},
+  {n:"Eggs",                            s:"2 large",       p:13, k:150, t:["egg"],         b:1, nc:0},
+  {n:"Lentils, cooked",                 s:"1 cup (200g)",  p:18, k:230, t:["plant"],       b:1, nc:0},
+  {n:"Cheddar cheese",                  s:"30g",           p:8,  k:120, t:["dairy"],       b:0, nc:1},
+  {n:"Chickpeas, tinned",               s:"1 cup (165g)",  p:12, k:200, t:["plant"],       b:1, nc:1},
+  {n:"Peanut butter",                   s:"2 tbsp (30g)",  p:8,  k:185, t:["plant"],       b:1, nc:1},
+  {n:"Rolled oats",                     s:"1/2 cup (45g)", p:6,  k:170, t:["plant"],       b:1, nc:0},
+  {n:"Almonds",                         s:"30g",           p:6,  k:175, t:["plant"],       b:0, nc:1}
+];
+var RANK_MODES = [
+  {id:"lean",   label:"Most per calorie"},
+  {id:"serve",  label:"Most per serve"},
+  {id:"budget", label:"Cheap"},
+  {id:"nocook", label:"No cooking"}
+];
+var RANK_NOTES = {
+  lean:   "Ranked by protein for every 100 calories. The higher it sits, the more protein you get for the calories, which matters most when you're trying to lose fat.",
+  serve:  "Ranked by how much protein is in a normal serve. Handy when you're struggling to eat enough.",
+  budget: "The cheap ones, ranked by protein for every 100 calories.",
+  nocook: "Nothing to cook. Grab it from the fridge or the supermarket and you're done."
+};
+function rankMode(){ return S.rankMode || (S.goal==="fatloss" ? "lean" : "serve"); }
+function per100(f){ return Math.round(f.p/f.k*100); }
+function rankedList(){
+  var m = rankMode();
+  var list = RANKED.filter(function(f){
+    return !S.avoid.some(function(a){ return dropsFood(a, {tags:f.t}); });
+  });
+  if(m==="budget") list = list.filter(function(f){ return f.b; });
+  if(m==="nocook") list = list.filter(function(f){ return f.nc; });
+  list.sort(m==="serve"
+    ? function(a,b){ return b.p-a.p || per100(b)-per100(a); }
+    : function(a,b){ return (b.p/b.k)-(a.p/a.k); });
+  return list;
+}
+function rankedHTML(){
+  var m = rankMode(), list = rankedList(), shown = S.rankAll ? list : list.slice(0,10);
+  var h = '<div class="dp-tabs">';
+  RANK_MODES.forEach(function(r){
+    h += '<button class="dp-tab'+(m===r.id?' on':'')+'" aria-pressed="'+(m===r.id)+'" onclick="onRank(\''+r.id+'\')">'+r.label+'</button>';
+  });
+  h += '</div><p class="dp-hint">'+RANK_NOTES[m]+'</p>';
+  if(!list.length) return h + '<p class="dp-hint">Nothing on this list fits your filters.</p>';
+  h += '<ol class="dp-rank">';
+  shown.forEach(function(f,i){
+    h += '<li><span class="rk">'+(i+1)+'</span>'
+       + '<div class="rn"><div class="rname">'+f.n+(f.b && m!=="budget" ? '<span class="dp-rtag">Cheap</span>' : '')+'</div>'
+       + '<div class="rserve">'+f.s+', about '+f.k+' cal</div></div>'
+       + '<div class="rp"><b>'+f.p+'g</b><small>'+per100(f)+'g per 100 cal</small></div></li>';
+  });
+  h += '</ol>';
+  if(list.length>10){
+    h += '<button class="dp-ghost" style="display:block;margin:0 auto" onclick="onRankAll()">'
+       + (S.rankAll ? 'Show the top 10' : 'Show all '+list.length) + '</button>';
+  }
+  return h;
+}
+function onRank(id){ S.rankMode=id; S.rankAll=false; var el=document.getElementById("rankBox"); if(el) el.innerHTML=rankedHTML(); }
+function onRankAll(){ S.rankAll=!S.rankAll; var el=document.getElementById("rankBox"); if(el) el.innerHTML=rankedHTML(); }
+
+/* ---------- shopping list ---------- */
+// How each food in the plan turns into things to buy, per 1 unit of its slider.
+// Meat amounts in the plan are cooked weight, so x converts to raw weight.
+var SHOP = {
+  "Protein shake":       [{k:"whey",x:1}],
+  "Big Greek yoghurt":   [{k:"yog",x:1}],
+  "Greek yoghurt":       [{k:"yog",x:1}],
+  "Smoked salmon + egg": [{k:"smoked",x:100},{k:"eggs",x:1}],
+  "Eggs":                [{k:"eggs",x:1}],
+  "Boiled eggs":         [{k:"eggs",x:1}],
+  "Omelette + cheese":   [{k:"eggs",x:1},{k:"cheese",x:10}],
+  "Cottage cheese":      [{k:"cottage",x:1}],
+  "Tofu":                [{k:"tofu",x:1}],
+  "Prawns":              [{k:"prawns",x:1}],
+  "Chicken breast":      [{k:"chicken",x:1.33}],
+  "Pork loin":           [{k:"pork",x:1.33}],
+  "Tinned tuna":         [{k:"tuna",x:1}],
+  "Tin of tuna":         [{k:"tuna",x:1}],
+  "Turkey mince":        [{k:"turkey",x:1.3}],
+  "White fish":          [{k:"fish",x:1}],
+  "Lean beef mince":     [{k:"beef",x:1.3}],
+  "Steak":               [{k:"steak",x:1.2}],
+  "Salmon fillet":       [{k:"salmon",x:1.15}],
+  "Lentils + chickpeas": [{k:"lentils",x:1/3},{k:"chickpeas",x:1/3}],
+  "Protein bar":         [{k:"bars",x:1}],
+  "Ham + cheese":        [{k:"ham",x:0.6},{k:"cheese",x:0.4}],
+  "Edamame":             [{k:"edamame",x:150}],
+  "Roasted chickpeas":   [{k:"chickpeas",x:1}],
+  "Beef jerky":          [{k:"jerky",x:1}]
+};
+var ITEMS = {
+  chicken:  {n:"Chicken breast (raw)",        a:"Meat & seafood", u:"g"},
+  pork:     {n:"Pork loin (raw)",             a:"Meat & seafood", u:"g"},
+  turkey:   {n:"Turkey mince (raw)",          a:"Meat & seafood", u:"g"},
+  beef:     {n:"Lean beef mince (raw)",       a:"Meat & seafood", u:"g"},
+  steak:    {n:"Steak (raw)",                 a:"Meat & seafood", u:"g"},
+  salmon:   {n:"Salmon fillets (raw)",        a:"Meat & seafood", u:"g"},
+  fish:     {n:"White fish fillets (raw)",    a:"Meat & seafood", u:"g"},
+  prawns:   {n:"Cooked peeled prawns",        a:"Meat & seafood", u:"g"},
+  smoked:   {n:"Smoked salmon",               a:"Meat & seafood", u:"g"},
+  ham:      {n:"Lean ham",                    a:"Meat & seafood", u:"g"},
+  eggs:     {n:"Eggs",                        a:"Dairy & eggs",   u:"egg"},
+  yog:      {n:"Greek yoghurt",               a:"Dairy & eggs",   u:"g", pack:1000, packName:"1kg tub"},
+  cottage:  {n:"Cottage cheese",              a:"Dairy & eggs",   u:"g", pack:500,  packName:"500g tub"},
+  cheese:   {n:"Cheese",                      a:"Dairy & eggs",   u:"g"},
+  tofu:     {n:"Firm tofu",                   a:"Fridge",         u:"g"},
+  edamame:  {n:"Frozen shelled edamame",      a:"Freezer",        u:"g", pack:500,  packName:"500g bag"},
+  tuna:     {n:"Tinned tuna, 95g tins",       a:"Pantry",         u:"tin"},
+  lentils:  {n:"Tinned lentils, 400g tins",   a:"Pantry",         u:"tin"},
+  chickpeas:{n:"Tinned chickpeas, 400g tins", a:"Pantry",         u:"tin"},
+  whey:     {n:"Protein powder",              a:"Pantry",         u:"scoop"},
+  bars:     {n:"Protein bars",                a:"Snacks",         u:"bar"},
+  jerky:    {n:"Beef jerky",                  a:"Snacks",         u:"g"}
+};
+var AISLES = ["Meat & seafood","Dairy & eggs","Fridge","Freezer","Pantry","Snacks"];
+
+function fmtQty(it, q){
+  if(it.u==="g"){
+    var g = Math.ceil(q/50)*50, s = g>=1000 ? (Math.round(g/100)/10)+"kg" : g+"g";
+    if(it.pack){ var n = Math.ceil(q/it.pack - 1e-9); s += " ("+n+" × "+it.packName+(n>1?"s":"")+")"; }
+    return s;
+  }
+  var c = Math.ceil(q - 1e-9);
+  if(it.u==="egg")   return c+" ("+Math.ceil(c/12)+" dozen)";
+  if(it.u==="tin")   return c+" tin"+(c===1?"":"s");
+  if(it.u==="scoop") return c+" scoop"+(c===1?"":"s")+" (about "+(c*30)+"g)";
+  if(it.u==="bar")   return c+" bar"+(c===1?"":"s");
+  return String(c);
+}
+function shoppingList(){
+  var tot = {}, days = S.shopDays;
+  buildSlots().forEach(function(s){
+    if(!s.food) return;
+    var parts = SHOP[s.food.name]; if(!parts) return;
+    var amt = getAmt(s.key, s.food);
+    parts.forEach(function(p){ tot[p.k] = (tot[p.k]||0) + amt*p.x*days; });
+  });
+  var groups = {};
+  Object.keys(tot).forEach(function(k){
+    var it = ITEMS[k];
+    (groups[it.a] = groups[it.a] || []).push({n:it.n, q:fmtQty(it, tot[k])});
+  });
+  return AISLES.filter(function(a){ return groups[a]; })
+               .map(function(a){ return {aisle:a, items:groups[a]}; });
+}
+function shopHTML(){
+  var groups = shoppingList(), h = "";
+  if(!groups.length) return '<p class="dp-hint" style="margin:10px 0">Nothing to buy yet.</p>';
+  groups.forEach(function(g){
+    h += '<div class="dp-aisle"><div class="slot-lbl">'+g.aisle+'</div><ul>';
+    g.items.forEach(function(i){ h += '<li><span>'+i.n+'</span><strong>'+i.q+'</strong></li>'; });
+    h += '</ul></div>';
+  });
+  return h;
+}
+function shoppingText(){
+  var t = "Protein shopping list, "+S.shopDays+" day"+(S.shopDays===1?"":"s")+"\n";
+  shoppingList().forEach(function(g){
+    t += "\n"+g.aisle+"\n";
+    g.items.forEach(function(i){ t += "- "+i.n+": "+i.q+"\n"; });
+  });
+  return t + "\nMade with deansweetpt.com/proteincalc";
+}
+function refreshShop(){
+  var el = document.getElementById("shopList"), d = document.getElementById("shopDays");
+  if(el) el.innerHTML = shopHTML();
+  if(d) d.textContent = S.shopDays;
+}
+function onShopDays(delta){ S.shopDays = Math.min(7, Math.max(1, S.shopDays+delta)); refreshShop(); }
+function fallbackCopy(txt){
+  var ta = document.createElement("textarea");
+  ta.value = txt; ta.setAttribute("readonly",""); ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); } catch(e) {}
+  document.body.removeChild(ta);
+}
+function copyShop(){
+  var txt = shoppingText();
+  var done = function(){
+    var b = document.getElementById("copyBtn");
+    if(b){ b.textContent = "Copied. Paste it into your notes"; setTimeout(function(){ b.textContent = "Copy shopping list"; }, 2200); }
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt); done(); });
+  } else { fallbackCopy(txt); done(); }
+}
+function shareShop(){
+  if(navigator.share){ navigator.share({title:"Protein shopping list", text:shoppingText()}).catch(function(){}); }
+  else copyShop();
+}
+
 /* ---------- email submit (MailerLite or no-op) ---------- */
 function submitEmail(){
   // Fire the subscribe to our own endpoint, then move on regardless so a
@@ -337,16 +605,16 @@ function render(){
   var app=document.getElementById("app"), h=progDots();
 
   if(S.step===0){
-    h+='<div class="dp-kicker">No fluff &middot; 60 seconds</div>'
+    h+='<div class="dp-kicker">Free &middot; takes about a minute</div>'
      +'<h1 class="dp-h1">How much protein do you <em>actually</em> need?</h1>'
-     +'<p class="dp-sub">No app to download. No calorie tracking for the rest of your life. Just your number, proteins to hit it, and meal ideas built around them. Adjust portions with the slider. Swap anything you don\'t like.</p>'
+     +'<p class="dp-sub">No app to download. No calorie tracking for the rest of your life. Just your number, proteins to hit it, meal ideas, a shopping list for the week, and the best protein sources ranked. Adjust portions with the slider. Swap anything you don\'t like.</p>'
      +'<button class="dp-btn" onclick="go(1)">Build my protein plan &rarr;</button>';
   }
 
   else if(S.step===1){
     h+='<div class="dp-kicker">Step 1 of 4</div>'
      +'<h1 class="dp-h1">Where do we send it?</h1>'
-     +'<p class="dp-sub">Pop your email in and I\'ll build your plan now &mdash; then send you a few no-BS ways to actually hit your number day to day.</p>'
+     +'<p class="dp-sub">Pop your email in and I\'ll build your plan now, then send you a few simple ways to hit your number day to day.</p>'
      +'<input class="dp-input" type="text" id="fnameIn" placeholder="First name" value="'+S.fname.replace(/"/g,"&quot;")+'" oninput="onFname(this.value)" autocomplete="given-name">'
      +'<input class="dp-input" type="email" id="emailIn" placeholder="you@email.com" value="'+S.email.replace(/"/g,"&quot;")+'" oninput="onEmail(this.value)" autocomplete="email" inputmode="email">'
      +'<button class="dp-btn" id="emailBtn" onclick="submitEmail()" '+(formOk()?"":"disabled")+'>Next &rarr;</button>'
@@ -374,7 +642,7 @@ function render(){
   else if(S.step===3){
     h+='<div class="dp-kicker">Step 3 of 4</div>'
      +'<h1 class="dp-h1">How\'s your day look?</h1>'
-     +'<p class="dp-sub">However you actually eat &mdash; not how a meal-prep influencer thinks you should.</p>'
+     +'<p class="dp-sub">However you eat now, not how a meal-prep influencer thinks you should.</p>'
      +'<div class="dp-card"><div class="dp-row"><div>'
      +'<p class="dp-label" style="margin:0">Meals</p><div style="color:rgba(10,10,10,0.6);font-size:13px">Proper sit-down feeds</div></div>'
      +'<div class="dp-stepper">'
@@ -429,10 +697,11 @@ function render(){
      +'<div id="ringTick" style="font-size:15px;color:#0a0a0a;margin-top:5px;font-weight:700;display:'+(done?"block":"none")+'">&#10003;</div>'
      +'</div></div></div>'
      +'<p class="dp-ring-status" id="ringStatus" style="color:'+(done?"#0a0a0a":"rgba(10,10,10,0.6)")+'">'
-     +(done ? "Target hit. You're sorted." : (tgt-tot)+"g to go &mdash; adjust portions below")
+     +(done ? "Target hit. You're sorted." : (tgt-tot)+"g to go. Adjust portions below.")
      +'</p>'
+     +'<p class="dp-hint" style="text-align:center;margin-top:-14px">Roughly '+perMeal()+'g per meal'+(S.snacks ? ' and '+perSnack()+'g per snack' : '')+'.</p>'
      +'<p class="dp-label" style="margin-bottom:4px">Pick your protein</p>'
-     +'<p class="dp-hint">The serving shows <strong style="color:#0a0a0a">how much food</strong> to eat. The big lime number is <strong style="color:#0a0a0a;background:#D6FF00;padding:0 4px;border-radius:2px">grams of protein</strong> that gives you &mdash; not the plate weight. Adjust the sliders to fill your ring.</p>';
+     +'<p class="dp-hint">The serving shows <strong style="color:#0a0a0a">how much food</strong> to eat. The big lime number is <strong style="color:#0a0a0a;background:#D6FF00;padding:0 4px;border-radius:2px">grams of protein</strong> that gives you, not the plate weight. Adjust the sliders to fill your ring.</p>';
     slots.forEach(function(s){
       h+='<div class="dp-pcard"><div class="dp-pcard-top"><div style="min-width:0">'
        +'<div class="slot-lbl">'+s.label+'</div>';
@@ -444,7 +713,7 @@ function render(){
          +'<div class="plbl">protein</div></div></div>'
          +'<input class="dp-slider" type="range" min="'+s.food.amtMin+'" max="'+s.food.amtMax+'" step="'+s.food.amtStep+'" value="'+getAmt(s.key,s.food)+'" oninput="onAmt(\''+s.key+'\', this.value)">';
       } else {
-        h+='<div class="food-name" style="color:rgba(10,10,10,0.45)">No options &mdash; loosen filters</div></div></div>';
+        h+='<div class="food-name" style="color:rgba(10,10,10,0.45)">No options. Loosen your filters.</div></div></div>';
       }
       h+='<button class="dp-swap-wide" onclick="onSwap(\''+s.key+'\')">&#8635; Swap protein</button></div>';
     });
@@ -457,12 +726,32 @@ function render(){
        +'<div class="itext"><span class="iname">'+s.food.name+'</span> &rarr; '+s.food.meals.join(" &middot; ")+'</div></div>';
     });
     h+='</div>'
-     +'<div class="dp-cta"><h3>This is the easy part.</h3>'
-     +'<p>Hitting your protein is one piece. If you\'ve started and stopped a hundred times, the problem was never you &mdash; it was a plan that didn\'t fit your life. That\'s the bit I fix.</p>'
-     +'<a class="dp-btn dark" href="'+COACHING_URL+'">Show me what working together looks like &rarr;</a>'
+     +'<div class="dp-sec"></div>'
+     +'<p class="dp-label" style="margin-bottom:4px">Your shopping list</p>'
+     +'<p class="dp-hint">Everything in your plan above, for the days you pick. It updates when you move the sliders or swap a food. Meat is raw weight, because it shrinks by about a quarter when you cook it.</p>'
+     +'<div class="dp-days dp-noprint"><p class="dp-label" style="margin:0;font-size:17px">Days to shop for</p>'
+     +'<div class="dp-stepper">'
+     +'<button class="dp-stepbtn" aria-label="Fewer days" onclick="onShopDays(-1)">&ndash;</button>'
+     +'<span class="dp-stepnum" id="shopDays">'+S.shopDays+'</span>'
+     +'<button class="dp-stepbtn" aria-label="More days" onclick="onShopDays(1)">+</button>'
+     +'</div></div>'
+     +'<div class="dp-shop" id="shopList">'+shopHTML()+'</div>'
+     +'<div class="dp-actions">'
+     +'<button class="dp-btn" id="copyBtn" onclick="copyShop()">Copy shopping list</button>'
+     +(navigator.share ? '<button class="dp-swap-wide" onclick="shareShop()">Send it to my phone</button>' : '')
      +'</div>'
+     +'<div class="dp-sec"></div>'
+     +'<p class="dp-label" style="margin-bottom:4px">Best protein sources, ranked</p>'
+     +'<div id="rankBox">'+rankedHTML()+'</div>'
+     +'<p class="dp-hint" style="font-size:12px">Figures are rough averages for typical Australian products. Brands vary, so check the label.</p>'
+     +'<div class="dp-sec"></div>'
+     +'<div class="dp-cta"><h3>Protein is one piece of it.</h3>'
+     +'<p>If you keep starting and stopping, a better shopping list won\'t fix that. Online coaching gets you a program built around your week, your calories set for your goal, and me checking in every week. $50 a week, no lock-in.</p>'
+     +'<a class="dp-btn dark" href="'+COACHING_URL+'">See how online coaching works</a>'
+     +'</div>'
+     +'<button class="dp-swap-wide" onclick="window.print()" style="margin-top:14px">Save or print my plan</button>'
      +'<button class="dp-ghost" onclick="restart()" style="display:block;margin:10px auto 0">&#8635; Start over</button>'
-     +'<p class="dp-fine">General guidance for healthy adults &mdash; not medical or dietary advice. If you have a health condition, check with your GP or a dietitian.</p>';
+     +'<p class="dp-fine">General guidance for healthy adults, not medical or dietary advice. If you have a health condition, check with your GP or a dietitian.</p>';
   }
 
   app.innerHTML = h;
@@ -506,6 +795,7 @@ function onAmt(key, v){
     if(pn)  pn.textContent=getProtein(key,s.food)+"g";
   }
   updateRing();
+  refreshShop();
 }
 function updateRing(){
   var tgt=target(), tot=planTotal(), done=tot>=tgt;
@@ -520,7 +810,7 @@ function updateRing(){
   if(tick) tick.style.display = done ? "block" : "none";
   if(st){
     st.style.color = done ? "#0a0a0a" : "rgba(10,10,10,0.6)";
-    st.innerHTML = done ? "Target hit. You're sorted." : (tgt-tot)+"g to go &mdash; adjust portions below";
+    st.innerHTML = done ? "Target hit. You're sorted." : (tgt-tot)+"g to go. Adjust portions below.";
   }
 }
 
