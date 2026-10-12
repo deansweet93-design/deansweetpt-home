@@ -203,6 +203,19 @@
   .dp-actions .dp-swap-wide{ margin-top:0; }
   .dp-days{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
   .dp-days .dp-stepnum{ font-size:26px; }
+  .dp-week{ background:var(--band); border:1px solid var(--border); border-radius:16px; padding:4px 16px 8px; margin-bottom:22px; }
+  .dp-wslot{ padding:12px 0; border-top:1px solid var(--divider); }
+  .dp-wslot:first-child{ border-top:none; }
+  .dp-wtop{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .dp-wslot .slot-lbl{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--soft); font-weight:600; }
+  .dp-wslot ul{ list-style:none; margin:6px 0 0; padding:0; }
+  .dp-wslot li{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:6px 0; }
+  .dp-wslot .wf{ font-weight:700; font-size:15px; line-height:1.3; }
+  .dp-wslot .wf em{ display:block; font-style:normal; font-weight:400; font-size:13px; color:var(--muted); margin-top:1px; }
+  .dp-wslot .wd{ font-size:13px; color:var(--ink); text-align:right; flex-shrink:0; max-width:48%; }
+  .dp-mini{ background:transparent; border:none; color:var(--muted); font-family:'Space Grotesk',sans-serif;
+    font-size:12px; font-weight:600; cursor:pointer; padding:8px 0 8px 8px; min-height:36px; }
+  .dp-mini:hover{ color:var(--ink); }
 
   @media print{
     @page{ margin:14mm; }
@@ -297,7 +310,8 @@ var S = {
   step:0, fname:"", email:"", weight:80, goal:"fatloss",
   meals:3, snacks:1, mealLabels:["breakfast","lunch","dinner"],
   avoid:[], swaps:{}, amounts:{},
-  shopDays:7, rankMode:null, rankAll:false
+  shopDays:7, rankMode:null, rankAll:false,
+  variety:"some", rotSwaps:{}
 };
 
 function round5(n){ return Math.round(n/5)*5; }
@@ -504,19 +518,120 @@ function fmtQty(it, q){
     return s;
   }
   var c = Math.ceil(q - 1e-9);
-  if(it.u==="egg")   return c+" ("+Math.ceil(c/12)+" dozen)";
+  if(it.u==="egg")   return c>=12 ? c+" ("+Math.ceil(c/12)+" dozen)" : String(c);
   if(it.u==="tin")   return c+" tin"+(c===1?"":"s");
   if(it.u==="scoop") return c+" scoop"+(c===1?"":"s")+" (about "+(c*30)+"g)";
   if(it.u==="bar")   return c+" bar"+(c===1?"":"s");
   return String(c);
 }
+/* ---------- a varied week ---------- */
+// How many different proteins each meal rotates through, by variety level.
+var VARIETY = {
+  simple: {label:"Keep it simple", breakfast:1, lunch:2, dinner:2, snack:1},
+  some:   {label:"Some variety",   breakfast:2, lunch:2, dinner:3, snack:2},
+  lots:   {label:"Mix it up",      breakfast:3, lunch:3, dinner:4, snack:3}
+};
+var DAY_NAMES = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+// Amount of a food that gives roughly this much protein, snapped to its slider steps.
+function amtFor(food, protein){
+  var a = protein / (food.protein / food.baseAmt);
+  a = Math.round(a / food.amtStep) * food.amtStep;
+  a = Math.min(food.amtMax, Math.max(food.amtMin, a));
+  return Math.round(a * 100) / 100;
+}
+function slotKind(s){ return s.key.indexOf("snack")===0 ? "snack" : s.label.toLowerCase(); }
+
+// For each meal: the food they picked first, then alternatives with similar protein.
+function rotations(){
+  var slots = buildSlots(), v = VARIETY[S.variety] || VARIETY.some, usedMain = {};
+  slots.forEach(function(s){ if(s.food && s.food.slot==="main") usedMain[s.food.name] = 1; });
+  return slots.map(function(s){
+    if(!s.food) return {slot:s, items:[], more:false};
+    var n = v[slotKind(s)] || 1, aim = getProtein(s.key, s.food);
+    var items = [{food:s.food, amt:getAmt(s.key, s.food)}];
+    var pool = optBy(s.food.slot, aim).filter(function(f){ return f.name !== s.food.name; });
+    if(s.food.slot==="main"){
+      // prefer mains that aren't already someone else's pick, so lunch and dinner differ
+      pool = pool.filter(function(f){ return !usedMain[f.name]; })
+                 .concat(pool.filter(function(f){ return usedMain[f.name]; }));
+    }
+    var shift = S.rotSwaps[s.key] || 0, i = 0, guard = 0;
+    while(items.length < n && pool.length && guard < pool.length){
+      var f = pool[(i + shift) % pool.length]; i++; guard++;
+      if(items.some(function(x){ return x.food.name === f.name; })) continue;
+      items.push({food:f, amt:amtFor(f, aim)});
+      if(f.slot==="main") usedMain[f.name] = 1;
+    }
+    return {slot:s, items:items, more: pool.length > items.length - 1};
+  });
+}
+
+// Day by day: each meal cycles through its rotation; lunch and dinner avoid doubling up.
+function weekPlan(){
+  var rots = rotations(), plan = [], d;
+  for(d = 0; d < S.shopDays; d++){
+    var day = {name:DAY_NAMES[d], meals:[]}, mainsToday = {};
+    rots.forEach(function(r){
+      if(!r.items.length) return;
+      var len = r.items.length, k = d % len, it = r.items[k], tries = 0;
+      while(it.food.slot==="main" && mainsToday[it.food.name] && tries < len){ k = (k+1) % len; it = r.items[k]; tries++; }
+      if(it.food.slot==="main") mainsToday[it.food.name] = 1;
+      day.meals.push({key:r.slot.key, label:r.slot.label, food:it.food, amt:it.amt});
+    });
+    plan.push(day);
+  }
+  return plan;
+}
+
+// The week grouped by meal: which food, how much, which days.
+function weekSummary(){
+  var rots = rotations(), plan = weekPlan();
+  return rots.filter(function(r){ return r.items.length; }).map(function(r){
+    var rows = r.items.map(function(it){
+      var days = plan.filter(function(day){
+        return day.meals.some(function(m){ return m.key===r.slot.key && m.food.name===it.food.name; });
+      }).map(function(day){ return day.name; });
+      return {food:it.food, amt:it.amt, days:days};
+    }).filter(function(row){ return row.days.length; });
+    return {key:r.slot.key, label:r.slot.label, rows:rows, more:r.more};
+  });
+}
+function daysText(days){ return (days.length===S.shopDays && days.length>2) ? "Every day" : days.join(", "); }
+function proteinFor(food, amt){ return Math.round(amt * food.protein / food.baseAmt); }
+function weekHTML(){
+  var sum = weekSummary(), h = '<div class="dp-week">';
+  if(!sum.length) return '<p class="dp-hint">Nothing planned yet.</p>';
+  sum.forEach(function(g){
+    h += '<div class="dp-wslot"><div class="dp-wtop"><span class="slot-lbl">'+g.label+'</span>'
+       + (g.more && VARIETY[S.variety][slotKind({key:g.key,label:g.label})] > 1
+          ? '<button class="dp-mini" onclick="onRotSwap(\''+g.key+'\')">&#8635; Other options</button>' : '')
+       + '</div><ul>';
+    g.rows.forEach(function(row){
+      h += '<li><span class="wf">'+row.food.name+'<em>'+fmtAmt(row.amt,row.food.amtUnit)+', '+proteinFor(row.food,row.amt)+'g protein</em></span>'
+         + '<span class="wd">'+daysText(row.days)+'</span></li>';
+    });
+    h += '</ul></div>';
+  });
+  return h + '</div>';
+}
+function varietyTabsHTML(){
+  var h = '';
+  Object.keys(VARIETY).forEach(function(id){
+    h += '<button class="dp-tab'+(S.variety===id?' on':'')+'" aria-pressed="'+(S.variety===id)+'" onclick="onVariety(\''+id+'\')">'+VARIETY[id].label+'</button>';
+  });
+  return h;
+}
+function onVariety(id){ S.variety = id; S.rotSwaps = {}; refreshShop(); }
+function onRotSwap(key){ S.rotSwaps[key] = (S.rotSwaps[key] || 0) + 1; refreshShop(); }
+
 function shoppingList(){
-  var tot = {}, days = S.shopDays;
-  buildSlots().forEach(function(s){
-    if(!s.food) return;
-    var parts = SHOP[s.food.name]; if(!parts) return;
-    var amt = getAmt(s.key, s.food);
-    parts.forEach(function(p){ tot[p.k] = (tot[p.k]||0) + amt*p.x*days; });
+  var tot = {};
+  weekPlan().forEach(function(day){
+    day.meals.forEach(function(m){
+      var parts = SHOP[m.food.name]; if(!parts) return;
+      parts.forEach(function(p){ tot[p.k] = (tot[p.k]||0) + m.amt*p.x; });
+    });
   });
   var groups = {};
   Object.keys(tot).forEach(function(k){
@@ -537,7 +652,12 @@ function shopHTML(){
   return h;
 }
 function shoppingText(){
-  var t = "Protein shopping list, "+S.shopDays+" day"+(S.shopDays===1?"":"s")+"\n";
+  var t = "My protein week ("+S.shopDays+" day"+(S.shopDays===1?"":"s")+")\n";
+  weekSummary().forEach(function(g){
+    t += "\n"+g.label+"\n";
+    g.rows.forEach(function(r){ t += "- "+r.food.name+", "+fmtAmt(r.amt,r.food.amtUnit)+": "+daysText(r.days)+"\n"; });
+  });
+  t += "\nShopping list\n";
   shoppingList().forEach(function(g){
     t += "\n"+g.aisle+"\n";
     g.items.forEach(function(i){ t += "- "+i.n+": "+i.q+"\n"; });
@@ -545,7 +665,10 @@ function shoppingText(){
   return t + "\nMade with deansweetpt.com/proteincalc";
 }
 function refreshShop(){
-  var el = document.getElementById("shopList"), d = document.getElementById("shopDays");
+  var el = document.getElementById("shopList"), d = document.getElementById("shopDays"),
+      w = document.getElementById("weekBox"), v = document.getElementById("varTabs");
+  if(w) w.innerHTML = weekHTML();
+  if(v) v.innerHTML = varietyTabsHTML();
   if(el) el.innerHTML = shopHTML();
   if(d) d.textContent = S.shopDays;
 }
@@ -561,14 +684,14 @@ function copyShop(){
   var txt = shoppingText();
   var done = function(){
     var b = document.getElementById("copyBtn");
-    if(b){ b.textContent = "Copied. Paste it into your notes"; setTimeout(function(){ b.textContent = "Copy shopping list"; }, 2200); }
+    if(b){ b.textContent = "Copied. Paste it into your notes"; setTimeout(function(){ b.textContent = "Copy my week and shopping list"; }, 2200); }
   };
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt); done(); });
   } else { fallbackCopy(txt); done(); }
 }
 function shareShop(){
-  if(navigator.share){ navigator.share({title:"Protein shopping list", text:shoppingText()}).catch(function(){}); }
+  if(navigator.share){ navigator.share({title:"My protein week", text:shoppingText()}).catch(function(){}); }
   else copyShop();
 }
 
@@ -727,17 +850,21 @@ function render(){
     });
     h+='</div>'
      +'<div class="dp-sec"></div>'
-     +'<p class="dp-label" style="margin-bottom:4px">Your shopping list</p>'
-     +'<p class="dp-hint">Everything in your plan above, for the days you pick. It updates when you move the sliders or swap a food. Meat is raw weight, because it shrinks by about a quarter when you cook it.</p>'
-     +'<div class="dp-days dp-noprint"><p class="dp-label" style="margin:0;font-size:17px">Days to shop for</p>'
+     +'<p class="dp-label" style="margin-bottom:4px">Your week, mixed up</p>'
+     +'<p class="dp-hint">Nobody eats the same thing every day. Pick how much variety you want and your proteins get rotated across the week, each sized to give about the same protein. Your shopping list below matches it.</p>'
+     +'<div class="dp-tabs dp-noprint" id="varTabs">'+varietyTabsHTML()+'</div>'
+     +'<div class="dp-days dp-noprint"><p class="dp-label" style="margin:0;font-size:17px">Days to plan</p>'
      +'<div class="dp-stepper">'
      +'<button class="dp-stepbtn" aria-label="Fewer days" onclick="onShopDays(-1)">&ndash;</button>'
      +'<span class="dp-stepnum" id="shopDays">'+S.shopDays+'</span>'
      +'<button class="dp-stepbtn" aria-label="More days" onclick="onShopDays(1)">+</button>'
      +'</div></div>'
+     +'<div id="weekBox">'+weekHTML()+'</div>'
+     +'<p class="dp-label" style="margin-bottom:4px">Your shopping list</p>'
+     +'<p class="dp-hint">Everything for the week above. Meat is raw weight, because it shrinks by about a quarter when you cook it.</p>'
      +'<div class="dp-shop" id="shopList">'+shopHTML()+'</div>'
      +'<div class="dp-actions">'
-     +'<button class="dp-btn" id="copyBtn" onclick="copyShop()">Copy shopping list</button>'
+     +'<button class="dp-btn" id="copyBtn" onclick="copyShop()">Copy my week and shopping list</button>'
      +(navigator.share ? '<button class="dp-swap-wide" onclick="shareShop()">Send it to my phone</button>' : '')
      +'</div>'
      +'<div class="dp-sec"></div>'
