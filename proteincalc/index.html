@@ -319,7 +319,7 @@ function dropsFood(avoidId, f){
 var MEAL_LABELS = ["breakfast","lunch","dinner"];
 
 var S = {
-  step:0, fname:"", email:"", weight:80, goal:"fatloss",
+  step:0, fname:"", email:"", weight:80, height:175, goal:"fatloss",
   meals:3, snacks:1, mealLabels:["breakfast","lunch","dinner"],
   avoid:[], swaps:{}, amounts:{},
   shopDays:7, rankMode:null, rankAll:false,
@@ -336,7 +336,15 @@ function fmtAmt(amt, unit){
   var sing = {eggs:"egg",scoops:"scoop",cups:"cup",tins:"tin",bars:"bar",servings:"serving"};
   return amt+" "+(amt===1 && sing[unit] ? sing[unit] : unit);
 }
-function target(){ var g=GOALS.filter(function(x){return x.id===S.goal;})[0]; return round5(S.weight*g.mult); }
+// Protein needs follow muscle, not total weight. Past a BMI of 27.5 the extra kilos are
+// mostly fat, so we stop counting them: the target is worked off the weight a BMI of 27.5
+// gives for that height. Heavier never means a lower number, it just stops climbing.
+function refWeight(){
+  var m = S.height/100;
+  return Math.min(S.weight, Math.round(27.5*m*m));
+}
+function heightAdjusted(){ var g=GOALS.filter(function(x){return x.id===S.goal;})[0]; return round5(S.weight*g.mult) !== target(); }
+function target(){ var g=GOALS.filter(function(x){return x.id===S.goal;})[0]; return round5(refWeight()*g.mult); }
 function perMeal(){ return round5(target()/(S.meals + S.snacks*0.5)); }
 function perSnack(){ return round5(perMeal()*0.5); }
 function allowed(){
@@ -1108,7 +1116,13 @@ function render(){
      +'<p class="dp-label" style="margin:0">Your weight</p>'
      +'<div><span class="dp-weightval" id="wv">'+S.weight+'</span><span style="color:rgba(10,10,10,0.5);font-size:18px;margin-left:4px;font-weight:500">kg</span></div>'
      +'</div>'
-     +'<input class="dp-slider" type="range" min="45" max="160" value="'+S.weight+'" oninput="onWeight(this.value)">'
+     +'<input class="dp-slider" type="range" min="45" max="160" value="'+S.weight+'" aria-label="Weight in kilograms" oninput="onWeight(this.value)">'
+     +'</div>'
+     +'<div class="dp-card"><div class="dp-row">'
+     +'<p class="dp-label" style="margin:0">Your height</p>'
+     +'<div><span class="dp-weightval" id="hv">'+S.height+'</span><span style="color:rgba(10,10,10,0.5);font-size:18px;margin-left:4px;font-weight:500">cm</span></div>'
+     +'</div>'
+     +'<input class="dp-slider" type="range" min="140" max="210" value="'+S.height+'" aria-label="Height in centimetres" oninput="onHeight(this.value)">'
      +'</div>'
      +'<p class="dp-label" style="margin-top:18px">What are you actually after?</p>';
     GOALS.forEach(function(g){
@@ -1179,7 +1193,8 @@ function render(){
      +'<p class="dp-ring-status" id="ringStatus" style="color:'+(done?"#0a0a0a":"rgba(10,10,10,0.6)")+'">'
      +(done ? "Target hit. You're sorted." : (tgt-tot)+"g to go. Adjust portions below.")
      +'</p>'
-     +'<p class="dp-hint" style="text-align:center;margin-top:-14px">Roughly '+perMeal()+'g per meal'+(S.snacks ? ' and '+perSnack()+'g per snack' : '')+'.</p>'
+     +(heightAdjusted() ? '<p class="dp-hint" style="text-align:center;margin-top:-14px">Worked off '+refWeight()+'kg rather than '+S.weight+'kg for your height, because protein needs follow muscle, not total weight.</p>' : '')
+     +'<p class="dp-hint" style="text-align:center;margin-top:'+(heightAdjusted() ? '0' : '-14px')+'">Roughly '+perMeal()+'g per meal'+(S.snacks ? ' and '+perSnack()+'g per snack' : '')+'.</p>'
      +'<p class="dp-label" style="margin-bottom:4px">Pick your protein</p>'
      +'<p class="dp-hint">The serving shows <strong style="color:#0a0a0a">how much food</strong> to eat. The big lime number is <strong style="color:#0a0a0a;background:#D6FF00;padding:0 4px;border-radius:2px">grams of protein</strong> that gives you, not the plate weight. Adjust the sliders to fill your ring.</p>';
     slots.forEach(function(s){
@@ -1245,6 +1260,10 @@ function onFname(v){ S.fname=v; gateEmailBtn(); }
 function onWeight(v){
   S.weight=Number(v);
   var el=document.getElementById("wv"); if(el) el.textContent=S.weight;
+}
+function onHeight(v){
+  S.height=Number(v);
+  var el=document.getElementById("hv"); if(el) el.textContent=S.height;
 }
 function onGoal(id){ S.goal=id; render(); }
 function onMeals(d){ S.meals=Math.min(5,Math.max(2,S.meals+d)); syncMealLabels(); render(); }
