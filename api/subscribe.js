@@ -3,6 +3,8 @@
 // Receives { email, name } from the protein calculator,
 // { email, source, movement, url } from the exercise ladder, or
 // { email, name, source, tier, shirt_size } from the Summer Series waitlist,
+// { email, name, source, pu_stage, pu_limiter, pu_score, pu_url } from the
+// first pull-up guide,
 // and adds the person to MailerLite as an ACTIVE subscriber — no double opt-in.
 //
 // SECURITY: the API key is read from process.env.MAILERLITE_API_KEY, which you
@@ -14,7 +16,8 @@
 const GROUPS = {
   proteincalc:  "189117175765665178", // Protein Calc
   ladder:       "195991971750217505", // Ladder
-  summerseries: "198180674172093718"  // Summer Series 001
+  summerseries: "198180674172093718", // Summer Series 001
+  pullup:       "201904895689753646"  // First Pull-Up
 };
 
 // The protein calc posts { email, name } with no source, so anything that
@@ -27,6 +30,9 @@ const ML_ENDPOINT = "https://connect.mailerlite.com/api/subscribers";
 // tampered post can't write rubbish into the list you order shirts from.
 const TIERS = ["in-person", "online", "undecided"];
 const SIZES = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
+// Same idea for the pull-up guide fields.
+const PU_STAGES = ["Stage 1: Build the base", "Stage 2: First rep", "Stage 3: One to five"];
+const PU_LIMITERS = ["grip", "pulling strength", "top half", "lowering control"];
 
 function isEmail(s) {
   return typeof s === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
@@ -78,6 +84,17 @@ module.exports = async (req, res) => {
     const size = String(body.shirt_size || "").trim().toUpperCase();
     if (TIERS.indexOf(tier) !== -1) fields.tier = tier;
     if (SIZES.indexOf(size) !== -1) fields.shirt_size = size;
+  }
+
+  if (source === "pullup") {
+    const stage = String(body.pu_stage || "").trim();
+    const limiter = String(body.pu_limiter || "").trim();
+    const score = Number(body.pu_score);
+    const url = String(body.pu_url || "").trim();
+    if (PU_STAGES.indexOf(stage) !== -1) fields.pu_stage = stage;
+    if (PU_LIMITERS.indexOf(limiter) !== -1) fields.pu_limiter = limiter;
+    if (Number.isFinite(score) && score >= 0 && score <= 100) fields.pu_score = Math.round(score);
+    if (url.indexOf("https://www.deansweetpt.com/pullup/") === 0) fields.pu_url = url.slice(0, 250);
   }
 
   try {
